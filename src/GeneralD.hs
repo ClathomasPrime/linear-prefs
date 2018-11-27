@@ -80,6 +80,16 @@ experiment = mapM phi [4..6]
           (len,_) <- mostPrefs n 3 100 (0.003 :: Rational) 2
           return (n,len)
 
+findexperiment :: MonadRandom m => m [[[Rational]]]
+findexperiment = filter (hasKCycle [1..n] k . prefs) <$> things
+  where prefs = genLinearPrefs d delta . arbitraryLable
+        things = replicateM trials $ roundedUnitBoxPoints 2 d n
+        trials = 200
+        delta = 0.05
+        d = 4
+        k = 5
+        n = k
+
 points01 :: [[Double]]
 points01 =
   [ [0.225,0.987]

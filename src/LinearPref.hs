@@ -26,11 +26,24 @@ subsetsOfSize _ [] = []
 subsetsOfSize k (a:as) =
   ((a:) <$> subsetsOfSize (k-1) as) ++ subsetsOfSize k as
 
+splits :: [a] -> [([a],[a])]
+splits [] = [([],[])]
+splits (a:as) = ([],a:as) : map phi (splits as)
+  where phi (u,v) = (a:u,v)
+
 rotations :: [a] -> [[a]]
-rotations as = undefined
+rotations as = map (\(x,y) -> y ++ x) (init $ splits as)
+
+sublist :: Eq l => [l] -> [l] -> Bool
+sublist [] _ = True
+sublist _ [] = False
+sublist (l:ls) (x:xs)
+  | l == x = sublist ls xs
+  | otherwise = sublist (l:ls) xs
 
 hasKCycle :: Eq l => [l] -> Int -> [[l]] -> Bool
-hasKCycle ls k prefs = undefined -- any cycleInPrefs subsets
-  where cycleInPrefs c = all somewhereIn (map rotations c)
-        somewhereIn _ = False
+hasKCycle ls k prefs = any cycleInPrefs subsets
+  where cycleInPrefs c = all somewhereIn (rotations c)
+        somewhereIn t = any (t `sublist`) prefs
         subsets = subsetsOfSize k ls
+

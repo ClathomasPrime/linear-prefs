@@ -33,6 +33,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\cone}{cone}
+\DeclareMathOperator*{\hull}{hull}
 
 \newcommand{\1}[1]{\mathds{1}[{#1}]}
 \renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
@@ -171,11 +172,32 @@ claytont@princeton.edu }
   The above hints that there should be some sort of continuum between $d=1$
   and $d=n$ of how complex the set $P(X)$ can be.
 
-  Here is one simple way that the structure of $X$ induces structure on $P(X)$:
+  Here are some simple ways that the structure of $X$ induces structure on $P(X)$:
   \begin{proposition}
     Let $x,y \in X$. If $x[k] > y[k]$ for each $k=1,\ldots,d$, then
     $x >_a y$ for any $a\in \Rgz^d$.
   \end{proposition}
+  \begin{definition}
+    For points $x_1,\ldots,x_n \in \R^d$, let $\hull(x_1,\ldots,x_n)
+    = \{u_1x_1 + \ldots + u_nx_n | 0\le u_i\le 1, \sum_{i=1}^n u_i = 1\}$
+    denote the convex hull of $x_1,\ldots,x_n$.
+  \end{definition}
+  \begin{lemma}
+    Let $z,x_1,\ldots,x_k \in \Rgz^d$.
+    If $z >_a x_i$ for $i=1,\ldots,k$, then $z >_a w$
+    for any $w\in \hull(x_1,\ldots,x_k)$.
+  \end{lemma}
+  \begin{proposition}
+    Let $z,x_1,\ldots,x_k \in \Rgz^d$.
+    Suppose that there exists $w\in \hull(x_1,\ldots,x_n)$
+    such that $z[i] < w[i]$ for $i=1,\ldots,d$.
+    Then no $a$ satisfies $z >_a x_i$ for each $i=1,\ldots, k$.
+  \end{proposition}
+  \begin{proof}
+    For contradiction, suppose such an $a$ exists.
+    Then $z >_a w$ as well. However, because we have $z[i] < w[i]$
+    for each $i$, this is a contradiction.
+  \end{proof}
 
   Let's look at how preferences are related when different weight vectors $a$
   are related.
@@ -241,8 +263,8 @@ claytont@princeton.edu }
   However, the first part is not true: it is easy to construct $4$ vectors in
   $3$ dimensions such that none lies in the convex cone of the others.
 
-  % This conjecture has been checked by randomly placing $d+1$ points 
-  % in $d$ dimensional space many times, for $d=3,4$.
+  This conjecture has been checked by randomly placing $d+1$ points 
+  in $d$ dimensional space many times, for $d=3,4$.
 
   It may be that in some sense, $(d+1)$-cycles are the \emph{only}
   set of preferences that are impossible with $d$ dimensions.
