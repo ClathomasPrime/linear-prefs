@@ -1,0 +1,302 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{dsfont}
+\usepackage{subcaption}
+\usepackage{amsthm}
+\usepackage{mathtools,amssymb}
+\allowdisplaybreaks
+
+\newtheorem*{definition}{Definition}
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{claim}{Claim}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{question}{Question}
+\newtheorem*{conjecture}{Conjecture}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rgz}{\mathbb{R}_{\ge 0}}
+
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+
+\newcommand{\woloss}{without loss of generality }
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\cone}{cone}
+
+\newcommand{\1}[1]{\mathds{1}[{#1}]}
+\renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
+\newcommand{\E}[1]{\mathds{E}\left[{#1}\right]}
+\newcommand{\Var}[1]{\mathrm{Var}[{#1}]}
+
+\newcommand{\unit}{\mathds{1}}
+
+% \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+% \renewcommand\thesubsection{\ \ (\alph{subsection})}
+
+
+\begin{document}
+
+% \renewcommand{\qedsymbol}{\filledbox}
+ 
+\title{Preferences Resulting From Weighted Sums}
+\author{Clay Thomas\\
+claytont@princeton.edu }
+
+\maketitle
+
+% \begin{align*}
+%   a_1x_1 + a_2x_2 && > &&
+%     a_1y_1  + a_2y_2 && > &&
+%     a_1z_1  + a_2z_2 \\
+%   b_1y_1  + b_2y_2 && > &&
+%     b_1z_1  + b_2z_2  && > &&
+%     b_1x_1  + b_2x_2 \\
+%   c_1z_1  + c_2z_2  && > &&
+%     c_1x_1  + c_2x_2 && > &&
+%     c_1y_1  + c_2y_2 \\
+% \end{align*}
+% 
+% % \begin{align*}
+% %   -\frac{z_2 - x_2}{z_1 - x_1} > \frac{a_1}{a_2}
+% %   >  -\frac{y_2 - z_2}{y_1 - z_1}
+% %   \\
+% %   \frac{b_1}{b_2} < -\frac{x_2 - y_2}{x_1 - y_1}
+% %     && \frac{b_1}{b_2} > -\frac{y_2 - z_2}{y_1 - z_1}
+% %     && \frac{b_1}{b_2} > -\frac{z_2 - x_2}{z_1 - x_1}
+% %   \\
+% %   \frac{c_1}{c_2} > -\frac{x_2 - y_2}{x_1 - y_1}
+% %     && \frac{c_1}{c_2} < -\frac{y_2 - z_2}{y_1 - z_1}
+% %     && \frac{c_1}{c_2} > -\frac{z_2 - x_2}{z_1 - x_1}
+% %   \\
+% % \end{align*}
+% 
+% \begin{align*}
+%   x_1 - y_1 > -\frac{a_2}{a_1}(x_2 - y_2)
+%     &&
+%   y_1 - z_1 > -\frac{a_2}{a_1}(y_2 - z_2)
+%     &&
+%   z_1 - x_1 < -\frac{a_2}{a_1}(z_2 - x_2)
+%   \\
+%   x_1 - y_1 < -\frac{b_2}{b_1}(x_2 - y_2)
+%     &&
+%   y_1 - z_1 > -\frac{b_2}{b_1}(y_2 - z_2)
+%     &&
+%   z_1 - x_1 > -\frac{b_2}{b_1}(z_2 - x_2)
+%   \\
+%   x_1 - y_1 > -\frac{c_2}{c_1}(x_2 - y_2)
+%     &&
+%   y_1 - z_1  -\frac{c_2}{c_1}(y_2 - z_2)
+%     &&
+%   z_1 - x_1 > -\frac{c_2}{c_1}(z_2 - x_2)
+%   \\
+% \end{align*}
+% 
+% \begin{align*}
+%   \frac{a_1}{a_2} (>)_{xy} -\frac{x_2 - y_2}{x_1 - y_1}
+%     && \frac{a_1}{a_2} (>)_{yz} -\frac{y_2 - z_2}{y_1 - z_1}
+%     && \frac{a_1}{a_2} (<)_{zx} -\frac{z_2 - x_2}{z_1 - x_1} \\
+%   \frac{b_1}{b_2} (<)_{xy} -\frac{x_2 - y_2}{x_1 - y_1}
+%     && \frac{b_1}{b_2} (>)_{yz} -\frac{y_2 - z_2}{y_1 - z_1}
+%     && \frac{b_1}{b_2} (>)_{zx} -\frac{z_2 - x_2}{z_1 - x_1} \\
+%   \frac{c_1}{c_2} (>)_{xy} -\frac{x_2 - y_2}{x_1 - y_1}
+%     && \frac{c_1}{c_2} (<)_{yz} -\frac{y_2 - z_2}{y_1 - z_1}
+%     && \frac{c_1}{c_2} (>)_{zx} -\frac{z_2 - x_2}{z_1 - x_1} \\
+% \end{align*}
+
+\section{Motivation}
+  Suppose students are told to rank different schools they would like to
+  get into. The preferences of the students are likely correlated in some
+  way due to an inherent notion of the quality of different schools.
+  One way to define such a correlation is to assume there is some underlying
+  space of quality along different attributes (e.g. STEM education vs
+  liberal arts education) and the students' preference actually corresponds
+  to a preference among the underlying attributes.
+  The simplest instance of this is for each student to rank schools
+  according to a weighted sum of the different attributes of the school.
+
+  We want to study the inherent complexity of the collection of preferences
+  that result from these procedure, as a function of the number of attributes
+  the schools have. In other words, what sort of correlation arises in the
+  preferences of students in this model?
+
+  % as a weight vector $a = (a[1], \ldots, a[d])$, with each $a[k]\ge 0$.
+  % Then every school $x$ is a vector $x = (x[1], \ldots, x[d])$ (with $x[k]\ge 0$)
+  % of quality along the $d$ different attributes.
+  % Student $a$ prefers
+
+\section{Definitions}
+
+  Let $\{x_1,\ldots,x_n\} = X\subseteq \Rgz^d$ be any set of points
+  with nonnegative coordinates.
+  Given any $a\in \Rgz^d$, define a relation $>_a$ on $X$ as follows:
+  $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$, or
+  $\ip{a}{x} = \ip{a}{y}$ and $i > j$ (note\footnote{
+    It's subtly important that ties are broken in the same way by every $a$.
+    Otherwise, if $X$ was $n$ copies of the same point, any preference
+    would be possible.
+  }).
+  % Let $R(X)$ denote the set of linear orders on $X$.
+  Let $P(X) = \{ >_a | a\in\Rgz^d \}$.
+  Thus, $X$ represents the set of schools,
+  the vectors $a$ represent the preference weights of students,
+  and $P(X)$ denotes the set of all possible preferences of schools.
+
+  \begin{question}
+    As a function of $d$ and $n$, how ``rich'' can $P(X)$ be
+    (and what is the right notion of ``richness'')?
+  \end{question}
+
+  Some observations:
+  \begin{itemize}
+    \item If $d=1$, then $|P(X)| = 1$, i.e. students preferences are completely
+      determined by the underlying set $X$.
+    \item If $d=n$, then every linear preference on $X$ can occur in $P(X)$.
+      \begin{proof}
+        Let $X = \{e_i\}$ simply be the standard basis vectors.
+        To induce an ordering $i_1, i_2, \ldots, i_n$, just create a preference
+        vector $a$ which gives weight $1/k$ to coordinate $i_k$.
+      \end{proof}
+  \end{itemize}
+  The above hints that there should be some sort of continuum between $d=1$
+  and $d=n$ of how complex the set $P(X)$ can be.
+
+  Here is one simple way that the structure of $X$ induces structure on $P(X)$:
+  \begin{proposition}
+    Let $x,y \in X$. If $x[k] > y[k]$ for each $k=1,\ldots,d$, then
+    $x >_a y$ for any $a\in \Rgz^d$.
+  \end{proposition}
+
+  Let's look at how preferences are related when different weight vectors $a$
+  are related.
+  \begin{definition}
+    For any vectors $a_1,\ldots, a_i \in \Rgz^d$, define
+    $\cone(a_1,\ldots,a_i) = \{ u_1a_1 + \ldots + u_na_n | u_j\ge 0 \forall j\}$.
+    That is, the convex cone of vectors defined by $a_1,\ldots,a_i$.
+  \end{definition}
+  \begin{proposition}
+    Suppose that for preference weights $a_1,\ldots, a_i$,
+    we have $x >_{a_1} y, \ldots, x >_{a_i} y$.
+    Then for any $b\in \cone(a_1,\ldots, a_i)$,
+    $x >_b y$ as well.
+  \end{proposition}
+
+\section{Cycles}
+
+  I think I have a ``forbidden subset'' type of theorem for
+  $P(X)$, although I can only prove it when $d=2$.
+
+  \begin{proposition}
+    If $d=2$, then the preferences
+    \begin{align*}
+      x >_a y >_a z \\
+      y >_b z >_b x\\
+      z >_c x >_c y\\
+    \end{align*}
+    cannot occur for $x,y,z\in X\subseteq \Rgz^2$.
+  \end{proposition}
+  \begin{proof}
+    Suppose the above preferences exist.
+    Because $d=2$, one of $a,b,c$ must be contained in the
+    convex cone of the other two, i.e. $d \in \{a,b,c\}$
+    with $d \in \cone(e,f)$ where $\{e,f\} = \{a,b,c\} \setminus \{d\}$.
+    (This is visually very obvious: given three different
+    vectors in two dimensions, one must lie between the other two.
+    You can prove it by considering the angle of the vectors from the $x$ axis).
+    Any pair of the above preferences has exactly one pair
+    among $x,y,z$ which they rank the same, so
+    $u >_e v$ and $u >_f v$ for some $u,v$.
+    However, this pair is reversed in the remaining preference, i.e. $u <_d v$.
+  \end{proof}
+
+  The above set of preferences intuitively forms a ``cycle'',
+  where each preference is ``shifted'' over by one. Formally,
+  \begin{definition}
+    A $k$-cycle is a set of points $x_1,\ldots, x_k\in \Rgz^d$ and weights 
+    $a_1,\ldots, a_k \in \Rgz^d$ such that for each $i=1,\ldots,k$,
+    \begin{align*}
+      x_i >_{a_i} x_{i+1} >_{a_i} x_{i+2} >_{a_i} \ldots >_{a_i} x_{i-1}
+    \end{align*}
+    (where indices wrap around after $k$).
+  \end{definition}
+
+  \begin{conjecture}
+    If $X \subseteq \Rgz^d$, then a $(d+1)$-cycle can never appear in $P(X)$.
+  \end{conjecture}
+
+  The second part of the proof from $d=2$ generalizes:
+  in a $d+1$ cycle, any subset of $d$ preferences has a consistent preference
+  on some pair, and this preference is broken in the remaining
+  element of the cycle.
+  However, the first part is not true: it is easy to construct $4$ vectors in
+  $3$ dimensions such that none lies in the convex cone of the others.
+
+  % This conjecture has been checked by randomly placing $d+1$ points 
+  % in $d$ dimensional space many times, for $d=3,4$.
+
+  It may be that in some sense, $(d+1)$-cycles are the \emph{only}
+  set of preferences that are impossible with $d$ dimensions.
+  For example, there are two different (up to relabeling) ways for
+  a collection of preferences on three items to not contain a cycle.
+  Writing a linear preference as a simple ordered (most preferable
+  to least), the preference sets are $\{ 123, 132, 312, 321\}$ and
+  $\{ 123, 231, 213, 321 \}$. Both are realizable with $d=2$
+  (the first via points $\{(1,0), (0.4,0.4), (0,1) \}$
+  and the second with $\{(1,0), (0.6,0.6), (0,1)\}$).
+
+  When $d=3$, randomly searching over $X$ for the largest $|P(X)|$
+  yield a maximum size of $18$, and those sets exactly correspond
+  to removing one element from each of the $6$ cycles on $4$ points.
+  A variety of different ways of doing this are possible,  but I'm
+  not yet sure if all of them result.
+
+\section{Experimental Counts}
+  The following gives upper bounds on the maximal number
+  of preferences $|P(X)|$ as a function of $n$ and $d$.
+  I've only included entries if those points seem relatively
+  close to the true maximum (i.e. when things seem pretty stable
+  to checking more preference vectors or doing more trials).
+
+  \begin{tabular}{c | c c c c c c c}
+    n & d=2 & d=3 & d=4 \\
+    \hline
+    3  &  4   & 6  & 6  \\
+    4  &  7   & 18 & 24 \\
+    5  &  10  & 41 & 85 \\
+    6  &  15  & 87  \\
+    7  &  20  & 121 \\
+    8  &  24  \\
+    9  &  28  \\
+    10 &  39  \\
+    11 &  43  \\
+    12 &  48  \\
+  \end{tabular}
+
+\section{An (Almost) Semidefinite Program Formulation}
+  In this section, we formalize a decision problem for whether a set
+  of preferences can arise from a set of points in $\Rgz^d$,
+  then show how this can be reduced to checking the feasibility
+  of a semidefinite program.
+
+  Consider the decision problem given by: \\
+  \textbf{Input:} $d, n$, and a collection $P = \{ >_1, >_2, \ldots, >_k\}$
+  of linear orders on $[n]$ \\
+  \textbf{Output:} YES if there exists a set of $n$ points $X\subseteq \Rgz^d$
+  in $d$ dimensions such that $P \subseteq P(X)$
+  (according to some labeling of points in $X$ with $[n]$),
+  and NO otherwise.
+
+  This is equivalent to asking whether there exist
+  vectors 
+
+\end{document}

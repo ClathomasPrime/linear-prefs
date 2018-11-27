@@ -1,0 +1,40 @@
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: d057240574682fa7557c06d61f6851d3ca34d2100471b47a68a8f3269950e336
+
+name:           linear-prefs
+version:        0.1.0.0
+category:       Web
+homepage:       https://github.com/githubuser/many-matching#readme
+author:         Author name here
+maintainer:     example@example.com
+copyright:      2018 Author name here
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+cabal-version:  >= 1.10
+extra-source-files:
+    README.md
+
+executable many-matching
+  main-is: Main.hs
+  other-modules:
+      BoundedD
+      Data
+      Drawing
+      GeneralD
+      LinearPref
+      Util
+      Paths_linear_prefs
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      MonadRandom
+    , base >=4.7 && <5
+    , diagrams
+    , diagrams-lib
+    , diagrams-svg
+  default-language: Haskell2010
