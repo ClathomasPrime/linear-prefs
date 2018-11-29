@@ -81,14 +81,20 @@ experiment = mapM phi [4..6]
           return (n,len)
 
 findexperiment :: MonadRandom m => m [[[Rational]]]
-findexperiment = filter (hasKCycle [1..n] k . prefs) <$> things
-  where prefs = genLinearPrefs d delta . arbitraryLable
-        things = replicateM trials $ roundedUnitBoxPoints 2 d n
-        trials = 200
-        delta = 0.05
-        d = 4
-        k = 5
-        n = k
+findexperiment = filter (hasThing . prefs) <$> things
+  where
+    -- hasThing = hasKCycle [1..n] k
+    -- hasThing = hasPattern [[1,2,3],[2,1,3],[3,2,1],[3,1,2 :: Int]]
+    hasThing = hasPattern noOneFirst
+    prefs = genLinearPrefs d delta . arbitraryLable
+    things = replicateM trials $ roundedUnitBoxPoints 2 d n
+    trials = 100
+    delta = 0.01
+    d = 3
+    k = 4
+    n = k
+
+
 
 points01 :: [[Double]]
 points01 =

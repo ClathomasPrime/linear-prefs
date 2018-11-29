@@ -14,12 +14,13 @@
 \allowdisplaybreaks
 
 \newtheorem*{definition}{Definition}
-\newtheorem*{theorem}{Theorem}
-\newtheorem*{proposition}{Proposition}
-\newtheorem*{claim}{Claim}
-\newtheorem*{lemma}{Lemma}
 \newtheorem*{question}{Question}
-\newtheorem*{conjecture}{Conjecture}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
  
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
@@ -121,8 +122,8 @@ claytont@princeton.edu }
   way due to an inherent notion of the quality of different schools.
   One way to define such a correlation is to assume there is some underlying
   space of quality along different attributes (e.g. STEM education vs
-  liberal arts education) and the students' preference actually corresponds
-  to a preference among the underlying attributes.
+  liberal arts education) and the students' preference
+  are determined by these attributes.
   The simplest instance of this is for each student to rank schools
   according to a weighted sum of the different attributes of the school.
 
@@ -140,7 +141,7 @@ claytont@princeton.edu }
 
   Let $\{x_1,\ldots,x_n\} = X\subseteq \Rgz^d$ be any set of points
   with nonnegative coordinates.
-  Given any $a\in \Rgz^d$, define a relation $>_a$ on $X$ as follows:
+  Given any nonzero $a\in \Rgz^d$, define a total order $>_a$ on $X$ as follows:
   $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$, or
   $\ip{a}{x} = \ip{a}{y}$ and $i > j$ (note\footnote{
     It's subtly important that ties are broken in the same way by every $a$.
@@ -148,7 +149,7 @@ claytont@princeton.edu }
     would be possible.
   }).
   % Let $R(X)$ denote the set of linear orders on $X$.
-  Let $P(X) = \{ >_a | a\in\Rgz^d \}$.
+  Let $P(X) = \{ >_a | a\in\Rgz^d \setminus \{0\} \}$.
   Thus, $X$ represents the set of schools,
   the vectors $a$ represent the preference weights of students,
   and $P(X)$ denotes the set of all possible preferences of schools.
@@ -172,51 +173,73 @@ claytont@princeton.edu }
   The above hints that there should be some sort of continuum between $d=1$
   and $d=n$ of how complex the set $P(X)$ can be.
 
+\section{Lemmas}
+
   Here are some simple ways that the structure of $X$ induces structure on $P(X)$:
+
+  \begin{definition}
+    Let $x,y\in X\subseteq \Rgz^d$.
+    We say $x$ \emph{dominates} $y$, denoted $x\gg y$,
+    if $x[k] > y[k]$ for each $k=1,\ldots,d$.
+  \end{definition}
   \begin{proposition}
-    Let $x,y \in X$. If $x[k] > y[k]$ for each $k=1,\ldots,d$, then
-    $x >_a y$ for any $a\in \Rgz^d$.
+    If $x \gg y$, then $x >_a y$ for any nonzero $a\in \Rgz^d$.
   \end{proposition}
+  \begin{proof}
+    Simply observe $a_i x_i \ge a_i y_i$ for each $i=1,\ldots, d$.
+    Because $a\ne 0$, there is also some $i$ where $a_i x_i > a_i y_i$.
+  \end{proof}
+
+
   \begin{definition}
     For points $x_1,\ldots,x_n \in \R^d$, let $\hull(x_1,\ldots,x_n)
     = \{u_1x_1 + \ldots + u_nx_n | 0\le u_i\le 1, \sum_{i=1}^n u_i = 1\}$
     denote the convex hull of $x_1,\ldots,x_n$.
   \end{definition}
   \begin{lemma}
-    Let $z,x_1,\ldots,x_k \in \Rgz^d$.
+    Let $z,x_1,\ldots,x_k \in \Rgz^d$ and $a\in \Rgz^d \setminus \{0\}$.
     If $z >_a x_i$ for $i=1,\ldots,k$, then $z >_a w$
     for any $w\in \hull(x_1,\ldots,x_k)$.
   \end{lemma}
+  \begin{proof}
+    We have $\ip{a}{z} > \ip{a}{x_i}$ for each $i=1,\ldots,k$.
+    If $w = u_1x_1+ \ldots + u_nx_n$ and $\sum_i u_i =1$, then
+    $\ip{a}{w} = u_1\ip{a}{x_1}+\ldots+u_n\ip{a}{x_n}
+    < u_1\ip{a}{z} + \ldots + u_n\ip{a}{z} = \ip{a}{z}$
+  \end{proof}
   \begin{proposition}
     Let $z,x_1,\ldots,x_k \in \Rgz^d$.
-    Suppose that there exists $w\in \hull(x_1,\ldots,x_n)$
-    such that $z[i] < w[i]$ for $i=1,\ldots,d$.
+    Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
+    such that $w \gg z$.
     Then no $a$ satisfies $z >_a x_i$ for each $i=1,\ldots, k$.
   \end{proposition}
   \begin{proof}
     For contradiction, suppose such an $a$ exists.
-    Then $z >_a w$ as well. However, because we have $z[i] < w[i]$
-    for each $i$, this is a contradiction.
+    Then $z >_a w$ as well. However, because $w \gg z$,
+    this is a contradiction.
   \end{proof}
 
   Let's look at how preferences are related when different weight vectors $a$
   are related.
   \begin{definition}
-    For any vectors $a_1,\ldots, a_i \in \Rgz^d$, define
-    $\cone(a_1,\ldots,a_i) = \{ u_1a_1 + \ldots + u_na_n | u_j\ge 0 \forall j\}$.
-    That is, the convex cone of vectors defined by $a_1,\ldots,a_i$.
+    For any vectors $a_1,\ldots, a_k \in \Rgz^d$, define
+    $\cone(a_1,\ldots,a_k) = \{ u_1a_1 + \ldots + u_ka_k | u_i\ge 0 \forall j\}$.
+    That is, the convex cone of vectors defined by $a_1,\ldots,a_k$.
   \end{definition}
   \begin{proposition}
-    Suppose that for preference weights $a_1,\ldots, a_i$,
-    we have $x >_{a_1} y, \ldots, x >_{a_i} y$.
-    Then for any $b\in \cone(a_1,\ldots, a_i)$,
+    Suppose that for preference weights $a_1,\ldots, a_k$,
+    we have $x >_{a_1} y, \ldots, x >_{a_k} y$.
+    Then for any nonzero $b\in \cone(a_1,\ldots, a_k)$,
     $x >_b y$ as well.
   \end{proposition}
+  \begin{proof}
+    Let $b = u_1a_1+ \ldots + u_ka_k$.
+    We get $\ip{b}{x} = u_1\ip{a_1}{x} + \ldots + u_k\ip{a_k}{x}
+    > u_1\ip{a_1}{y} + \ldots + u_k\ip{a_k}{y} = \ip{b}{y}$,
+    as desired.
+  \end{proof}
 
-\section{Cycles}
-
-  I think I have a ``forbidden subset'' type of theorem for
-  $P(X)$, although I can only prove it when $d=2$.
+\section{Impossibility Results for $d=2$}
 
   \begin{proposition}
     If $d=2$, then the preferences
@@ -241,46 +264,80 @@ claytont@princeton.edu }
     However, this pair is reversed in the remaining preference, i.e. $u <_d v$.
   \end{proof}
 
-  The above set of preferences intuitively forms a ``cycle'',
-  where each preference is ``shifted'' over by one. Formally,
-  \begin{definition}
-    A $k$-cycle is a set of points $x_1,\ldots, x_k\in \Rgz^d$ and weights 
-    $a_1,\ldots, a_k \in \Rgz^d$ such that for each $i=1,\ldots,k$,
+  More generally, we have the following:
+  \begin{proposition}
+    Let $d=2$ and $|X| = 3$. Then it is not possible
+    for every point to be ranked highest by some preference,
+    and ranked lowest by some other preference.
+  \end{proposition}
+  \begin{proof}
+    Let $\{x,y,z\}$ be any set of distinct points in $\Rgz^2$.
+    Because $d=2$, there must exist some $p\in \{x,y,z\}$
+    such that $p \gg w$ or $p \ll w$ for some
+    $w \in \hull(r,s)$, where $\{r,s\} = \{x,y,z\} \setminus \{p\}$
+    (again, a proof by picture is best here, but it can be formally proven).
+    But then, no $e$ satisfies $p >_e r$ and $p >_e s$,
+    OR no $e$ satisfies $p <_e r$ and $p <_e s$.
+  \end{proof}
+  \begin{corollary}
+    If $d=2$, then the preferences
     \begin{align*}
-      x_i >_{a_i} x_{i+1} >_{a_i} x_{i+2} >_{a_i} \ldots >_{a_i} x_{i-1}
+      x >_a y >_a z \\
+      x >_b z >_b y \\
+      y >_c z >_c x \\
+      z >_d y >_d x \\
     \end{align*}
-    (where indices wrap around after $k$).
-  \end{definition}
+    cannot occur for $x,y,z\in X\subseteq \Rgz^2$.
+  \end{corollary}
 
-  \begin{conjecture}
-    If $X \subseteq \Rgz^d$, then a $(d+1)$-cycle can never appear in $P(X)$.
-  \end{conjecture}
+  It turns out that the above two patterns are,
+  up to relabeling, the \emph{only} impossible subsets
+  of preferences with $|X|=3$.
+  We believe these patterns extend to higher dimensions,
+  but the proofs above do not generalize because of the geometry involved.
 
-  The second part of the proof from $d=2$ generalizes:
-  in a $d+1$ cycle, any subset of $d$ preferences has a consistent preference
-  on some pair, and this preference is broken in the remaining
-  element of the cycle.
-  However, the first part is not true: it is easy to construct $4$ vectors in
-  $3$ dimensions such that none lies in the convex cone of the others.
+  %\section{Cycles}
 
-  This conjecture has been checked by randomly placing $d+1$ points 
-  in $d$ dimensional space many times, for $d=3,4$.
+  % The above set of preferences intuitively forms a ``cycle'',
+  % where each preference is ``shifted'' over by one. Formally,
+  % \begin{definition}
+  %   A $k$-cycle is a set of points $x_1,\ldots, x_k\in \Rgz^d$ and weights 
+  %   $a_1,\ldots, a_k \in \Rgz^d$ such that for each $i=1,\ldots,k$,
+  %   \begin{align*}
+  %     x_i >_{a_i} x_{i+1} >_{a_i} x_{i+2} >_{a_i} \ldots >_{a_i} x_{i-1}
+  %   \end{align*}
+  %   (where indices wrap around after $k$).
+  % \end{definition}
 
-  It may be that in some sense, $(d+1)$-cycles are the \emph{only}
-  set of preferences that are impossible with $d$ dimensions.
-  For example, there are two different (up to relabeling) ways for
-  a collection of preferences on three items to not contain a cycle.
-  Writing a linear preference as a simple ordered (most preferable
-  to least), the preference sets are $\{ 123, 132, 312, 321\}$ and
-  $\{ 123, 231, 213, 321 \}$. Both are realizable with $d=2$
-  (the first via points $\{(1,0), (0.4,0.4), (0,1) \}$
-  and the second with $\{(1,0), (0.6,0.6), (0,1)\}$).
+  % \begin{conjecture}
+  %   If $X \subseteq \Rgz^d$, then a $(d+1)$-cycle can never appear in $P(X)$.
+  % \end{conjecture}
 
-  When $d=3$, randomly searching over $X$ for the largest $|P(X)|$
-  yield a maximum size of $18$, and those sets exactly correspond
-  to removing one element from each of the $6$ cycles on $4$ points.
-  A variety of different ways of doing this are possible,  but I'm
-  not yet sure if all of them result.
+  % The second part of the proof from $d=2$ generalizes:
+  % in a $d+1$ cycle, any subset of $d$ preferences has a consistent preference
+  % on some pair, and this preference is broken in the remaining
+  % element of the cycle.
+  % However, the first part is not true: it is easy to construct $4$ vectors in
+  % $3$ dimensions such that none lies in the convex cone of the others.
+
+  % This conjecture has been checked by randomly placing $d+1$ points 
+  % in $d$ dimensional space many times, for $d=3,4$.
+
+  % It may be that in some sense, $(d+1)$-cycles are the \emph{only}
+  % set of preferences that are impossible with $d$ dimensions.
+  % For example, there are two different (up to relabeling) ways for
+  % a collection of preferences on three items to not contain a cycle.
+  % Writing a linear preference as a simple ordered (most preferable
+  % to least), the preference sets are $\{ 123, 132, 312, 321\}$ and
+  % $\{ 123, 231, 213, 321 \}$. Both are realizable with $d=2$
+  % (the first via points $\{(1,0), (0.4,0.4), (0,1) \}$
+  % and the second with $\{(1,0), (0.6,0.6), (0,1)\}$).
+
+  % When $d=3$, randomly searching over $X$ for the largest $|P(X)|$
+  % yield a maximum size of $18$, and those sets exactly correspond
+  % to removing one element from each of the $6$ cycles on $4$ points.
+  % A variety of different ways of doing this are possible,  but I'm
+  % not yet sure if all of them result.
 
 \section{Experimental Counts}
   The following gives upper bounds on the maximal number
@@ -304,21 +361,21 @@ claytont@princeton.edu }
     12 &  48  \\
   \end{tabular}
 
-\section{An (Almost) Semidefinite Program Formulation}
-  In this section, we formalize a decision problem for whether a set
-  of preferences can arise from a set of points in $\Rgz^d$,
-  then show how this can be reduced to checking the feasibility
-  of a semidefinite program.
-
-  Consider the decision problem given by: \\
-  \textbf{Input:} $d, n$, and a collection $P = \{ >_1, >_2, \ldots, >_k\}$
-  of linear orders on $[n]$ \\
-  \textbf{Output:} YES if there exists a set of $n$ points $X\subseteq \Rgz^d$
-  in $d$ dimensions such that $P \subseteq P(X)$
-  (according to some labeling of points in $X$ with $[n]$),
-  and NO otherwise.
-
-  This is equivalent to asking whether there exist
-  vectors 
+% \section{An (Almost) Semidefinite Program Formulation}
+%   In this section, we formalize a decision problem for whether a set
+%   of preferences can arise from a set of points in $\Rgz^d$,
+%   then show how this can be reduced to checking the feasibility
+%   of a semidefinite program.
+% 
+%   Consider the decision problem given by: \\
+%   \textbf{Input:} $d, n$, and a collection $P = \{ >_1, >_2, \ldots, >_k\}$
+%   of linear orders on $[n]$ \\
+%   \textbf{Output:} YES if there exists a set of $n$ points $X\subseteq \Rgz^d$
+%   in $d$ dimensions such that $P \subseteq P(X)$
+%   (according to some labeling of points in $X$ with $[n]$),
+%   and NO otherwise.
+% 
+%   This is equivalent to asking whether there exist
+%   vectors 
 
 \end{document}

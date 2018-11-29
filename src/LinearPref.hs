@@ -41,9 +41,18 @@ sublist (l:ls) (x:xs)
   | l == x = sublist ls xs
   | otherwise = sublist (l:ls) xs
 
+hasPattern :: Eq l => [[l]] -> [[l]] -> Bool
+hasPattern patterns prefs = all present patterns
+  where present p = any (p `sublist`) prefs
+
 hasKCycle :: Eq l => [l] -> Int -> [[l]] -> Bool
 hasKCycle ls k prefs = any cycleInPrefs subsets
   where cycleInPrefs c = all somewhereIn (rotations c)
         somewhereIn t = any (t `sublist`) prefs
         subsets = subsetsOfSize k ls
 
+--------------------------------------------------------------------------------
+
+noOneFirst :: [[Int]]
+noOneFirst = permutations [1..4]
+  \\ fmap (1:) (permutations [2..4])
