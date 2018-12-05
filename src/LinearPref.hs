@@ -31,6 +31,13 @@ splits [] = [([],[])]
 splits (a:as) = ([],a:as) : map phi (splits as)
   where phi (u,v) = (a:u,v)
 
+interleaves :: [a] -> [a] -> [[a]]
+interleaves as [] = [as]
+interleaves [] bs = [bs]
+interleaves (a:as) (b:bs)
+  = fmap (a:) (interleaves as (b:bs))
+  ++ fmap (b:) (interleaves (a:as) bs)
+
 rotations :: [a] -> [[a]]
 rotations as = map (\(x,y) -> y ++ x) (init $ splits as)
 
@@ -56,3 +63,12 @@ hasKCycle ls k prefs = any cycleInPrefs subsets
 noOneFirst :: [[Int]]
 noOneFirst = permutations [1..4]
   \\ fmap (1:) (permutations [2..4])
+
+--------------------------------------------------------------------------------
+
+fullSinglePeaked :: Eq a => [a] -> [[a]]
+fullSinglePeaked as = nub $ do
+  (left', right) <- splits as
+  let left = reverse left'
+  interleaves left right
+

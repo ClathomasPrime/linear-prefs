@@ -1,0 +1,161 @@
+\documentclass[12pt]{article}
+ 
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{dsfont}
+\usepackage{subcaption}
+\usepackage{amsthm}
+\usepackage{mathtools,amssymb}
+\usepackage{wrapfig}
+\allowdisplaybreaks
+
+\newtheorem*{definition}{Definition}
+\newtheorem*{question}{Question}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rgz}{\mathbb{R}_{\ge 0}}
+
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+
+\newcommand{\woloss}{without loss of generality }
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\cone}{cone}
+\DeclareMathOperator*{\hull}{hull}
+
+\newcommand{\1}[1]{\mathds{1}[{#1}]}
+\renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
+\newcommand{\E}[1]{\mathds{E}\left[{#1}\right]}
+\newcommand{\Var}[1]{\mathrm{Var}[{#1}]}
+
+\newcommand{\unit}{\mathds{1}}
+
+% \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+% \renewcommand\thesubsection{\ \ (\alph{subsection})}
+
+
+\begin{document}
+
+% \renewcommand{\qedsymbol}{\filledbox}
+
+\title{Preferences Resulting From Weighted Sums}
+\author{
+Clay Thomas\\
+claytont@princeton.edu 
+\and
+Yufei Zheng\\
+yufei@cs.princeton.edu
+}
+
+\maketitle
+
+\section{Motivation}
+  Suppose students are told to rank different schools they would like to
+  get into. The preferences of the students are likely correlated in some
+  way due to an inherent notion of the quality of different schools.
+  One way to define such a correlation is to assume there is some underlying
+  space of quality along different attributes (e.g. STEM education vs
+  liberal arts education) and the students' preference
+  are determined by these attributes.
+  The simplest instance of this is for each student to rank schools
+  according to a weighted sum of the different attributes of the school.
+
+  We want to study the inherent complexity of the collection of preferences
+  that result from these procedure, as a function of the number of attributes
+  the schools have. In other words, what sort of correlation arises in the
+  preferences of students in this model?
+
+
+% \section{An (Almost) Semidefinite Program Formulation}
+%   In this section, we formalize a decision problem for whether a set
+%   of preferences can arise from a set of points in $\Rgz^d$,
+%   then show how this can be reduced to checking the feasibility
+%   of a semidefinite program.
+% 
+%   Consider the decision problem given by: \\
+%   \textbf{Input:} $d, n$, and a collection $P = \{ >_1, >_2, \ldots, >_k\}$
+%   of linear orders on $[n]$ \\
+%   \textbf{Output:} YES if there exists a set of $n$ points $X\subseteq \Rgz^d$
+%   in $d$ dimensions such that $P \subseteq P(X)$
+%   (according to some labeling of points in $X$ with $[n]$),
+%   and NO otherwise.
+% 
+%   This is equivalent to asking whether there exist
+%   vectors 
+
+\clearpage
+\appendix
+\section{Figures}
+  \begin{figure}[ht]
+
+    We can prove the following structural impossibility results
+    on the set of preferences we consider.
+
+    \begin{minipage}[b]{0.25\linewidth}
+      \centering
+      \begin{align*}
+        x >_a y >_a z \\
+        y >_b z >_b x \\
+        z >_c x >_c y \\
+      \end{align*}
+      \caption{This preference set is impossible if $d=2$.}
+      \label{fig:figure1}
+    \end{minipage}
+    \hspace{0.5cm}
+    \begin{minipage}[b]{0.25\linewidth}
+      \centering
+      \begin{align*}
+        x >_a y >_a z \\
+        x >_b z >_b y \\
+        y >_c z >_c x \\
+        z >_d y >_d x \\
+      \end{align*}
+      \caption{This preference set is impossible if $d=2$.}
+      \label{fig:figure2}
+    \end{minipage}
+    \hspace{0.5cm}
+    \begin{minipage}[b]{0.25\linewidth}
+      \centering
+      \begin{align*}
+        w >_a x >_a y >_a z \\
+        x >_b y >_b z >_b w \\
+        y >_c z >_c w >_c x \\
+        z >_d w >_d x >_d y \\
+      \end{align*}
+      \caption{This preference set is impossible if $d=3$.}
+      \label{fig:cycle4}
+    \end{minipage}
+  \end{figure}
+
+  The following table gives approximate upper bounds for
+  the number of preferences possible on $n$ options in $d$
+  dimensions. The pattern seems like it might be something
+  kinda like $O(n^{d-1})$, which is much less than the full
+  set of preferences, which has size $n!$.
+  \begin{tabular}{c | c c }
+    n & d=2 & d=3 \\
+    \hline
+    3  &  4   & 6   \\
+    4  &  7   & 18  \\
+    5  &  10  & 41  \\
+    6  &  15  & 87  \\
+    7  &  20  & 121 \\
+    8  &  24  \\
+    9  &  28  \\
+  \end{tabular}
+
+\end{document}

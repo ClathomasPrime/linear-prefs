@@ -85,15 +85,16 @@ findexperiment = filter (hasThing . prefs) <$> things
   where
     -- hasThing = hasKCycle [1..n] k
     -- hasThing = hasPattern [[1,2,3],[2,1,3],[3,2,1],[3,1,2 :: Int]]
-    hasThing = hasPattern noOneFirst
+    -- hasThing = hasPattern noOneFirst
+    hasThing = hasPattern (fullSinglePeaked [1..4] \\ [[1..4],[4,3,2,1]])
+    -- hasThing = hasPattern (filter ((/=3) . head) $ fullSinglePeaked [1..4])
     prefs = genLinearPrefs d delta . arbitraryLable
     things = replicateM trials $ roundedUnitBoxPoints 2 d n
-    trials = 100
+    trials = 10000
     delta = 0.01
-    d = 3
+    d = 2
     k = 4
     n = k
-
 
 
 points01 :: [[Double]]
@@ -113,3 +114,9 @@ points01 =
 points02 :: [[Rational]]
 points02 =
   [[0.93,0.1],[0.63,0.39],[0.3,0.81],[0.98,0.45],[0.57,0.79],[0.38,0.98],[0.39,0.88],[0.87,0.3],[0.76,0.32],[0.0,0.55]]
+
+points03 :: [[Rational]]
+points03 =
+  -- [[91 % 100,1 % 10],[87 % 100,1 % 4],[73 % 100,23 % 50],[12 % 25,91 % 100]]
+  [[1,0], [0.9,0.8], [0.8,0.8], [0,1]]
+

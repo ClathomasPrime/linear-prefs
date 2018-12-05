@@ -33,3 +33,32 @@ points03 =
   , [0.755,0.537]
   , [0.755,1.4e-2]
   ]
+
+-- Points: [[1,0,0],[0,1,0],[0,0,1],[0.3,0.3,0.3]]
+-- All prefs except: [[4,3,2,1],[4,2,3,1],[4,1,2,3],[4,2,1,3],[4,1,3,2],[4,3,1,2]]
+-- Interpretation: 4 is never anyone's first
+--
+-- Points: [[1,0,0],[0,1,0],[0,0,1],[0.4,0.4,0.4]]
+-- All prefs except: [[1,2,3,4],[2,1,3,4],[3,2,1,4],[2,3,1,4],[3,1,2,4],[1,3,2,4]]
+-- Interpretation: 4 is never anyone's least
+--
+--
+-- Points: [[1,1,0], [1,0.5,0.5], [0.5,1,0.5], [0.1,0.1,1.5]]
+-- All prefs except: [[4,1,2,3],[1,4,2,3],[1,2,4,3],[4,1,3,2],[1,4,3,2],[1,3,4,2]]
+-- Left out signature: first(4 twice, 1 four tiems), last(3 three times, 2 three times)
+--
+-- Points: [[7,7,0], [6,3,3], [3,6,3], [0,0,9]]
+-- All prefs except: [[3,2,1,4],[2,3,1,4],[3,4,2,1],[3,2,4,1],[2,4,3,1],[2,3,4,1]]
+-- Left out signature: first(3 three times, 2 three tiems), last(4 twice, 1 four times)
+
+
+
+
+--
+-- Points: [[1,0,0],[0,1,0],[0,0,1],[0.1,0.4,0.4]] (move towards an edge)
+-- All prefs except: [[4,3,2,1],[4,2,3,1],[4,1,2,3],[4,2,1,3],[4,1,3,2],[4,3,1,2]]
+-- Interpretation: 4 is never anyone's first, isomorphic to first case.
+--
+-- Points: [[1,0,0],[0,1,0],[0,0,1],[0.7,0.1,0.1]] (move towards a vertex)
+-- All prefs except: [[4,3,2,1],[4,2,3,1],[4,1,2,3],[4,2,1,3],[4,1,3,2],[4,3,1,2]]
+-- Interpretation: 4 is never anyone's first, isomorphic to first case.
