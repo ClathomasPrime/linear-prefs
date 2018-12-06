@@ -5,13 +5,14 @@
 \usepackage{algorithmicx}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[margin=1in]{geometry} 
+\usepackage[margin=0.5in]{geometry} 
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{dsfont}
 \usepackage{subcaption}
 \usepackage{amsthm}
 \usepackage{mathtools,amssymb}
 \usepackage{wrapfig}
+\usepackage[font=small,skip=-20pt]{caption}
 \allowdisplaybreaks
 
 \newtheorem*{definition}{Definition}
@@ -52,110 +53,136 @@
 
 % \renewcommand{\qedsymbol}{\filledbox}
 
-\title{Preferences Resulting From Weighted Sums}
-\author{
-Clay Thomas\\
-claytont@princeton.edu 
-\and
-Yufei Zheng\\
-yufei@cs.princeton.edu
+\title{
+  \vspace{-0.5in}
+  Voting With $d$-Dimensional Preferences
 }
+\date{}
+\author{
+  Clay Thomas\\
+  claytont@princeton.edu 
+  \and
+  Yufei Zheng\\
+  yufei@cs.princeton.edu
+}
+
 
 \maketitle
 
-\section{Motivation}
-  Suppose students are told to rank different schools they would like to
-  get into. The preferences of the students are likely correlated in some
-  way due to an inherent notion of the quality of different schools.
-  One way to define such a correlation is to assume there is some underlying
-  space of quality along different attributes (e.g. STEM education vs
-  liberal arts education) and the students' preference
-  are determined by these attributes.
-  The simplest instance of this is for each student to rank schools
-  according to a weighted sum of the different attributes of the school.
 
-  We want to study the inherent complexity of the collection of preferences
-  that result from these procedure, as a function of the number of attributes
-  the schools have. In other words, what sort of correlation arises in the
-  preferences of students in this model?
-
-
-% \section{An (Almost) Semidefinite Program Formulation}
-%   In this section, we formalize a decision problem for whether a set
-%   of preferences can arise from a set of points in $\Rgz^d$,
-%   then show how this can be reduced to checking the feasibility
-%   of a semidefinite program.
-% 
-%   Consider the decision problem given by: \\
-%   \textbf{Input:} $d, n$, and a collection $P = \{ >_1, >_2, \ldots, >_k\}$
-%   of linear orders on $[n]$ \\
-%   \textbf{Output:} YES if there exists a set of $n$ points $X\subseteq \Rgz^d$
-%   in $d$ dimensions such that $P \subseteq P(X)$
-%   (according to some labeling of points in $X$ with $[n]$),
-%   and NO otherwise.
-% 
-%   This is equivalent to asking whether there exist
-%   vectors 
-
-\clearpage
-\appendix
-\section{Figures}
-  \begin{figure}[ht]
-
-    We can prove the following structural impossibility results
-    on the set of preferences we consider.
-
-    \begin{minipage}[b]{0.25\linewidth}
-      \centering
+  \begin{wrapfigure}{r}{0.2\textwidth}
+    \begin{center}
+      \vspace{-0.5in}
       \begin{align*}
-        x >_a y >_a z \\
-        y >_b z >_b x \\
-        z >_c x >_c y \\
+        1 > 2 > 3 \\
+        2 > 3 > 1 \\
+        3 > 1 > 2 \\
       \end{align*}
-      \caption{This preference set is impossible if $d=2$.}
-      \label{fig:figure1}
-    \end{minipage}
-    \hspace{0.5cm}
-    \begin{minipage}[b]{0.25\linewidth}
-      \centering
+      \caption{\textsc{Cycle}}
+      \vspace{-0.25in}
       \begin{align*}
-        x >_a y >_a z \\
-        x >_b z >_b y \\
-        y >_c z >_c x \\
-        z >_d y >_d x \\
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 2 > 1 \\
+        2 > 3 > 1 \\
       \end{align*}
-      \caption{This preference set is impossible if $d=2$.}
-      \label{fig:figure2}
-    \end{minipage}
-    \hspace{0.5cm}
-    \begin{minipage}[b]{0.25\linewidth}
-      \centering
+      \caption{\textsc{Sandwich}}
+      \vspace{-0.25in}
       \begin{align*}
-        w >_a x >_a y >_a z \\
-        x >_b y >_b z >_b w \\
-        y >_c z >_c w >_c x \\
-        z >_d w >_d x >_d y \\
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 2 > 1 \\
       \end{align*}
-      \caption{This preference set is impossible if $d=3$.}
-      \label{fig:cycle4}
-    \end{minipage}
-  \end{figure}
+      \caption{\\ \textsc{LeastFavorite}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 > 4 \\
+        1 > 2 > 4 > 3 \\
+        2 > 1 > 3 > 4 \\
+        2 > 1 > 4 > 3 \\
+      \end{align*}
+      \caption{\textsc{FlipFlop}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 > 4 \\
+        4 > 3 > 2 > 1 \\
+      \end{align*}
+      \caption{\textsc{Reverse}}
+    \end{center}
+  \end{wrapfigure}
 
-  The following table gives approximate upper bounds for
-  the number of preferences possible on $n$ options in $d$
-  dimensions. The pattern seems like it might be something
-  kinda like $O(n^{d-1})$, which is much less than the full
-  set of preferences, which has size $n!$.
-  \begin{tabular}{c | c c }
-    n & d=2 & d=3 \\
-    \hline
-    3  &  4   & 6   \\
-    4  &  7   & 18  \\
-    5  &  10  & 41  \\
-    6  &  15  & 87  \\
-    7  &  20  & 121 \\
-    8  &  24  \\
-    9  &  28  \\
-  \end{tabular}
+  \emph{Social choice theory} is the field of study
+  concerned with making collective decisions. A typical formulation
+  is to study ``voting schemes'', i.e.
+  functions $f$ which take as input a list of \emph{linear
+  preferences} on $[n]$ (that is, total orders on $[n]$) and outputs a
+  ``group decision'' $f(>_1,\ldots,>_m) \in [n]$.
+  When $n = 2$, majority rule constitutes an excellent choice of $f$.
+  Unfortunately when $n>2$, social choice functions are
+  plagued by impossibility results,
+  such as Arrow's Impossibility Theorem (every ``unanimous'' voting scheme
+  satisfying ``independence of irrelevant alternatives'' is a ``dictatorship'')
+  and the Gibbard-Satterthwaite Theorem (every surjective 
+  ``strategy-proof'' voting scheme is a dictatorship).
+
+  To get around the issues with general voting schemes, theorists
+  consider \emph{restricted classes of preferences},
+  for example \emph{single peaked preferences}.
+  Consider a set $P = \{>_i\}_{i}$ of linear preferences on $[n]$.
+  We say $P$ is single peaked when there exists a set
+  $Y = \{y_1,\ldots,y_n\} \subseteq [0,1]$ of distinct numbers such that,
+  for each $>_i \in P$, there exists a ``peak'' $p_i \in [0,1]$
+  where: if $p_i < y_k < y_\ell$, then $k >_i \ell$,
+  and if $y_k < y_\ell < p_i$, then $k <_i \ell$.
+  This corresponds to voters having a ``favorite point'' (i.e.
+  their peak), and their preference for an alternative decreases
+  as you move away from the peak.
+  Single peaked preferences are dramatically better behaved
+  than general preferences.
+  If $P$ is single peaked, then there exist voting schemes
+  $f : P^m \to [n]$ which are ``strategy-proof'',
+  ``Pareto-optimal'' (a stronger
+  version of unanimity), and ''anonymous'' (a stronger version
+  of not being a dictatorship).
+  This voting scheme essentially takes the medians of the ``peaks''.
+
+  We say $P$ is \emph{$d$-dimensional} if there exists a set
+  $X = \{x_1,\ldots,x_n\} \subseteq \R_{\ge 0}^d$ such that, for each $>_i \in P$,
+  there exists a ``preference weight'' $a_i$ such that
+  $k >_i \ell$ if and only if $\ip{a_i}{x_k} > \ip{a_i}{x_\ell}$.
+  This corresponds to voters choosing options based on a simple weighted
+  sum of the attributes of these options.
+  \textbf{The goal of our project is to study voting schemes
+  for $d$-dimensional preferences}.
+
+  When $d=1$, the $1$-dimensional preference sets are trivial,
+  i.e. they contain only one preference.
+  The class of single peaked preferences and $2$-dimensional preferences
+  seem vaguely related.
+  For example, both preference sets \textsc{Cycle} (a common counterexample
+  for certain voting schemes having nice properties) and \textsc{Sandwich},
+  shown to the right, are neither single peaked nor $2$-dimensional.
+  However, we note that neither class is a subset of the other:
+  for example, \textsc{LeastFavorite} is $2$-dimensional but not single peaked,
+  and \textsc{FlipFlop} is single peaked but not two dimensional.
+  Finally, \textsc{Reverse} gives a nontrivial preference set which
+  is both single peaked and $2$-dimensional.
+  The proofs that certain preference sets fail to be $d$-dimensional
+  are interesting and novel, and we regard the combinatorial classification
+  of $d$-dimensional preference sets to be of independent interest.
+
+  We conjecture good voting schemes are possible $2$-dimensional preferences.
+  For $d\ge 3$, the situation appears less nice.
+  Any set of preferences on $3$ options is $3$-dimensional,
+  and $3$ options is already sufficient to prove negative
+  results such as Arrow's Theorem.
+  However, there still may be interesting things to say in this case.
+  For all values of $d$, the rich space of questions relating to
+  voting schemes will almost certainly lead to good avenues of investigation,
+  if not especially impressive results \cite{MattConversation}.
+
+  \clearpage
+  \bibliography{weightedPref}{}
+  \bibliographystyle{plain}
 
 \end{document}
