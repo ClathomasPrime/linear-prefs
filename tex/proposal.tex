@@ -123,12 +123,13 @@
   such as Arrow's Impossibility Theorem (every ``unanimous'' voting scheme
   satisfying ``independence of irrelevant alternatives'' is a ``dictatorship'')
   and the Gibbard-Satterthwaite Theorem (every surjective 
-  ``strategy-proof'' voting scheme is a dictatorship).
+  ``strategy-proof'' voting scheme is a dictatorship) 
+  \cite{AgtBookMechDesignInto}.
 
   To get around the issues with general voting schemes, theorists
   consider \emph{restricted classes of preferences},
   for example \emph{single peaked preferences}.
-  Consider a set $P = \{>_i\}_{i}$ of linear preferences on $[n]$.
+  Consider a set $P = \{>_i\}_{i=1}^K$ of linear preferences on $[n]$.
   We say $P$ is single peaked when there exists a set
   $Y = \{y_1,\ldots,y_n\} \subseteq [0,1]$ of distinct numbers such that,
   for each $>_i \in P$, there exists a ``peak'' $p_i \in [0,1]$
@@ -142,13 +143,14 @@
   If $P$ is single peaked, then there exist voting schemes
   $f : P^m \to [n]$ which are ``strategy-proof'',
   ``Pareto-optimal'' (a stronger
-  version of unanimity), and ''anonymous'' (a stronger version
-  of not being a dictatorship).
+  version of unanimity), and ``anonymous'' (a stronger version
+  of not being a dictatorship) \cite{AgtBookNoMoney}.
   This voting scheme essentially takes the medians of the ``peaks''.
 
-  We say $P$ is \emph{$d$-dimensional} if there exists a set
+  We introduce the notion of \emph{$d$-dimensional} preferences.
+  We say $P$ is $d$-dimensional if there exists a set
   $X = \{x_1,\ldots,x_n\} \subseteq \R_{\ge 0}^d$ such that, for each $>_i \in P$,
-  there exists a ``preference weight'' $a_i$ such that
+  there exists a ``preference weight'' $a_i\in \R_{\ge 0}^d$ such that
   $k >_i \ell$ if and only if $\ip{a_i}{x_k} > \ip{a_i}{x_\ell}$.
   This corresponds to voters choosing options based on a simple weighted
   sum of the attributes of these options.
@@ -179,10 +181,10 @@
   However, there still may be interesting things to say in this case.
   For all values of $d$, the rich space of questions relating to
   voting schemes will almost certainly lead to good avenues of investigation,
-  if not especially impressive results \cite{MattConversation}.
+  and possibly impressive results \cite{MattConversation}.
 
   \clearpage
   \bibliography{weightedPref}{}
-  \bibliographystyle{plain}
+  \bibliographystyle{alpha}
 
 \end{document}
