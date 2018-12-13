@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d057240574682fa7557c06d61f6851d3ca34d2100471b47a68a8f3269950e336
+-- hash: 8d38b846d3b5618520fd9a90399abde5dcc9a329f187af5a5463ba434ab1e6e9
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -27,6 +27,7 @@ executable many-matching
       GeneralD
       LinearPref
       Util
+      Voting
       Paths_linear_prefs
   hs-source-dirs:
       src
