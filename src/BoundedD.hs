@@ -172,7 +172,7 @@ searchBigPref = do
   let xs = take 1 . filter bigPrefSet . fmap (record tightSweep3) $ manyPoints
   case xs of
     [] -> return Nothing
-    ((_,y):_) -> return . Just $ y
+    ((y,_):_) -> return . Just $ y
 
 {-
 maximalWithThree = [(0,(0.1,0.9)),(1,(0.6,0.6)),(2,(0.9,0.1))]

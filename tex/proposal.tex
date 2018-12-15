@@ -5,7 +5,7 @@
 \usepackage{algorithmicx}
 \usepackage{float}
 \usepackage{graphicx}
-\usepackage[margin=0.5in]{geometry} 
+\usepackage[margin=0.75in]{geometry} 
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{dsfont}
 \usepackage{subcaption}
@@ -93,7 +93,7 @@
         1 > 3 > 2 \\
         3 > 2 > 1 \\
       \end{align*}
-      \caption{\\ \textsc{LeastFavorite}}
+      \caption{\textsc{LeastFav}}
       \vspace{-0.25in}
       \begin{align*}
         1 > 2 > 3 > 4 \\
@@ -154,36 +154,99 @@
   $k >_i \ell$ if and only if $\ip{a_i}{x_k} > \ip{a_i}{x_\ell}$.
   This corresponds to voters choosing options based on a simple weighted
   sum of the attributes of these options.
-  \textbf{The goal of our project is to study voting schemes
-  for $d$-dimensional preferences}.
+
+\section*{$2$-dimensional voting}
 
   When $d=1$, the $1$-dimensional preference sets are trivial,
   i.e. they contain only one preference.
+  The first interesting case, $d=2$, is the main focus and application
+  of our project.
   The class of single peaked preferences and $2$-dimensional preferences
-  seem vaguely related.
+  seem vaguely related, simply by looking at what preference lists
+  are possible and impossible.
   For example, both preference sets \textsc{Cycle} (a common counterexample
   for certain voting schemes having nice properties) and \textsc{Sandwich},
   shown to the right, are neither single peaked nor $2$-dimensional.
   However, we note that neither class is a subset of the other:
-  for example, \textsc{LeastFavorite} is $2$-dimensional but not single peaked,
+  for example, \textsc{LeastFav} is $2$-dimensional but not single peaked,
   and \textsc{FlipFlop} is single peaked but not two dimensional.
   Finally, \textsc{Reverse} gives a nontrivial preference set which
   is both single peaked and $2$-dimensional.
-  The proofs that certain preference sets fail to be $d$-dimensional
-  are interesting and novel, and we regard the combinatorial classification
-  of $d$-dimensional preference sets to be of independent interest.
 
-  We conjecture good voting schemes are possible $2$-dimensional preferences.
-  For $d\ge 3$, the situation appears less nice.
+  Moreover, these one very compelling similarity between $2$-dimensional
+  preferences and single-peaked preferences.
+  Both correspond to a \emph{one} dimensional set of options:
+  the peaks all lie in the one-dimensional interval $[0,1]$,
+  and the preference weights can without loss of generality
+  all be taken to lie on the \emph{unit circle},
+  because $>_a$ is independent of $\|a\|$.
+  This gives a natural generalization of the ``median peaks''
+  voting algorithm that worked for single peaked preferences.
+  Fix some set of ``candidates'' $X\subseteq \Rgz^2$.
+  Then our voting scheme is:
+
+  \begin{algorithm}
+    Poll a preference weight $a_i\in\Rgz^d$ from each voter $i$ \\
+    Select the $a^*$ with median angle (from the $x$ axis) \\
+    Return the favorite option of $a^*$.
+  \end{algorithm}
+
+  Because this scheme explicity picks some voter's favorite candidate,
+  it is Pareto-optimal (and hence unanimous).
+  Moreover, if the number of voters is odd, the order of the voters
+  does not matter, so the voting scheme is formally called anonymous
+  (and hence not a dictatorship).
+  \textbf{The main conjecture of our project is that this voting
+  scheme is also strategyproof, and satisfies independence
+  of irrelevent alternatives}.
+
+  Strategyproofness was easy to prove for the single-peaked
+  medians algorith, but the proof does not carry over to our case automatically.
+  Strategyproofness is equivalent to a simple combinatorial condidion
+  called ``monotonicity''. We have checked for examples
+  of non-monotonicity by randomly picking points and preference
+  vectors many times, and no examples have turned up.
+  Our goal is thus to prove that this rule is strategyproof,
+  and if we can, replicate the discussion of \cite{AgtBookNoMoney}
+  which fully characterizes strategy-proof single-peaked voting schemes.
+  We were not able to test independence of irrelevent alternatives experimentally,
+  and that think it may be harder to prove anyway.
+  However, we would like to try!
+
+\section*{Higher-dimensional preferences}
+
+  For $d\ge 3$, the situation is less nice.
   Any set of preferences on $3$ options is $3$-dimensional,
   and $3$ options is already sufficient to prove negative
   results such as Arrow's Theorem.
-  However, there still may be interesting things to say in this case.
-  For all values of $d$, the rich space of questions relating to
-  voting schemes will almost certainly lead to good avenues of investigation,
-  and possibly impressive results \cite{MattConversation}.
+  Thus, good voting schemes for $d > 2$ would require new notions
+  of good voting scheme (such as using randomness \cite{AgtBookNoMoney}).
+  We do not plan to investigate these.
 
-  \clearpage
+  However, the proofs that certain preference sets fail to be $d$-dimensional
+  are interesting and novel, and we regard the combinatorial classification
+  of $d$-dimensional preference sets to be of independent interest.
+  So far, we have proofs for all the examples mentioned in the figures,
+  and that the generalization of {\sc Cycle} to $d+1$ options
+  is impossible in $d$ dimensions.
+  The proofs involve considering the convex hulls of the option points,
+  and convex cones of the preference weights.
+  We do not have a concrete conjecture for a classification of $d$-dimensional
+  preferences, but we think that the maximal number of $d$-dimensional
+  preferences may be something like $O(n^{d-1})$
+  (in particular, we would like to show that the number is linear
+  when $d=2$).
+
+  We are attempting to use SMT solvers to automatically check
+  if a given list is $2$-dimensional, and we would ideally like
+  an efficient algorithm for finding the minimal dimension $d$
+  needed such that a set of preferences is $d$-dimensional.
+  Moreover, we plan to consider how voting schemes should work,
+  if voters are know to be $2$ dimensional, but the underlying space
+  $X$ is unknown and voters must submit a ranked preference list $<_a$
+  (instead of their preference weight vector $a$).
+  We believe we can adapt our medians algorithm to work in this case.
+
   \bibliography{weightedPref}{}
   \bibliographystyle{alpha}
 

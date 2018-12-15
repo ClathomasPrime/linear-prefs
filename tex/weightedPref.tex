@@ -139,20 +139,42 @@ claytont@princeton.edu }
 
 \section{Definitions}
 
-  Let $\{x_1,\ldots,x_n\} = X\subseteq \Rgz^d$ be any set of points
-  with nonnegative coordinates.
-  Given any nonzero $a\in \Rgz^d$, define a total order $>_a$ on $X$ as follows:
-  $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$, or
-  $\ip{a}{x} = \ip{a}{y}$ and $i > j$ (note\footnote{
-    It's subtly important that ties are broken in the same way by every $a$.
-    Otherwise, if $X$ was $n$ copies of the same point, any preference
-    would be possible.
-  }).
-  % Let $R(X)$ denote the set of linear orders on $X$.
-  Let $P(X) = \{ >_a | a\in\Rgz^d \setminus \{0\} \}$.
-  Thus, $X$ represents the set of schools,
-  the vectors $a$ represent the preference weights of students,
-  and $P(X)$ denotes the set of all possible preferences of schools.
+  Let $\{x_1,\ldots,x_n\} = X\subseteq \Rgz^d$ be any (ordered) set of 
+  $n$ distinct points with nonnegative coordinates.
+  Given any $a\in \Rgz^d$, define a order $>_a$ on $X$ as follows:
+  $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$.
+  Let $R(X)$ denote the set of linear orders on $X$.
+  Define
+  \begin{align*}
+    P(X) = \{ >\in R(X) | \exists a\in\Rgz^d: x > y \iff x >_a y\}
+  \end{align*}
+
+  Consider a set of preferences $P$ (i.e. linear orders) on options $N$.
+  We have the following defintions:
+  \begin{itemize}
+    \item A \emph{social welfare function on $P$}
+      is a function $F : P^n \to P$.
+    \item A \emph{social choice function on $P$} 
+      is a function $f : P^n \to N$.
+    \item A welfare function $F$ is \emph{unanimous} if,
+      for any $> \in P$, we have $F(>,\ldots,>) = >$.
+    \item A choice function $f$ is \emph{unanimous} if,
+      whenver there exists a fixed $a$ with $a >_i b$ for all 
+      $i=1,\ldots, n$ and $b\in N\setminus \{a\}$,
+      we have $f(>_1,\ldots,>_n) = a$.
+      I'm not sure if this is a standard notion.
+
+  \end{itemize}
+
+  % Thus, $X$ represents the set of schools,
+  % the vectors $a$ represent the preference weights of students,
+  % and $P(X)$ denotes the set of all possible preferences of schools.
+
+  % $\ip{a}{x} = \ip{a}{y}$ and $i > j$ (note\footnote{
+  %   It's subtly important that ties are broken in the same way by every $a$.
+  %   Otherwise, if $X$ was $n$ copies of the same point, any preference
+  %   would be possible.
+  % }).
 
   \begin{question}
     As a function of $d$ and $n$, how ``rich'' can $P(X)$ be

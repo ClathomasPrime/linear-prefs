@@ -6,11 +6,14 @@ module Drawing
   ( main'
   ) where
 
-import Diagrams.Prelude hiding (R2, R3)
+import Diagrams.Prelude hiding (R2, R3, Point)
 -- import qualified Diagrams.Prelude as D
 import Diagrams.Backend.SVG.CmdLine
 
-import BoundedD
+-- import BoundedD
+import GeneralD
+import Data
+import LinearPref
 
 {-
 mainRec :: IO ()
@@ -24,17 +27,20 @@ mainRec = do
 
 --------------------------------------------------------------------------------
 
-prefPointsDrawing :: [(Int, R2)] -> Diagram B
+-- prefPointsDrawing :: [(Int, R2)] -> Diagram B
+prefPointsDrawing :: Show l => [(l,Point Double)] -> Diagram B
 prefPointsDrawing prefSet =
   (mconcat . fmap phi $ prefSet)
   <> (square 1 # translate (r2 (0.5,0.5)) # bg white)
-  where phi (i, xy) =
+  where phi (i, [x,y]) =
           hsep 0.03 [text (show i) # scale 0.05, circle 0.005]
-          # translate (r2 xy)
+          # translate (r2 (x,y))
+        phi _ = undefined
 
 main' :: IO ()
 main' =
-  mainWith (prefPointsDrawing $ interiorCirclePrefPoints 5 3)
+  mainWith (prefPointsDrawing $ arbitraryLable . fmap (fmap fromRational) $ points08)
+  -- mainWith (prefPointsDrawing $ interiorCirclePrefPoints 5 3)
   -- mainWith (prefPointsDrawing maximalWithThree')
   -- mainWith (prefPointsDrawing complexPrefPoints)
   -- mainWith $ do

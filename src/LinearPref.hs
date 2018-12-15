@@ -11,6 +11,9 @@ compareByPref ranking x y
     = j `compare` i -- ^ reverse order, so earlier in list == better
   | otherwise = error "compareByPref where two args weren't in list"
 
+greaterByPref :: Eq l => [l] -> l -> l -> Bool
+greaterByPref ranking x y = compareByPref ranking x y == GT
+
 consistentPrefs :: Eq l => [l] -> [[l]] -> [(l,l)]
 consistentPrefs schools prefs =
   [ (x, y) | x <- schools, y <- schools,

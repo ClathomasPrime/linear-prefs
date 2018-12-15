@@ -24,6 +24,8 @@ roundedUnitBoxPoints prec d n = replicateM n point
           i :: Int <- getRandomR (0, 10^prec)
           return $ fromIntegral i / fromIntegral (10^prec :: Int)
 
+
+
 --------------------------------------------------------------------------------
 
 type PrefWeight a = [a]
@@ -36,6 +38,12 @@ linearPref a = fmap fst . sortBy cmp
   where cmp (lx,x) (ly,y) =
           (a `dot` y) `compare` (a `dot` x) <> ly `compare` lx
           -- ^ oposite order to sort biggest to smallest
+
+unitCirclePrefs :: (MonadRandom m) => Int -> m [Point Double]
+unitCirclePrefs n = replicateM n point
+  where point = do
+          t <- getRandomR (0, pi / 2)
+          return [cos t, sin t]
 
 --------------------------------------------------------------------------------
 
@@ -65,10 +73,10 @@ genLinearPrefs d delta xs
 
 mostPrefs :: (Fractional n, Enum n, Ord n, MonadRandom m)
           => Int -> Int -> Int -> n -> Int
-          -> m (Int, [Point n])
+          -> m ([Point n], Int)
 mostPrefs n d trials delta prec
   = record numPrefs <$> bestPoints
-  where bestPoints = most cmp trials (roundedUnitBoxPoints prec d n)
+  where bestPoints = most cmp trials (sort <$> roundedUnitBoxPoints prec d n)
         numPrefs = length . genLinearPrefs d delta . arbitraryLable
         cmp = compare `on` numPrefs
 
@@ -77,7 +85,7 @@ mostPrefs n d trials delta prec
 experiment :: MonadRandom m => m [(Int,Int)]
 experiment = mapM phi [4..6]
   where phi n = do
-          (len,_) <- mostPrefs n 3 100 (0.003 :: Rational) 2
+          (_,len) <- mostPrefs n 3 100 (0.003 :: Rational) 2
           return (n,len)
 
 findexperiment :: MonadRandom m => m [[[Rational]]]
@@ -95,29 +103,4 @@ findexperiment = filter (hasThing . prefs) <$> things
     d = 2
     k = 4
     n = k
-
-
-points01 :: [[Double]]
-points01 =
-  [ [0.225,0.987]
-  , [0.528,0.661]
-  , [0.421,0.668]
-  , [0.425,0.467]
-  , [3.0e-2,0.775]
-  , [0.957,0.368]
-  , [0.897,2.0e-2]
-  , [0.208,0.55]
-  , [0.755,0.537]
-  , [0.755,1.4e-2]
-  ]
-
-points02 :: [[Rational]]
-points02 =
-  [[0.93,0.1],[0.63,0.39],[0.3,0.81],[0.98,0.45],[0.57,0.79],[0.38,0.98],[0.39,0.88],[0.87,0.3],[0.76,0.32],[0.0,0.55]]
-
-points03 :: [[Rational]]
-points03 =
-  -- [[91 % 100,1 % 10],[87 % 100,1 % 4],[73 % 100,23 % 50],[12 % 25,91 % 100]]
-  [[1,0], [0.9,0.8], [0.8,0.8], [0,1]]
-
 
