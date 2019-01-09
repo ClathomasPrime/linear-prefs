@@ -17,6 +17,7 @@ dependencies:
   - diagrams
   - diagrams-lib
   - diagrams-svg
+  - pretty-simple
 
 executables:
   many-matching:

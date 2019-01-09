@@ -52,69 +52,15 @@
 % \renewcommand{\qedsymbol}{\filledbox}
  
 \title{Preferences Resulting From Weighted Sums}
-\author{Clay Thomas\\
-claytont@princeton.edu }
+\author{
+  Clay Thomas \\
+  claytont@princeton.edu
+\and
+  Yufei Zheng\\
+  yufei@cs.princeton.edu
+}
 
 \maketitle
-
-% \begin{align*}
-%   a_1x_1 + a_2x_2 && > &&
-%     a_1y_1  + a_2y_2 && > &&
-%     a_1z_1  + a_2z_2 \\
-%   b_1y_1  + b_2y_2 && > &&
-%     b_1z_1  + b_2z_2  && > &&
-%     b_1x_1  + b_2x_2 \\
-%   c_1z_1  + c_2z_2  && > &&
-%     c_1x_1  + c_2x_2 && > &&
-%     c_1y_1  + c_2y_2 \\
-% \end{align*}
-% 
-% % \begin{align*}
-% %   -\frac{z_2 - x_2}{z_1 - x_1} > \frac{a_1}{a_2}
-% %   >  -\frac{y_2 - z_2}{y_1 - z_1}
-% %   \\
-% %   \frac{b_1}{b_2} < -\frac{x_2 - y_2}{x_1 - y_1}
-% %     && \frac{b_1}{b_2} > -\frac{y_2 - z_2}{y_1 - z_1}
-% %     && \frac{b_1}{b_2} > -\frac{z_2 - x_2}{z_1 - x_1}
-% %   \\
-% %   \frac{c_1}{c_2} > -\frac{x_2 - y_2}{x_1 - y_1}
-% %     && \frac{c_1}{c_2} < -\frac{y_2 - z_2}{y_1 - z_1}
-% %     && \frac{c_1}{c_2} > -\frac{z_2 - x_2}{z_1 - x_1}
-% %   \\
-% % \end{align*}
-% 
-% \begin{align*}
-%   x_1 - y_1 > -\frac{a_2}{a_1}(x_2 - y_2)
-%     &&
-%   y_1 - z_1 > -\frac{a_2}{a_1}(y_2 - z_2)
-%     &&
-%   z_1 - x_1 < -\frac{a_2}{a_1}(z_2 - x_2)
-%   \\
-%   x_1 - y_1 < -\frac{b_2}{b_1}(x_2 - y_2)
-%     &&
-%   y_1 - z_1 > -\frac{b_2}{b_1}(y_2 - z_2)
-%     &&
-%   z_1 - x_1 > -\frac{b_2}{b_1}(z_2 - x_2)
-%   \\
-%   x_1 - y_1 > -\frac{c_2}{c_1}(x_2 - y_2)
-%     &&
-%   y_1 - z_1  -\frac{c_2}{c_1}(y_2 - z_2)
-%     &&
-%   z_1 - x_1 > -\frac{c_2}{c_1}(z_2 - x_2)
-%   \\
-% \end{align*}
-% 
-% \begin{align*}
-%   \frac{a_1}{a_2} (>)_{xy} -\frac{x_2 - y_2}{x_1 - y_1}
-%     && \frac{a_1}{a_2} (>)_{yz} -\frac{y_2 - z_2}{y_1 - z_1}
-%     && \frac{a_1}{a_2} (<)_{zx} -\frac{z_2 - x_2}{z_1 - x_1} \\
-%   \frac{b_1}{b_2} (<)_{xy} -\frac{x_2 - y_2}{x_1 - y_1}
-%     && \frac{b_1}{b_2} (>)_{yz} -\frac{y_2 - z_2}{y_1 - z_1}
-%     && \frac{b_1}{b_2} (>)_{zx} -\frac{z_2 - x_2}{z_1 - x_1} \\
-%   \frac{c_1}{c_2} (>)_{xy} -\frac{x_2 - y_2}{x_1 - y_1}
-%     && \frac{c_1}{c_2} (<)_{yz} -\frac{y_2 - z_2}{y_1 - z_1}
-%     && \frac{c_1}{c_2} (>)_{zx} -\frac{z_2 - x_2}{z_1 - x_1} \\
-% \end{align*}
 
 \section{Motivation}
   Suppose students are told to rank different schools they would like to
@@ -146,35 +92,8 @@ claytont@princeton.edu }
   Let $R(X)$ denote the set of linear orders on $X$.
   Define
   \begin{align*}
-    P(X) = \{ >\in R(X) | \exists a\in\Rgz^d: x > y \iff x >_a y\}
+    P(X) = \{ \prec \in R(X) | \exists a\in\Rgz^d: x \prec y \iff x <_a y\}
   \end{align*}
-
-  Consider a set of preferences $P$ (i.e. linear orders) on options $N$.
-  We have the following defintions:
-  \begin{itemize}
-    \item A \emph{social welfare function on $P$}
-      is a function $F : P^n \to P$.
-    \item A \emph{social choice function on $P$} 
-      is a function $f : P^n \to N$.
-    \item A welfare function $F$ is \emph{unanimous} if,
-      for any $> \in P$, we have $F(>,\ldots,>) = >$.
-    \item A choice function $f$ is \emph{unanimous} if,
-      whenver there exists a fixed $a$ with $a >_i b$ for all 
-      $i=1,\ldots, n$ and $b\in N\setminus \{a\}$,
-      we have $f(>_1,\ldots,>_n) = a$.
-      I'm not sure if this is a standard notion.
-
-  \end{itemize}
-
-  % Thus, $X$ represents the set of schools,
-  % the vectors $a$ represent the preference weights of students,
-  % and $P(X)$ denotes the set of all possible preferences of schools.
-
-  % $\ip{a}{x} = \ip{a}{y}$ and $i > j$ (note\footnote{
-  %   It's subtly important that ties are broken in the same way by every $a$.
-  %   Otherwise, if $X$ was $n$ copies of the same point, any preference
-  %   would be possible.
-  % }).
 
   \begin{question}
     As a function of $d$ and $n$, how ``rich'' can $P(X)$ be
@@ -383,97 +302,4 @@ claytont@princeton.edu }
     12 &  48  \\
   \end{tabular}
 
-% \section{An (Almost) Semidefinite Program Formulation}
-%   In this section, we formalize a decision problem for whether a set
-%   of preferences can arise from a set of points in $\Rgz^d$,
-%   then show how this can be reduced to checking the feasibility
-%   of a semidefinite program.
-% 
-%   Consider the decision problem given by: \\
-%   \textbf{Input:} $d, n$, and a collection $P = \{ >_1, >_2, \ldots, >_k\}$
-%   of linear orders on $[n]$ \\
-%   \textbf{Output:} YES if there exists a set of $n$ points $X\subseteq \Rgz^d$
-%   in $d$ dimensions such that $P \subseteq P(X)$
-%   (according to some labeling of points in $X$ with $[n]$),
-%   and NO otherwise.
-% 
-%   This is equivalent to asking whether there exist
-%   vectors 
-
 \end{document}
-
-
-% \clearpage
-% \appendix
-% \section{Figures}
-%   \begin{figure}[ht]
-% 
-%     We can prove the following structural impossibility results
-%     on the set of preferences we consider.
-% 
-%     \begin{minipage}[b]{0.25\linewidth}
-%       \centering
-%       \begin{align*}
-%         x >_a y >_a z \\
-%         y >_b z >_b x \\
-%         z >_c x >_c y \\
-%       \end{align*}
-%       \caption{This preference set is impossible if $d=2$.}
-%       \label{fig:figure1}
-%     \end{minipage}
-%     \hspace{0.5cm}
-%     \begin{minipage}[b]{0.25\linewidth}
-%       \centering
-%       \begin{align*}
-%         x >_a y >_a z \\
-%         x >_b z >_b y \\
-%         y >_c z >_c x \\
-%         z >_d y >_d x \\
-%       \end{align*}
-%       \caption{This preference set is impossible if $d=2$.}
-%       \label{fig:figure2}
-%     \end{minipage}
-%     \hspace{0.5cm}
-%     \begin{minipage}[b]{0.25\linewidth}
-%       \centering
-%       \begin{align*}
-%         w >_a x >_a y >_a z \\
-%         x >_b y >_b z >_b w \\
-%         y >_c z >_c w >_c x \\
-%         z >_d w >_d x >_d y \\
-%       \end{align*}
-%       \caption{This preference set is impossible if $d=3$.}
-%       \label{fig:cycle4}
-%     \end{minipage}
-%   \end{figure}
-% 
-%   The following table gives approximate upper bounds for
-%   the number of preferences possible on $n$ options in $d$
-%   dimensions. The pattern seems like it might be something
-%   kinda like $O(n^{d-1})$, which is much less than the full
-%   set of preferences, which has size $n!$.
-%   \begin{tabular}{c | c c }
-%     n & d=2 & d=3 \\
-%     \hline
-%     3  &  4   & 6   \\
-%     4  &  7   & 18  \\
-%     5  &  10  & 41  \\
-%     6  &  15  & 87  \\
-%     7  &  20  & 121 \\
-%     8  &  24  \\
-%     9  &  28  \\
-%   \end{tabular}
-% 
-%       % \begin{align*}
-%       %   x >_1 y >_1 z \\
-%       %   y >_2 z >_2 x \\
-%       %   z >_3 x >_3 y \\
-%       % \end{align*}
-%       % \caption{\textsc{Cycle}}
-%       % \begin{align*}
-%       %   x >_1 y >_1 z \\
-%       %   x >_2 z >_2 y \\
-%       %   y >_3 z >_3 x \\
-%       %   z >_4 y >_4 x \\
-%       % \end{align*}
-% 

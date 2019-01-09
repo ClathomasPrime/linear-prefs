@@ -21,10 +21,16 @@ nProd :: Int -> [a] -> [[a]]
 nProd 0 _ = [[]]
 nProd n as = [a:bs | a <- as, bs <- nProd (n-1) as]
 
+setNProd :: Int -> [a] -> [[a]]
+setNProd 0 _ = [[]]
+setNProd n as = [x:bs | (x:xs) <- tails as, bs <- setNProd (n-1) xs]
+
+setsOfTuples :: Eq a => Int -> [a] -> [[(a,a)]]
+setsOfTuples n xs = setNProd n [(a,a') | a <- xs, a' <- xs, a /= a']
+
 medianIndex :: [a] -> a
 medianIndex xs = xs !! (length xs `div` 2)
 -- ^ Higher-index biased.
-
 
 --------------------------------------------------------------------------------
 
@@ -41,3 +47,5 @@ tryUntil nTrials test generator = do
   if test a
      then return $ Just a
      else tryUntil (nTrials - 1) test generator
+
+

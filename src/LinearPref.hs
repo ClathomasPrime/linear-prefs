@@ -1,3 +1,4 @@
+{-# LANGUAGE TupleSections #-}
 module LinearPref where
 
 import Data.List
@@ -60,6 +61,30 @@ hasKCycle ls k prefs = any cycleInPrefs subsets
   where cycleInPrefs c = all somewhereIn (rotations c)
         somewhereIn t = any (t `sublist`) prefs
         subsets = subsetsOfSize k ls
+
+--------------------------------------------------------------------------------
+
+-- Convention: A pair (a,b) denotes a>b.
+
+toOrderedPairs :: [l] -> [(l,l)]
+toOrderedPairs ls = do
+  (front,back) <- splits ls
+  case reverse front of
+    (a:_) -> fmap (a,) back
+    _ -> []
+
+intersectTotalOrders :: Eq l => [[l]] -> [(l,l)]
+intersectTotalOrders ls =
+  foldl1 intersect . fmap toOrderedPairs $ ls
+
+satisfies :: Eq l => (l,l) -> [l] -> Bool
+satisfies (a,b) ls =
+  case (elemIndex a ls, elemIndex b ls) of
+    (Just ax, Just bx) -> ax < bx
+    _ -> False -- ^ Maybe not a good default but ?
+
+contradictory :: Eq l => [l] -> [(l,l)] -> Bool
+contradictory labels tuples = undefined
 
 --------------------------------------------------------------------------------
 

@@ -1,11 +1,12 @@
 {-# LANGUAGE ScopedTypeVariables       #-}
+{-# LANGUAGE TupleSections       #-}
 
 module GeneralD where
 
 import Control.Monad.Random
 import Data.List
 import Data.Function
-import Data.Ratio
+-- import Data.Ratio
 
 import Util
 import LinearPref
@@ -104,3 +105,19 @@ findexperiment = filter (hasThing . prefs) <$> things
     k = 4
     n = k
 
+uniqueSlopesExperiment :: MonadRandom m =>
+  Int -> Int -> Int -> Rational -> m ([Point Rational], Int)
+uniqueSlopesExperiment n d trials delta
+  = record numPrefs <$> bestPoints
+  where bestPoints = most cmp trials generator
+        generator = mapM phi [0, 1/n' .. 1 - 1/n' :: Rational]
+        n' = fromIntegral n
+        phi r = (\x -> [r,x]) <$> getRandomRat 5 (1-r, 1-r + 1/n')
+        numPrefs = length . genLinearPrefs d delta . arbitraryLable
+        cmp = compare `on` numPrefs
+
+getRandomRat :: MonadRandom m => Int -> (Rational, Rational) -> m Rational
+getRandomRat prec (low,high) = do
+  i :: Integer <- getRandomR (0, 10^prec)
+  let frac = toRational i / toRational (10^prec :: Integer)
+  return $ low + frac * (high - low)
