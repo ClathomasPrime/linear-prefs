@@ -79,11 +79,126 @@
 
 \section{Introduction}
 
+  We believe that $d$-dimensional preferences are a very natural setting,
+  and that they give a beautiful geometric explanation for psychological
+  concepts such as opinion and agreement. 
 
 
 
+\clearpage
+%============================================================
+%============================================================
+\part{Combinatorics}
+
+\section{Definition of $d$-dimensional preferences}
+  Let $\{x_1,\ldots,x_m\} = X\subseteq \Rgz^d$ be any (ordered) set of
+  $m$ distinct points with nonnegative coordinates.
+  We call $X$ the set of \emph{outcomes}.
+  Given any $a\in \Rgz^d$, define a order $>_a$ on $X$ as follows:
+  $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$.
+  Define
+  \begin{align*}
+    P_d(X) = \{ \succ \in R(X) | \exists a\in\Rgz^d: x \succ y \iff x >_a y\}
+  \end{align*}
+
+  Some first observations:
+  \begin{itemize}
+    \item If $d=1$, then $|P(X)| = 1$, i.e. preferences are completely
+      determined by the underlying set $X$.
+    \item If $d=n$, then every linear preference on $X$ can occur in $P(X)$.
+      \begin{proof}
+        Let $X = \{e_i\}$ simply be the standard basis vectors.
+        To induce an ordering $i_1, i_2, \ldots, i_n$, just create a preference
+        vector $a$ which gives weight $1/k$ to coordinate $i_k$.
+      \end{proof}
+  \end{itemize}
+  The above hints that there should be some sort of continuum between $d=1$
+  and $d=n$ of how complex the set $P(X)$ can be.
+
+\section{Lemmas}
+  \subsection{Lemmas based on the structure of $X$}
+    These first few lemmas relate geometric properties of $X$ to
+    limitations on the structure of $>_a$ for a specific, fixed $a$.
+
+    \begin{definition}
+      Let $x,y\in X\subseteq \Rgz^d$.
+      We say $x$ \emph{dominates} $y$, denoted $x\gg y$,
+      if $x[k] > y[k]$ for each $k=1,\ldots,d$.
+    \end{definition}
+    \begin{proposition}
+      If $x \gg y$, then $x >_a y$ for any nonzero $a\in \Rgz^d$.
+    \end{proposition}
+    \begin{proof}
+      Simply observe $a_i x_i \ge a_i y_i$ for each $i=1,\ldots, d$.
+      Because $a\ne 0$, there is also some $i$ where $a_i x_i > a_i y_i$.
+    \end{proof}
+
+    We'll need to use the familiar geometric notion of a convex hull:
+    ((ACTUALLY, I'M NOT SURE IF WE DO))
+    \begin{definition}
+      For points $x_1,\ldots,x_n \in \R^d$, let $\hull(x_1,\ldots,x_n)
+      = \{u_1x_1 + \ldots + u_nx_n | 0\le u_i\le 1, \sum_{i=1}^n u_i = 1\}$
+      denote the convex hull of $x_1,\ldots,x_n$.
+    \end{definition}
+    \begin{lemma}
+      Let $z,x_1,\ldots,x_k \in \Rgz^d$ and $a\in \Rgz^d \setminus \{0\}$.
+      If $z >_a x_i$ for $i=1,\ldots,k$, then $z >_a w$
+      for any $w\in \hull(x_1,\ldots,x_k)$.
+    \end{lemma}
+    \begin{proof}
+      We have $\ip{a}{z} > \ip{a}{x_i}$ for each $i=1,\ldots,k$.
+      If $w = u_1x_1+ \ldots + u_nx_n$ and $\sum_i u_i =1$, then
+      $\ip{a}{w} = u_1\ip{a}{x_1}+\ldots+u_n\ip{a}{x_n}
+      < u_1\ip{a}{z} + \ldots + u_n\ip{a}{z} = \ip{a}{z}$
+    \end{proof}
+    \begin{proposition}
+      Let $z,x_1,\ldots,x_k \in \Rgz^d$.
+      Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
+      such that $w \gg z$.
+      Then no $a$ satisfies $z >_a x_i$ for each $i=1,\ldots, k$.
+    \end{proposition}
+    \begin{proof}
+      For contradiction, suppose such an $a$ exists.
+      Then $z >_a w$ as well. However, because $w \gg z$,
+      this is a contradiction.
+    \end{proof}
+
+  \subsection{Lemmas relating different preference vectors}
+    This next group of lemmas relates different 
+
+    \begin{definition}
+      For any vectors $a_1,\ldots, a_k \in \Rgz^d$, define
+      $\cone(a_1,\ldots,a_k) = \{ u_1a_1 + \ldots + u_ka_k | u_i\ge 0 \forall j\}$.
+      That is, the convex cone of vectors defined by $a_1,\ldots,a_k$.
+    \end{definition}
+    \begin{proposition}
+      Suppose that for preference weights $a_1,\ldots, a_k$,
+      we have $x >_{a_1} y, \ldots, x >_{a_k} y$.
+      Then for any nonzero $b\in \cone(a_1,\ldots, a_k)$,
+      $x >_b y$ as well.
+    \end{proposition}
+    \begin{proof}
+      Let $b = u_1a_1+ \ldots + u_ka_k$.
+      We get $\ip{b}{x} = u_1\ip{a_1}{x} + \ldots + u_k\ip{a_k}{x}
+      > u_1\ip{a_1}{y} + \ldots + u_k\ip{a_k}{y} = \ip{b}{y}$,
+      as desired.
+    \end{proof}
+
+    ((INSERT LEMMAS ABOUT SLOPES))
+
+\section{Bounding the number of $2$-dimensional preferences}
+
+\section{Impossibility Results}
+
+  ((CYCLE IS IMPOSSIBLE IN ANY DIMENSION))
+
+  ((MOST AND LEAST FAVORITE IS IMPOSSIBLE FOR D=2,
+  mention that later we'll apply this for Sandwich))
+
+  ((SET THE STAGE TO PROVE FLIPFLOP IS IMPOSSIBLE FOR D=2))
 
 
+\clearpage
 %============================================================
 %============================================================
 \part{Voting}
@@ -96,6 +211,7 @@
     is the number of voters.
     We have the following definitions:
     \begin{itemize}
+      \item ((NOTE: we don't need most of these definitions))
       \item A \emph{social welfare function on $P$}
         is a function $F : P^n \to P$.
       \item A \emph{social choice function on $P$} 
@@ -117,6 +233,10 @@
       \item A choice function $f$ is \emph{incentive compatible} if,
         for any $\succ_1,\ldots,\succ_n, i, \succ_i'$, we have \\
         $f(\succ_1,\ldots,\succ_n) \succ_i f(\succ_1,\ldots,\succ_i'\ldots,\succ_n)$
+      \item A collection of preferences $\succ_1,\ldots,\succ_n$,
+        has a Condorcet winner $x \in M$ if, for any other $y\in M$,
+        we have $x \succ_i y$ for more than half of the indices
+        $i=1,\ldots,n$.
     \end{itemize}
 
     Let $R(M)$ denote the set of all linear orders on $M$.
@@ -146,18 +266,58 @@
     \end{align*}
 
 
-  \subsection{$d$-dimensional preferences}
-    Let $\{x_1,\ldots,x_m\} = X\subseteq \Rgz^d$ be any (ordered) set of
-    $m$ distinct points with nonnegative coordinates.
-    We call $X$ the set of \emph{outcomes}.
-    Given any $a\in \Rgz^d$, define a order $>_a$ on $X$ as follows:
-    $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$.
-    Define
-    \begin{align*}
-      P_d(X) = \{ \succ \in R(X) | \exists a\in\Rgz^d: x \succ y \iff x >_a y\}
-    \end{align*}
-
 \section{Single-peaked verses $2$-dimensional preferences}
+
+  % TODO: at end, put this at start of whichever page makes the most sense
+  \begin{wrapfigure}{r}{0.2\textwidth}
+    \begin{center}
+      \vspace{-0.5in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        2 > 3 > 1 \\
+        3 > 1 > 2 \\
+      \end{align*}
+      \caption*{\textsc{Cycle}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 2 > 1 \\
+        2 > 3 > 1 \\
+      \end{align*}
+      \caption*{\textsc{Sandwich}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 2 > 1 \\
+      \end{align*}
+      \caption*{\textsc{LeastFavorite}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 > 4 \\
+        1 > 2 > 4 > 3 \\
+        2 > 1 > 3 > 4 \\
+        2 > 1 > 4 > 3 \\
+      \end{align*}
+      \caption*{\textsc{FlipFlop}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 > 4 \\
+        4 > 3 > 2 > 1 \\
+      \end{align*}
+      \caption*{\textsc{Reverse}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        2 > 1 > 3 \\
+        2 > 3 > 1 \\
+        3 > 2 > 1 \\
+      \end{align*}
+      \caption*{\textsc{GoodCompromise}}
+    \end{center}
+  \end{wrapfigure}
+
 
   When there are exactly three candidates, $2$-dimensional
   preferences have strictly more expressive power than
@@ -217,7 +377,6 @@
     To obtain a single-peaked representation, order the outcomes
     from left to right as follows: $3,1,2,4$.
     All preferences will then be possible with peak $1$ or $2$.
-
     ((INSERT IMPOSSIBILITY HALF))
   \end{proof}
 
@@ -225,67 +384,61 @@
 
   ((ARGUE THAT 2-D IS MORE NATURAL THAN SINGLE-PEAKED,
   EVEN THOUGH THERE ARE (ASYMPTOTICALLY) MORE SINGLE-PEAKED))
-
-\clearpage
-
-  % TODO: at end, put this at start of whichever page makes the most sense
-  \begin{wrapfigure}{tr}{0.2\textwidth}
-    \begin{center}
-      \vspace{-0.5in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        2 > 3 > 1 \\
-        3 > 1 > 2 \\
-      \end{align*}
-      \caption*{\textsc{Cycle}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        1 > 3 > 2 \\
-        3 > 2 > 1 \\
-        2 > 3 > 1 \\
-      \end{align*}
-      \caption*{\textsc{Sandwich}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        1 > 3 > 2 \\
-        3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{LeastFavorite}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 > 4 \\
-        1 > 2 > 4 > 3 \\
-        2 > 1 > 3 > 4 \\
-        2 > 1 > 4 > 3 \\
-      \end{align*}
-      \caption*{\textsc{FlipFlop}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 > 4 \\
-        4 > 3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{Reverse}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        2 > 1 > 3 \\
-        2 > 3 > 1 \\
-        3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{GoodCompromise}}
-    \end{center}
-  \end{wrapfigure}
-
 \section{Voting for $2$-dimensional preferences}
 
-\section{$2$-dim entails a Condorcet winner}
+  \begin{theorem}
+    The median-angle voting rule for $2$-dimensional preferences
+    is incentive compatible.
+  \end{theorem}
+  \begin{proof}
+    Let $u$ denote the median-angled preference vector under when all
+    agents report their true preference.
+    Suppose the manipulative voter $i$'s true preference $a$
+    has angle less than $u$ (the other case is symmetric).
+    The only way in which $i$ can change the chosen preference vector
+    is to increase its angle, say to some $v$.
+    Note that $u \in \cone(v,a)$.
 
-%============================================================
-%============================================================
-\part{Combinatorics}
+    Suppose $y$ is the outcome chosen by the non-manipulated median
+    angle preference $u$.
+    Now, in order for $i$ to profit by his manipulation,
+    there must be some $x$ such that
+    $x >_a y$, $y >_u x$, and $x >_v y$.
+    However, this is a contradiction, via the lemma about cones
+    preserving agreed upon opinions.
 
-\section{Bounding the number of $2$-dimensional preferences}
+    ((PROOF NEEDS REVISION))
+  \end{proof}
+
+\section{$2$-dimensional entails a Condorcet winner}
+
+  \begin{theorem}
+    Among an odd number of $2$-dimensional preferences,
+    there is always a Condorcet winner, which is selected
+    by the median angle voting scheme
+  \end{theorem}
+  \begin{proof}
+    Let $u$ be the median-angled preference vector, and let
+    $x$ be the favorite outcome of $u$.
+    Given some outcome $y\ne x$, if $y \ll x$, then
+    $y$ is never preferred to $x$.
+    So suppose neither $x$ nor $y$ dominate each other, and let
+    $w$ be the vector such that $x =_w y$.
+    On one side of $w$, preferences prefer $x$ to $y$,
+    and on the other side, they prefer $y$ to $x$.
+    Because $x$ is preferred by the median-angled voter,
+    more than half of the preference vectors lie on the side of $w$
+    which prefers $x$.
+
+    ((PROOF NEEDS REVISION))
+  \end{proof}
+
+  We note the following important consequence of the previous theorem:
+  if preferences are known to lie in $P_2(X)$ for some $X$,
+  but no details about $X$ are known, then a voting protocol can simply
+  ask voters for their list of preferences and look for the Condorcet
+  winner (note that there is at most one Condorcet winner).
+  Moreover, it hints that when agents act approximately via a weighted
+  sum of two attributes, it is more likely that there is a Condorcet winner.
 
 \end{document}
