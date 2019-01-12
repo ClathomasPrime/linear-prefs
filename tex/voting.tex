@@ -100,6 +100,15 @@
   \begin{align*}
     P_d(X) = \{ \succ \in R(X) | \exists a\in\Rgz^d: x \succ y \iff x >_a y\}
   \end{align*}
+  Note that we consider only total orders, in particular,
+  ties are not allowed.
+  % This maybe could use a footnote:
+  % \footnote{
+  %   This is largely without loss of generality.
+  %   For a given $x,y$ pair, the set of $a$ for which
+  %   $\ip{a}{x} = \ip{a}{y}$ has measure zero.
+  % }
+
 
   Some first observations:
   \begin{itemize}
@@ -190,12 +199,53 @@
 
 \section{Impossibility Results}
 
-  ((CYCLE IS IMPOSSIBLE IN ANY DIMENSION))
-
   ((MOST AND LEAST FAVORITE IS IMPOSSIBLE FOR D=2,
   mention that later we'll apply this for Sandwich))
 
-  ((SET THE STAGE TO PROVE FLIPFLOP IS IMPOSSIBLE FOR D=2))
+  The following preference set may be important in high dimension.
+  We call it $d$-{\sc Cycle}
+  \begin{align*}
+    \begin{array}{ccccccccccccccccccccccccccccccccccccccccc}
+    1 &>& 2 &>& 3 &>&\ldots &>& d-2 &>& d-1 &>& d \\
+    2 &>& 3 &>& 4 &>& \ldots &>& d-1 &>& d &>& 1 \\
+    3 &>& 4 &>& 5 &>& \ldots &>& d &>& 1 &>& 2 \\
+      &&    &&    &&   \vdots \\
+    d-1&>&d&>& 1 &>&\ldots &>& d-4 &>& d-3 &>& d-2\\
+    d &>& 1 &>& 2 &>& \ldots &>& d-3 &>& d-2 &>& d-1 \\
+    \end{array}
+  \end{align*}
+  \begin{theorem}
+    $d$-{\sc Cycle} is not $(d-1)$-dimensional for any $d$.
+  \end{theorem}
+  \begin{proof}
+    Suppose for contradiction there existed
+    $a_1,\ldots,a_d\in\Rgz^{d-1}$ such that $a_i$ yielded the $i$th line of
+    $d$-{\sc Cycle} (in particular, the line whose favorite point is $i$).
+    The vectors $\{a_i\}$ cannot be linearly independent.
+    Thus, there exists a linear combination of vectors
+    $u_1 a_1 + \ldots + u_n a_n = 0$.
+    Let $S = \{a_i | u_i > 0\}$ and let $T = \{a_i | u_i < 0\}$.
+    Note that, because every coordinate of each $a_i$ is nonnegative
+    (and no $a_i$ is zero) neither $S$ nor $T$ are empty.
+    We have
+    \[ \sum_{a_i \in S} u_i a_i = \sum_{a_i \in T} -u_i a_i \]
+    That is, there exists a nonzero $b\in \cone(S) \cap \cone(T)$.
+
+    Now, I claim that $b$ satisfies the following:
+    \[ 1 >_b 2 >_b 3 >_b \ldots >_b d-1 >_b d >_b 1 \]
+    Proof: For each pair $i > i+1$,
+    observe that the inequality is satisfied for all the vectors $a_i$ except
+    for one of them (namely, $a_{i+1}$ which ranks $i+1$ highest).
+    Thus, for either $S$ or $T$, every vector $a_i$ in the set has the opinion
+    $i >_{a_i} i+1$. Thus, every vector in the cone of that set
+    has the opinion $i > i+1$ as well, in particular, $i >_b i+1$.
+    Of course, the above argument works for the pair $d>1$ as well.
+
+    Thus, transitivity gives us $1>_b 1$, a contradiction.
+  \end{proof}
+
+  ((SET THE STAGE TO PROVE FLIPFLOP IS IMPOSSIBLE FOR D=2...
+  Actually I think the listy upper bound should suffice))
 
 
 \clearpage
@@ -211,20 +261,22 @@
     is the number of voters.
     We have the following definitions:
     \begin{itemize}
-      \item ((NOTE: we don't need most of these definitions))
       \item A \emph{social welfare function on $P$}
-        is a function $F : P^n \to P$.
-      \item A \emph{social choice function on $P$} 
-        is a function $f : P^n \to M$.
+        is a function $F : P^n \to P$
+      \item A \emph{social choice function on $P$}
+        is a function $f : P^n \to M$
       \item A welfare function $F$ is \emph{unanimous} if,
-        for any $\succ \in P$, we have $F(\succ,\ldots,\succ) = \succ$.
-      \item A choice function $f$ is \emph{unanimous} if,
-        whenever there exists a fixed $a$ with $a \succ_i b$ for all 
-        $i=1,\ldots, n$ and $b\in M\setminus \{a\}$,
-        we have $f(\succ_1,\ldots,\succ_n) = a$.
-        I'm not sure if this is a standard notion.
+        for any $\succ\ \in P$, we have $F(\succ,\ldots,\succ) =\ \succ$
+      % \item A choice function $f$ is \emph{unanimous} if,
+      %   whenever there exists a fixed $a$ with $a \succ_i b$ for all 
+      %   $i=1,\ldots, n$ and $b\in M\setminus \{a\}$,
+      %   we have $f(\succ_1,\ldots,\succ_n) = a$.
+      %   I'm not sure if this is a standard notion.
       \item A welfare function $F$ is a \emph{dictatorship} if
-        there exists an $i$ such that $F(\succ_1,\ldots,\succ_n) = \succ_i$.
+        there exists an $i$ such that $F(\succ_1,\ldots,\succ_n) = \succ_i$
+      \item A choice function $f$ is a \emph{dictatorship} if
+        there exists an $i$ such that $f(\succ_1,\ldots,\succ_n) = a_i$,
+        where $a_i$ is the favorite outcome of $\succ_i$
       \item A welfare function $F$ satisfies \emph{in dependence of
         irrelevant alternatives} if, whenever $a\succ_i b \iff a\succ_i' b$
         and $\succ = F(\succ_1,\ldots,\succ_n),
@@ -236,16 +288,24 @@
       \item A collection of preferences $\succ_1,\ldots,\succ_n$,
         has a Condorcet winner $x \in M$ if, for any other $y\in M$,
         we have $x \succ_i y$ for more than half of the indices
-        $i=1,\ldots,n$.
+        $i=1,\ldots,n$
     \end{itemize}
 
     Let $R(M)$ denote the set of all linear orders on $M$.
     Recall that when $P = R(M)$, there are many known impossibility results,
     the two most famous of which are:
 
-    ((Arrow's))
+    \begin{theorem}[Arrow's Impossibility Theorem]
+      If $|M| \ge 3$, then
+      every unanimous social welfare function on $M$ which satisfies independence of
+      irrelevant alternatives is a dictatorship.
+    \end{theorem}
 
-    ((G-S))
+    \begin{theorem}[Gibbard–Satterthwaite]
+      If $|M| \ge 3$, then
+      every surjective, incentive compatible social choice function on $M$
+      is a dictatorship.
+    \end{theorem}
 
   \subsection{Single-peaked preferences}
     Our main point of contrast will be the well-understood class of
@@ -289,10 +349,19 @@
       \vspace{-0.25in}
       \begin{align*}
         1 > 2 > 3 \\
-        1 > 3 > 2 \\
+        2 > 1 > 3 \\
+        2 > 3 > 1 \\
         3 > 2 > 1 \\
       \end{align*}
-      \caption*{\textsc{LeastFavorite}}
+      \caption*{\textsc{GoodCompromise}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 1 > 2 \\
+        3 > 2 > 1 \\
+      \end{align*}
+      \caption*{\textsc{BadCompromise}}
       \vspace{-0.25in}
       \begin{align*}
         1 > 2 > 3 > 4 \\
@@ -307,14 +376,6 @@
         4 > 3 > 2 > 1 \\
       \end{align*}
       \caption*{\textsc{Reverse}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        2 > 1 > 3 \\
-        2 > 3 > 1 \\
-        3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{GoodCompromise}}
     \end{center}
   \end{wrapfigure}
 
@@ -334,7 +395,7 @@
     The resulting preferences are given by {\sc GoodCompromise}.
     ((INSERT PICTURE OF GOOD COMPROMISE AS A 2D SET))
   \end{proof}
-  Furthermore, {\sc LeastFavorite} gives an example of a preference set
+  Furthermore, {\sc BadCompromise} gives an example of a preference set
   which is $2$-dimensional, but not single-peaked:
   \begin{proposition}
     In a single peaked set of preferences, it is not possible
@@ -377,7 +438,19 @@
     To obtain a single-peaked representation, order the outcomes
     from left to right as follows: $3,1,2,4$.
     All preferences will then be possible with peak $1$ or $2$.
-    ((INSERT IMPOSSIBILITY HALF HERE))
+
+    Now we show that {\sc FlipFlop} is not $2$-dimensional.
+    Note that neither $1$ nor $2$ can dominate the other,
+    and the same holds for $3$ and $4$.
+    Let $a,b$ satisfy $1=_a2$ and $3=_b4$.
+    Suppose $a$ has angle smaller than $b$, the other case being symmetric.
+
+    Consider the pairs $(1,2)$ and $(3,4)$ as they appear in the list in the
+    upper bound section. Because all combinations of $1>2$ vs. $2>1$ and
+    $3>4$ vs. $4>3$ occur, neither pair can be before or after the other in the
+    list. This is a contradiction.
+
+    ((REVISE IMPOSSIBILITY HALF))
   \end{proof}
 
   ((DISCUSS SETS WHICH ARE NEITHER SINGLE-PEAKED NOR 2-D))
@@ -410,6 +483,13 @@
     ((PROOF NEEDS REVISION))
   \end{proof}
 
+  \begin{theorem}
+    The median-angle social welfare rule satisfies independence of irrelevant
+    alternatives
+  \end{theorem}
+  \begin{proof}
+  \end{proof}
+
 \section{$2$-dimensional entails a Condorcet winner}
 
   \begin{theorem}
@@ -440,5 +520,10 @@
   winner (note that there is at most one Condorcet winner).
   Moreover, it hints that when agents act approximately via a weighted
   sum of two attributes, it is more likely that there is a Condorcet winner.
+  ((NOTE: CONTEMPLATE THE FOLLOWING HOLE IN THE ABOVE LOGIC:
+  WHAT IF AN AGENT STRATEGICALLY REPORTS A PREFERENCE THAT IS NOT TWO
+  DIMENSIONAL FOR THE UNDERLYING SET X. FOR ONE, THE AGENT MY FORCE THE
+  PROCEDURE TO FAIL BECAUSE IT WON'T HAVE A CONDORCET WINNER. BUT AD HOC 
+  WE DON'T KNOW HE CAN'T MANIPULATE THE CONDORCET WINNER))
 
 \end{document}
