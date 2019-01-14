@@ -160,7 +160,7 @@
       $\ip{a}{w} = u_1\ip{a}{x_1}+\ldots+u_n\ip{a}{x_n}
       < u_1\ip{a}{z} + \ldots + u_n\ip{a}{z} = \ip{a}{z}$
     \end{proof}
-    \begin{proposition}
+    \begin{proposition}\label{prop:noFavoriteHull}
       Let $z,x_1,\ldots,x_k \in \Rgz^d$.
       Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
       such that $w \gg z$.
@@ -173,7 +173,8 @@
     \end{proof}
 
   \subsection{Lemmas relating different preference vectors}
-    This next group of lemmas relates different 
+    This next group of lemmas relates different different preference vectors.
+    They will be some very useful for our results about voting schemes.
 
     \begin{definition}
       For any vectors $a_1,\ldots, a_k \in \Rgz^d$, define
@@ -199,9 +200,6 @@
 
 \section{Impossibility Results}
 
-  ((MOST AND LEAST FAVORITE IS IMPOSSIBLE FOR D=2,
-  mention that later we'll apply this for Sandwich))
-
   The following preference set may be important in high dimension.
   We call it $d$-{\sc Cycle}
   \begin{align*}
@@ -214,7 +212,7 @@
     d &>& 1 &>& 2 &>& \ldots &>& d-3 &>& d-2 &>& d-1 \\
     \end{array}
   \end{align*}
-  \begin{theorem}
+  \begin{theorem}\ref{thrm:noBigCycles}
     $d$-{\sc Cycle} is not $(d-1)$-dimensional for any $d$.
   \end{theorem}
   \begin{proof}
@@ -243,9 +241,99 @@
 
     Thus, transitivity gives us $1>_b 1$, a contradiction.
   \end{proof}
+  This is one of our few results which work for any dimension.
+  We'll see that $3$-{Cycle} being impossible for $2$ dimensional preferences
+  is a necessary condition for many of the nice properties of $2$ dimensional
+  preferences (especially theorem~\ref{thrm:2DCondorcet}).
+  Intuitively, it is possible that ``cyclic disagreements'' are a core issue for
+  different applications with ordinal preferences (we consider voting here, but
+  other cases include matching or resource allocation).
+  Put another way, the imposibility of the $d+1$ cycle in $d$ dimensions gives a
+  very nicely parametrized example of preferences getting more complicated as
+  dimension increases.
 
-  ((SET THE STAGE TO PROVE FLIPFLOP IS IMPOSSIBLE FOR D=2...
-  Actually I think the listy upper bound should suffice))
+
+  \subsection{$d=2$}
+
+    \begin{proposition}
+      Let $P = P_2(X)$ be any set of $2$ dimensional preferences,
+      where $|X| \ge 3$.
+      It is not possible for every $x\in X$ to be both the
+      favorite and least favorite outcome of some preverence in $P$.
+    \end{proposition}
+    \begin{proof}
+      If any point dominates another, then the dominated point cannot be favorite.
+      Thus we may assume that no point in $X$ is dominated
+      by any other point. Pick two points $x \ne y$ such that $x$ has the largest
+      first coordinate (i.e. $x_1$) among all of $X$, and $y$ has the highest second
+      coordinate (i.e. $y_2$).
+      Consider the following figure:
+      \begin{verbatim}
+  y-------------
+  |''--.._    2|
+  |1      ''-._|
+  |------------x
+      \end{verbatim}
+      The remaining point $z\ne x,y$ must lie in region $1$ or $2$, as all other
+      regions either violate the assumption that $x_1 > z_1$ and $y_2 > z_2$
+      or cause one point to dominate another.
+      If $z$ lies in region $1$, it can never be the favorite, by
+      proposition~\ref{prop:noFavoriteHull}.
+      If $z$ lies in region $2$, it can never be the least favorite, again by
+      proposition~\ref{prop:noFavoriteHull}.
+      ((TODO: MAYBE SPELL OUT HOW HULLS GET INVOLVED ETC))
+    \end{proof}
+
+    This proposition, combined with Theorem~\ref{thrm:noBigCycles}, gives a
+    complete combinatorial classification of two dimensional preferences on
+    exactly three outcomes:
+    ((TODO: BRING SANDWICH UP HERE OR SOMETHING IDK ITS HARD TO SEPARATE THE
+    COMBINATORIAL AND VOTING DISCUSSION))
+    \begin{theorem}
+      A set of preferences $P$ on exactly three outcomes is $2$ dimensional if
+      and only if it does not contain $3$-{\sc Cycle} or {\sc Sandwich} 
+      (up to relabeling).
+    \end{theorem}
+    \begin{proof}
+      We have seen that $3$-{\sc Cycle} and {\sc Sandwich} are not $2$
+      dimensional.
+      Thus, it suffices to show that for any set of preferences which does not
+      contain a $3$-{\sc Cycle}, the only way for the preference set to
+      fail to be $2$ dimensional is if it contains {\sc Sandwich}.
+
+      The following lists all preference on three outcomes, organized by column
+      into the two copies of $3$-{\sc Cycle} they form.
+      \begin{align*}
+        1 > 2 > 3 && 1 > 3 > 2 \\
+        2 > 3 > 1 && 3 > 2 > 1 \\
+        3 > 1 > 2 && 2 > 1 > 3 \\
+      \end{align*}
+      At least one element from each of these cycles must not be present in $P$.
+      By relabeling, we can without loss of generality assume that the
+      preference with $1 > 2 > 3$ is not in $P$.
+      Now, we simply need to look at three cases based on which element of the
+      other cycle is not in $P$.
+      \begin{itemize}
+        \item Suppose $1 > 3 > 2$ is not in $P$.
+          Up to relabeling, all the remaining preferences form a copy of
+          {\sc BadCompromise}, where $1$ is the point which is never a voter's
+          favorite.
+        \item Suppose $3 > 2 > 1$ is not in $P$.
+          In this case, the remaining preferences form a copy of {\sc Sandwich},
+          where $3$ is the outcome which is always either favorite or least
+          favorite.
+        \item Suppose $2 > 1 > 3$ is not in $P$.
+          Up to relabeling, all the remaining preferences form a copy of
+          {\sc GoodCompromise}, where $2$ is the point which is never a voter's
+          least favorite.
+      \end{itemize}
+    \end{proof}
+
+    ((WE BELIEVE THAT THE MATERIAL ABOUT SLOPES MAY PROVIDE A MORE GENERAL
+    COMBINATORIAL CLASSIFICATION OF 2D PREFS. SHOW SOME NECESSARY CONDITIONS WE
+    CAN PROVE. CONJECTURE THAT A RELATED THING IS AN IFF))
+
+
 
 
 \clearpage
@@ -301,7 +389,7 @@
       irrelevant alternatives is a dictatorship.
     \end{theorem}
 
-    \begin{theorem}[Gibbard–Satterthwaite]
+    \begin{theorem}[Gibbard Satterthwaite]
       If $|M| \ge 3$, then
       every surjective, incentive compatible social choice function on $M$
       is a dictatorship.
@@ -331,21 +419,6 @@
   % TODO: at end, put this at start of whichever page makes the most sense
   \begin{wrapfigure}{r}{0.2\textwidth}
     \begin{center}
-      \vspace{-0.5in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        2 > 3 > 1 \\
-        3 > 1 > 2 \\
-      \end{align*}
-      \caption*{\textsc{Cycle}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        1 > 3 > 2 \\
-        3 > 2 > 1 \\
-        2 > 3 > 1 \\
-      \end{align*}
-      \caption*{\textsc{Sandwich}}
       \vspace{-0.25in}
       \begin{align*}
         1 > 2 > 3 \\
@@ -376,9 +449,24 @@
         4 > 3 > 2 > 1 \\
       \end{align*}
       \caption*{\textsc{Reverse}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        2 > 3 > 1 \\
+        3 > 1 > 2 \\
+      \end{align*}
+      \caption*{$3$-\textsc{Cycle}}
+      \vspace{-0.25in}
+      \begin{align*}
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 2 > 1 \\
+        2 > 3 > 1 \\
+      \end{align*}
+      \caption*{\textsc{Sandwich}}
+      \vspace{-0.5in}
     \end{center}
   \end{wrapfigure}
-
 
   When there are exactly three candidates, $2$-dimensional
   preferences have strictly more expressive power than
@@ -397,7 +485,7 @@
   \end{proof}
   Furthermore, {\sc BadCompromise} gives an example of a preference set
   which is $2$-dimensional, but not single-peaked:
-  \begin{proposition}
+  \begin{proposition} \label{prop:noLeastFavorite}
     In a single peaked set of preferences, it is not possible
     for every outcome to be the lowest ranked outcome of some preference.
   \end{proposition}
@@ -410,7 +498,7 @@
   are a subset of the other. One was to see this to to simply
   count the number of single-peaked preferences, and see that it
   grows much faster with $m$ than $2$-dimensional preferences do
-  (we'll see later, the maximal size of a $2$-dimensional
+  (recall that we showed that the maximal size of a $2$-dimensional
   preference set is $O(m^2)$).
   \begin{proposition}
     The number of single-peaked preferences for any set $S$ of $m$ outcomes
@@ -453,6 +541,30 @@
     ((REVISE IMPOSSIBILITY HALF))
   \end{proof}
 
+  When considering restricted domains of preference, it is perhaps more
+  important to consider which preference sets \emph{do not} fall into that
+  domain. Indeed, if too many preferences are possible, then the imposibility
+  results which hold for arbitrary preferences will apply.
+
+  As we've directly shown, $3$-{\sc Cycle} is not $2$ dimensional.
+  This is already a good sign: $3$-{\sc Cycle} is a classic example of the
+  so-called Condorcet paradox. Despite each preference being a linear order,
+  the majority of voters favor $1$ over $2$, $2$ over $3$, and $3$ over $1$.
+  That is, ``collective preference'' is cyclic.
+  Indeed, $3$-{\sc Cycle} is a preference set with no Condorcet winner,
+  and is often used as a basic counterexample for the existence of good voting
+  schemes. The fact that cycle is impossible already seems like good news for
+  voting schemes on two dimensional preferences.
+
+  Here's another case:
+  \begin{proposition}
+    {\sc Sandwich} is neither single-peaked nor $2$ dimensional
+  \end{proposition}
+  \begin{proof}
+    {\sc Sandwich} is not single-peaked by proposition~\ref{prop:noLeastFavorite}.
+    It's not $2$-dimensional by proposition
+  \end{proof}
+  Another similarity between {\sc Sandwich}.
   ((DISCUSS SETS WHICH ARE NEITHER SINGLE-PEAKED NOR 2-D))
 
   ((ARGUE THAT 2-D IS MORE NATURAL THAN SINGLE-PEAKED,
@@ -492,7 +604,7 @@
 
 \section{$2$-dimensional entails a Condorcet winner}
 
-  \begin{theorem}
+  \begin{theorem}\label{thrm:2DCondorcet}
     Among an odd number of $2$-dimensional preferences,
     there is always a Condorcet winner, which is selected
     by the median angle voting scheme
