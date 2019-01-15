@@ -99,8 +99,8 @@
   Suppose there are $m$ school, and each has two attributes
   which we assume are objective across all preferences:
   quality of STEM education and quality of liberal arts education.
-  We can model each school as a point $x\in \Rgz^2$, where the $x$ coordinate
-  gives STEM quality and $y$ coordinate gives liberal arts quality.
+  We can model each school as a point $x\in \Rgz^2$, where the first coordinate
+  gives STEM quality and second coordinate gives liberal arts quality.
   Then it is possible that the school preferences of students
   actually boil down to a simple preference over STEM and liberal arts,
   which we can model as a \emph{weighted sum} over the two attributes.
@@ -113,9 +113,9 @@
   has found much theoretical success in studying restricted classes of preferences.
   Restricting preferences is a way around various impossibility theorems of
   social choice theory, which state that certain ``good'' voting schemes do not
-  exist in general. Given how natural and well-motivated $d$-dimensional
-  preference seem, a natural question is whether good voting schemes are
-  possible for $d$-dimensional preferences.
+  exist in general. In this project, we investigate the structure of preferences
+  which arise from ``weighted sum'' scoring, and apply these results to provide
+  good voting schemes for this restricted class of preferences.
 
   \subsection{Outline and highlights of results}
     We formalize this notion for any number of attributes $d$,
@@ -145,6 +145,12 @@
     preferences are more expressive in some ways, and certainly more natural in
     some cases. We find that many positive results which holds for
     single-peaked preferences hold for $2$-dimensional preferences.
+    In particular, we consider the voting scheme which takes 
+    preference weight vectors $a_1,a_2,\ldots,a_n$ as inputs,
+    and outputs the favorite outcome of the median-angled (from the positive $x$
+    axis) vector $u$.
+    We prove that this voting scheme
+    satisfies essentially all of the basic desirable properties for a voting scheme.
 
 
 
@@ -728,7 +734,7 @@
       irrelevant alternatives is a dictatorship.
     \end{theorem}
 
-    \begin{theorem}[Gibbard Satterthwaite \cite{AgtBookNoMoney}]
+    \begin{theorem}[Gibbard Satterthwaite \cite{AgtBookMechDesignInto}]
       If $|M| \ge 3$, then
       every surjective, incentive compatible social choice function on $M$
       is a dictatorship.
@@ -751,6 +757,17 @@
     \begin{align*}
       P_{sp}(S) = \{ \succ \in R(S) | \succ \text{is single peaked }\}
     \end{align*}
+
+    Single-peaked preferences are studied because the order structure on $S$
+    gives a natural voting mechanism: poll voters asking for their favorite
+    outcome, i.e. their peak, and output the median peak.
+    It is know that this voting scheme satisfies independence of irrelevant
+    alternatives (so Arrow's theorem does not hold,
+    \cite{AgtBookMechDesignInto}) and that this voting scheme is incentive
+    compatible (so Gibbard Satterthwaite does not hold \cite{AgtBookNoMoney}).
+    As we will see, a voting scheme inspired by this will perform well for
+    $2$-dimensional preferences, achieving the same positive results as
+    single-peaked preferences.
 
 
 \section{Single-peaked verses $2$-dimensional preferences}
@@ -857,7 +874,7 @@
       2 > 1 > 3 > 4 \\
       2 > 1 > 4 > 3 \\
     \end{align*}
-    \vspace{-2in}
+    \vspace{-1in}
   \end{wrapfigure}
 
   A cleaner, more constructive way to see this is the following proposition
@@ -970,6 +987,14 @@
   Define median-angle voting scheme.
   ((TODO: DEFINE; STRING TOGETHER THESE RESULTS WITH SOME MOTIVATION))
 
+  Single-peaked 
+  \begin{algorithm}
+    Poll a preference weight $a_i\in\Rgz^d$ from each voter $i$ \\
+    Reorder the list $a_i$ by the $\theta$ order, so 
+      $\theta(a_i) < \theta(a_{i+1})$ \\
+    Return the favorite option of the median-angled preference weight
+  \end{algorithm}
+
   \begin{theorem}
     The median-angle voting rule for $2$-dimensional preferences
     is incentive compatible.
@@ -1044,13 +1069,26 @@
   but no details about $X$ are known, then a voting protocol can simply
   ask voters for their list of preferences and look for the Condorcet
   winner (note that there is at most one Condorcet winner).
-  Moreover, it hints that when agents act approximately via a weighted
-  sum of two attributes, it is more likely that there is a Condorcet winner.
-  ((NOTE: CONTEMPLATE THE FOLLOWING HOLE IN THE ABOVE LOGIC:
-  WHAT IF AN AGENT STRATEGICALLY REPORTS A PREFERENCE THAT IS NOT TWO
-  DIMENSIONAL FOR THE UNDERLYING SET X. FOR ONE, THE AGENT MY FORCE THE
-  PROCEDURE TO FAIL BECAUSE IT WON'T HAVE A CONDORCET WINNER. BUT AD HOC 
-  WE DON'T KNOW HE CAN'T MANIPULATE THE CONDORCET WINNER))
+  While it is not immediate that this rule is incentive compatible\footnote{
+    This is because it's possible for a manipulative agent to report a
+    preference list which is not two dimensional with respect to the set $X$.
+    It's possible for such a manipulator to cause there to be no Condorcet
+    winner (for example, the preference $1 > 2 > 3$ and $2 > 3 > 1$
+    are certainly two dimensional, so the manipulator could report $3 > 1 > 2$
+    and create $3$-{\sc Cycle}).
+    We conjecture that a single manipulator cannot \emph{change} the Condorcet
+    winner, i.e. the manipulated preference set still has a Condorcet winner
+    different than the original one, but proving this result requires a bit more
+    thought.
+  } this still gives a good voting rule for honest agents with two dimensional
+  preferences.
+  % Moreover, it hints that when agents act approximately via a weighted
+  % sum of two attributes, it is more likely that there is a Condorcet winner.
+  % ((NOTE: CONTEMPLATE THE FOLLOWING HOLE IN THE ABOVE LOGIC:
+  % WHAT IF AN AGENT STRATEGICALLY REPORTS A PREFERENCE THAT IS NOT TWO
+  % DIMENSIONAL FOR THE UNDERLYING SET X. FOR ONE, THE AGENT MY FORCE THE
+  % PROCEDURE TO FAIL BECAUSE IT WON'T HAVE A CONDORCET WINNER. BUT AD HOC 
+  % WE DON'T KNOW HE CAN'T MANIPULATE THE CONDORCET WINNER))
 
   \bibliography{weightedPref}{}
   \bibliographystyle{alpha}
