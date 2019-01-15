@@ -56,7 +56,9 @@
 
 % \renewcommand{\qedsymbol}{\filledbox}
  
-\title{Voting with $2$-dimensional preferences}
+\title{
+  Combinatorics and Voting With Dimensional Preferences
+}
 \author{
   Clay Thomas \\
   claytont@princeton.edu
@@ -67,6 +69,7 @@
 
 \maketitle
 \begin{abstract}
+  ((TODO: REWRITE))
   The study of voting rules often restricts attention to
   well-behaved classes of possible preferences of voters.
   We define a new class: $2$-dimensional preferences,
@@ -81,9 +84,72 @@
 
 \section{Introduction}
 
-  We believe that $d$-dimensional preferences are a very natural setting,
-  and that they give a beautiful geometric explanation for psychological
-  concepts such as opinion and agreement. 
+  In this project, we study \emph{ordinal preferences}, i.e. preferences which
+  prefer certain outcomes over others, but do not have a quantitative notion of
+  the quality of the outcome. Formally, these are simply total orders.
+  As computer scientists, our first instinct is to make no assumptions,
+  e.g. to assume preferences can be any of the $m!$ distinct total orders
+  on $m$ outcomes.
+  However, this typically does not correspond to reality: the preferences of an
+  agent are typically \emph{caused by something}, i.e. there is an underlying
+  structure explaining the preferences. This is one way to model the idea the
+  preferences are \emph{correlated}.
+
+  Consider the following motivating example.
+  Suppose there are $m$ school, and each has two attributes
+  which we assume are objective across all preferences:
+  quality of STEM education and quality of liberal arts education.
+  We can model each school as a point $x\in \Rgz^2$, where the $x$ coordinate
+  gives STEM quality and $y$ coordinate gives liberal arts quality.
+  Then it is possible that the school preferences of students
+  actually boil down to a simple preference over STEM and liberal arts,
+  which we can model as a \emph{weighted sum} over the two attributes.
+  For example, a student who prefers $30\%$ STEM and $70\%$ liberal arts
+  would ``score'' a school $x = (x_1, x_2)$ via the sum
+  $0.3 x_1 + 0.7 x_2$, and that student prefers school $x$ over school $y$
+  if $0.3 x_1 + 0.7 x_2 > 0.3 y_1 + 0.7 y_2$.
+
+  Social choice theory, the study of \emph{voting schemes},
+  has found much theoretical success in studying restricted classes of preferences.
+  Restricting preferences is a way around various impossibility theorems of
+  social choice theory, which state that certain ``good'' voting schemes do not
+  exist in general. Given how natural and well-motivated $d$-dimensional
+  preference seem, a natural question is whether good voting schemes are
+  possible for $d$-dimensional preferences.
+
+  \subsection{Outline and highlights of results}
+    We formalize this notion for any number of attributes $d$,
+    and call the resulting preference model $d$-dimensional preferences.
+    We setup a framework for studying $d$-dimensional preferences,
+    identifying the correct geometric objects to use when reasoning about them.
+    These objects give interesting geometric explanations for concepts such as
+    opinion and agreement.
+    Using these tools, we are able to prove a general impossibility result,
+    theorem~\ref{thrm:noBigCycles}, which shows
+    a qualitative way in which preferences get more complicated as $d$ increases.
+
+    When $d=2$, we achieve a good handle on the combinatorial structure of
+    $2$-dimensional preferences, including
+    a tight upper bound on the maximal number of
+    distinct linear preferences corresponding
+    $2$-dimensional preferences (theorem~\ref{thrm:maxNumberTwoD}).
+    We find that $d=2$ represents a very nice point in the trade-off
+    between expressibility and complexity, with enough preferences to be
+    realistic while still having strong structure.
+
+    Next, we turn to study the social choice theory of $2$-dimensional
+    preferences. We compare and contrast $2$-dimensional preferences with 
+    \emph{single-peaked preferences}, the
+    classic restricted class used in social choice theory.
+    Each model different phenomenon, but we argue that $2$-dimensional
+    preferences are more expressive in some ways, and certainly more natural in
+    some cases. We find that many positive results which holds for
+    single-peaked preferences hold for $2$-dimensional preferences.
+
+
+
+
+
 
 
 
@@ -104,12 +170,13 @@
       direction $a$.
     }
   \end{wrapfigure}
-  Let $\{x_1,\ldots,x_m\} = X\subseteq \Rgz^d$ be any (ordered) set of
+  Let $\{x_1,\ldots,x_m\} = X\subseteq \Rgz^d$ be any set of
   $m$ distinct points with nonnegative coordinates.
   We call $X$ the set of \emph{outcomes}.
-  Given any $a\in \Rgz^d$, define a order $>_a$ on $X$ as follows:
+  Given any $a\in \Rgz^d$, which we call a \emph{preference weight},
+  define a order $>_a$ on $X$ as follows:
   $x_i >_a x_j$ if and only if $\ip{a}{x_i} > \ip{a}{x_j}$.
-  Let $R(X)$ denote the set of linear orders on $X$.
+  Let $R(X)$ denote the set of total orders on $X$.
   Define
   \begin{align*}
     P_d(X) = \{ \succ \in R(X) | \exists a\in\Rgz^d: x \succ y \iff x >_a y\}
@@ -140,7 +207,8 @@
   simplicity.
 
 \section{Lemmas}
-  In this section, we set up the 
+  In this section, we set up the tools needed to reason about 
+  $d$-dimensional preferences.
 
   \subsection{Lemmas based on the structure of $X$}
     These first few lemmas relate geometric properties of $X$ to
@@ -343,39 +411,25 @@
       \end{align*}
     \end{proof}
 
-
-      % \begin{subfigure}[t]{0.3\textwidth}
-      %   \includegraphics[width=0.9\textwidth]{figures/thmp2}
-      %   \caption{The convex cone
-      %   (((TODO: REPLACE WITH LIST)))}
-      %   \label{fig:mouse}
-      % \end{subfigure}
-
 \clearpage % NOTE: maybe not
 \section{Bounding the number of $2$-dimensional preferences}
-    \begin{wrapfigure}{r}{0.3\textwidth}
-      \begin{center}
-        \includegraphics[width=0.28\textwidth]{figures/lemSlopes}
-      \end{center}
-      \caption{
-        Theorem~\ref{thrm:maxNumberTwoD}.
-        Indifference vectors $b$ and $b'$ divide preference weight into three
-        regions, which each have the same preferences for $x$ vs. $y$
-        and $x'$ vs. $y'$.
-      }
-    \end{wrapfigure}
 
-  % \begin{subfigure}[t]{0.3\textwidth}
-  %   \caption{Theorem~\ref{asdf}. We have 
-  %     \\ $i>_u j$, $i'>_u j'$; 
-  %     $j>_\nu i$, $i'>_\nu j'$,
-  %     \\and $j>_w i$, $j'>_w i'$,
-  %   }
-  %   \label{fig:tiger}
-  % \end{subfigure}
+  \begin{wrapfigure}{r}{0.3\textwidth}
+    \begin{center}
+      \includegraphics[width=0.28\textwidth]{figures/lemSlopes}
+    \end{center}
+    \caption{
+      Theorem~\ref{thrm:maxNumberTwoD}.
+      Indifference vectors $b$ and $b'$ divide preference weight into three
+      regions, which each have the same preferences for $x$ vs. $y$
+      and $x'$ vs. $y'$.
+    }
+  \end{wrapfigure}
 
   We are able to obtain a tight upper bound on the number of distinct linear
   preferences which arise from a given two-dimensional outcome set $X$.
+  In particular, note that $|P_2(X)|$ is much less than $m!$, the total number
+  of linear orders on $X$.
   \begin{theorem} \label{thrm:maxNumberTwoD}
     Let $X\subseteq \Rgz^2$ with $|X| = m$. We have
     \[ \sizeof{P_2(X)} \leq \binom{m}{2} + 1 \]
