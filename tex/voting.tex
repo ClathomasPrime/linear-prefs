@@ -1,18 +1,17 @@
 \documentclass[12pt]{article}
+
+\usepackage{comment}
  
 \usepackage[noend]{algpseudocode}
 \usepackage{algorithm}
-\usepackage{algorithmicx}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage[margin=.75in]{geometry} 
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{dsfont}
-\usepackage{subcaption}
 \usepackage{amsthm}
 \usepackage{mathtools,amssymb}
-\usepackage{wrapfig}
-\usepackage[font=small,skip=-20pt]{caption}
+\usepackage{wrapfig,caption,subcaption}
 \allowdisplaybreaks
 
 \newtheorem*{definition}{Definition}
@@ -30,6 +29,8 @@
 \newcommand{\Rgz}{\mathbb{R}_{\ge 0}}
 
 \newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\norm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand{\sizeof}[1]{\left\lvert{#1}\right\rvert}
 
 \newcommand{\woloss}{without loss of generality }
 
@@ -37,6 +38,7 @@
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\cone}{cone}
 \DeclareMathOperator*{\hull}{hull}
+\DeclareMathOperator*{\indif}{indif}
 
 \newcommand{\1}[1]{\mathds{1}[{#1}]}
 \renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
@@ -88,14 +90,19 @@
 \clearpage
 %============================================================
 %============================================================
-\part{Combinatorics}
+\part{The Combinatorics of $d$ Dimensional Preferences}
 
 \section{Definition of $d$-dimensional preferences}
-  \begin{wrapfigure}{r}{0.2\textwidth}
+  \begin{wrapfigure}{r}{0.25\textwidth}
+    \vspace{-0.7in}
     \begin{center}
       \includegraphics[width=0.2\textwidth]{figures/def2DPref}
     \end{center}
-  \caption{Birds}
+    \ \caption{
+      The ``level sets'' of the preference $>_a$,
+      which ranks outcomes according to distance from the origin along
+      direction $a$.
+    }
   \end{wrapfigure}
   Let $\{x_1,\ldots,x_m\} = X\subseteq \Rgz^d$ be any (ordered) set of
   $m$ distinct points with nonnegative coordinates.
@@ -116,7 +123,6 @@
   %   $\ip{a}{x} = \ip{a}{y}$ has measure zero.
   % }
 
-
   Some first observations:
   \begin{itemize}
     \item If $d=1$, then $|P(X)| = 1$, i.e. preferences are completely
@@ -129,13 +135,19 @@
       \end{proof}
   \end{itemize}
   The above hints that there should be some sort of continuum between $d=1$
-  and $d=n$ of how complex the set $P(X)$ can be.
+  and $d=n$ of how complex a preference set $P_d(X)$ can be.
+  We find that $d=2$ is a particular sweet spot between expressibility and
+  simplicity.
 
 \section{Lemmas}
+  In this section, we set up the 
+
   \subsection{Lemmas based on the structure of $X$}
     These first few lemmas relate geometric properties of $X$ to
     limitations on the structure of $>_a$ for a specific, fixed $a$.
 
+    The most simple way $X$ gives structure to preferences is if
+    one outcome is better in all attributes.
     \begin{definition}
       Let $x,y\in X\subseteq \Rgz^d$.
       We say $x$ \emph{dominates} $y$, denoted $x\gg y$,
@@ -149,14 +161,18 @@
       Because $a\ne 0$, there is also some $i$ where $a_i x_i > a_i y_i$.
     \end{proof}
 
-    We'll need to use the familiar geometric notion of a convex hull:
-    ((ACTUALLY, I'M NOT SURE IF WE DO))
+    When comparing different outcomes, a useful tool is
+    the familiar geometric notion of a convex hull.
+    Intuitively, if a preference weight does not like any of a set of options,
+    it will not like any outcome in the hull of those options either.
+    Thus, a point ``dominated by the hull'' of a set of options
+    (as in figure~\ref{fig:domHull}) cannot be preferred to all those options.
     \begin{definition}
       For points $x_1,\ldots,x_n \in \R^d$, let $\hull(x_1,\ldots,x_n)
       = \{u_1x_1 + \ldots + u_nx_n | 0\le u_i\le 1, \sum_{i=1}^n u_i = 1\}$
       denote the convex hull of $x_1,\ldots,x_n$.
     \end{definition}
-    \begin{lemma}
+    \begin{lemma}\label{lem:agreementHull}
       Let $z,x_1,\ldots,x_k \in \Rgz^d$ and $a\in \Rgz^d \setminus \{0\}$.
       If $z >_a x_i$ for $i=1,\ldots,k$, then $z >_a w$
       for any $w\in \hull(x_1,\ldots,x_k)$.
@@ -165,36 +181,71 @@
       We have $\ip{a}{z} > \ip{a}{x_i}$ for each $i=1,\ldots,k$.
       If $w = u_1x_1+ \ldots + u_nx_n$ and $\sum_i u_i =1$, then
       $\ip{a}{w} = u_1\ip{a}{x_1}+\ldots+u_n\ip{a}{x_n}
-      < u_1\ip{a}{z} + \ldots + u_n\ip{a}{z} = \ip{a}{z}$
+      < u_1\ip{a}{z} + \ldots + u_n\ip{a}{z} = \ip{a}{z}$.
     \end{proof}
-    \begin{proposition}\label{prop:noFavoriteHull}
+
+    \begin{proposition}\label{prop:domHull}
       Let $z,x_1,\ldots,x_k \in \Rgz^d$.
-      \begin{enumerate}
-        \item Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
-          such that $w \gg z$.
-          Then no $a$ satisfies $z >_a x_i$ for each $i=1,\ldots, k$.
-        \item Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
-          such that $z \gg w$.
-          Then no $a$ satisfies $x_i >_a z$ for each $i=1,\ldots, k$.
-      \end{enumerate}
+      Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
+      such that $w \gg z$.
+      Then no $a$ satisfies $z >_a x_i$ for each $i=1,\ldots, k$.
+      % Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
+      %     such that $z \gg w$.
+      %     Then no $a$ satisfies $x_i >_a z$ for each $i=1,\ldots, k$.
     \end{proposition}
     \begin{proof}
-      We prove part (1), with part (2) being symmetric.
       For contradiction, suppose such an $a$ exists.
       Then $z >_a w$ as well. However, because $w \gg z$,
       this is a contradiction.
     \end{proof}
+    Note that lemma~\ref{lem:agreementHull} and proposition~\ref{prop:domHull}
+    both hold when you reverse all the inequalities in their statements,
+    via the same arguments.
 
-  \subsection{Lemmas relating different preference vectors}
-    This next group of lemmas relates different different preference vectors.
-    They will be some very useful for our results about voting schemes.
+    \begin{figure}[t]
+      \centering
+      \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/defDom}
+        \caption{$x_1$ dominates $x_2$ ($x_1 \gg x_2$)}
+        \label{fig:gull}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/defHull}
+        \caption{The convex $\hull$}
+        \label{fig:tiger}
+      \end{subfigure}
+      ~
+      \begin{subfigure}[t]{0.3\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/propDomHull}
+        \caption{Proposition~\ref{prop:domHull}}
+        \label{fig:domHull}
+      \end{subfigure}
 
+      \caption{}\label{fig:animals}
+    \end{figure}
+
+  \subsection{Lemma relating different preference vectors}
+    \begin{wrapfigure}{r}{0.25\textwidth}
+      \vspace{-1in}
+      \begin{center}
+        \includegraphics[width=0.28\textwidth]{figures/defCone}
+      \end{center}
+      \caption{The convex cone}
+    \end{wrapfigure}
+
+    % This next group of lemmas relates different different preference vectors.
+    % They will be very useful for our results about voting schemes.
+
+    When comparing different preference weights, a useful tool is
+    the familiar geometric notion of a convex cone.
+    Intuitively, if a set of weights agree about a certain preference,
+    so does every weight in their cone.
     \begin{definition}
       For any vectors $a_1,\ldots, a_k \in \Rgz^d$, define
-      $\cone(a_1,\ldots,a_k) = \{ u_1a_1 + \ldots + u_ka_k | u_i\ge 0 \forall j\}$.
-      That is, the convex cone of vectors defined by $a_1,\ldots,a_k$.
+      \[ \cone(a_1,\ldots,a_k) = \{ u_1a_1 + \ldots + u_ka_k | u_i\ge 0 \forall j\} \]
     \end{definition}
-    \begin{proposition}
+    \begin{proposition}\label{prop:conesAgreement}
       Suppose that for preference weights $a_1,\ldots, a_k$,
       we have $x >_{a_1} y, \ldots, x >_{a_k} y$.
       Then for any nonzero $b\in \cone(a_1,\ldots, a_k)$,
@@ -207,75 +258,239 @@
       as desired.
     \end{proof}
 
-    ((INSERT LEMMAS ABOUT SLOPES))
+  \subsection{Lemmas for $2$ dimensional preferences}
 
+    This section turns to our main focus: $2$ dimensional preferences.
+    Given two points $x,y$ in our set of outcomes $X$, we give a simply
+    classification of which preference weight prefer $x$ and which prefer $y$.
+    To do so, we introduce the notion of a weight ``indifferent between $x$ and $y$''.
+    \begin{lemma}
+      Let $x,y\in \Rgz^2$ be distinct points where neither 
+      $x$ nor $y$ dominates the other.
+      There exists a unique unit vector $b\in\Rgz^2$ such that
+      $\ip{b}{x} = \ip{b}{y}$.
+    \end{lemma}
+    \begin{proof}
+      Without loss of generality let $x_1 < y_1$, $x_2 > y_2$
+      (if either of these are equalities, the standard basis vectors
+      $e_1$ or $e_2$ will do).
+      There exists exactly one unit vector $b$ in $\Rgz^2$ such that
+      $b_1 / b_2 = (x_2 - y_2) / (y_1 - x_1)$.
+      It's easy to check that this is a necessary and sufficient 
+      condition for having $\ip{b}{x} = \ip{b}{y}$.
+    \end{proof}
+    \begin{definition}
+      For $x,y\in \Rgz^2$ where neither dominates the other,
+      let the ``indifferent vector of $x$ and $y$'',
+      denoted $\indif(x,y)$, be the unit vector $b\in\Rgz^2$ such 
+      that $\ip{b}{x} = \ip{b}{y}$.
+    \end{definition}
+
+    \begin{wrapfigure}{r}{0.3\textwidth}
+      \vspace{-0.4in}
+      \begin{center}
+        \includegraphics[width=0.26\textwidth]{figures/clmAngle}
+      \end{center}
+      \caption{
+        Proposition~\ref{prop:compEqualizerAngle}. $b=\indif(x,y)$.
+        Preferences above $b$ (those with higher angle) all prefer $x$,
+        and those below $b$ (those with lower angle) all prefer $y$
+      }
+      \vspace{-0.7in}
+    \end{wrapfigure}
+
+    This next lemma says that the indifference vector of $x$ and $y$ divides 
+    the space of preferences into two halves: one that prefers $x$, one that
+    prefers $y$. This division is given by another very natural ordering,
+    this one for preference weights. The following definition has an obvious
+    interpretation by considering $\theta(a)$ to be the angle of $a$ from the
+    positive $x$ axis, but we use an equivalent algebraic definition to simply
+    our proofs.
+
+    \begin{definition}
+      We say $a$ has a larger angle than $b$, denoted $\theta(a) > \theta(b)$,
+      if $a_2 / a_1 > b_2 / b_1$. 
+      % If one of those quotients is not defined,
+      % $\theta(a) > \theta(b)$ if $a_1 = 0$ and $b_1 \ne 0$.
+      % (  $a \times b = a_1 b_2 - a_2 b_1 < 0$.  )
+    \end{definition}
+    % To see that this definition is equivalent to the natural analogue about the
+    % angle from the positive $x$ axis, just consider the ``slopes'' of the
+    % vectors $a$ and $b$. Our definition of $\theta(a) > \theta(b)$
+    % means $a_2 / a_1 > b_2 / b_1$ (in all but some edge cases).
+
+    \begin{proposition} \label{prop:compEqualizerAngle}
+      Consider any pair of points $x, y \in \Rgz^2$, 
+      where $x_1 < y_1$ and $x_2 > y_2$, 
+      and let $b = \indif(x,y)$.
+      Then for any preference weight vector $a \in \R_{\geq 0}^2$,
+      \begin{enumerate}
+        \item \label{clm:angle1} $\theta(a) > \theta(b)$ if and only if $x >_a y$.
+        \item \label{clm:angle2} $\theta(a) < \theta(b)$ if and only if $y >_a x$.
+      \end{enumerate}
+    \end{proposition}
+    \begin{proof}
+      Except for the edge case where one vector is a
+      multiple of the other, the two items are exactly the same statement.
+      We prove the first one:
+      \begin{align*}
+        x >_a y
+        & \iff a_1 x_1 + a_2 x_2 > a_1 y_1 + a_2 y_2
+        \\ & \iff \frac{a_2}{a_1} > \frac{y_1 - x_1}{x_2 - y_2} 
+          = \frac{b_2}{b_1}
+        \\ & \iff 0 > a_1 b_2 - a_2 b_1
+        \\ & \iff \theta(a) > \theta(b)
+      \end{align*}
+    \end{proof}
+
+
+      % \begin{subfigure}[t]{0.3\textwidth}
+      %   \includegraphics[width=0.9\textwidth]{figures/thmp2}
+      %   \caption{The convex cone
+      %   (((TODO: REPLACE WITH LIST)))}
+      %   \label{fig:mouse}
+      % \end{subfigure}
+
+\clearpage % NOTE: maybe not
 \section{Bounding the number of $2$-dimensional preferences}
+    \begin{wrapfigure}{r}{0.3\textwidth}
+      \begin{center}
+        \includegraphics[width=0.28\textwidth]{figures/lemSlopes}
+      \end{center}
+      \caption{
+        Theorem~\ref{thrm:maxNumberTwoD}.
+        Indifference vectors $b$ and $b'$ divide preference weight into three
+        regions, which each have the same preferences for $x$ vs. $y$
+        and $x'$ vs. $y'$.
+      }
+    \end{wrapfigure}
+
+  % \begin{subfigure}[t]{0.3\textwidth}
+  %   \caption{Theorem~\ref{asdf}. We have 
+  %     \\ $i>_u j$, $i'>_u j'$; 
+  %     $j>_\nu i$, $i'>_\nu j'$,
+  %     \\and $j>_w i$, $j'>_w i'$,
+  %   }
+  %   \label{fig:tiger}
+  % \end{subfigure}
+
+  We are able to obtain a tight upper bound on the number of distinct linear
+  preferences which arise from a given two-dimensional outcome set $X$.
+  \begin{theorem} \label{thrm:maxNumberTwoD}
+    Let $X\subseteq \Rgz^2$ with $|X| = m$. We have
+    \[ \sizeof{P_2(X)} \leq \binom{m}{2} + 1 \]
+  \end{theorem}
+  \begin{proof}
+    Consider the following set of preference weights:
+    \[ B = \{ \indif(x,y) | x,y\in X\text{ and neither dominates the other} \} \]
+
+    Consider the different regions of $\Rgz^2$ separated by elements of $B$.
+    That is, consider the equivalence classes of the relation $\sim$
+    on $\Rgz^2\setminus B$, where $a \sim a'$
+    means that $\forall b\in B: \theta(a) < \theta(b) \iff \theta(a') < \theta(b)$.
+    We claim that if $a\sim a'$, then $x >_a y \iff x >_{a'} y$ for all $x,y\in X$.
+    Proof: If $x \gg y$ or $y \gg x$, the order between $x$ and $y$ fixed for
+    any $a$. Otherwise, $\indif(x,y)\in B$, so
+    by proposition~\ref{prop:compEqualizerAngle}, this means
+    $x >_a y \iff x >_{a'} y$.
+
+    Thus, the mapping from $\Rgz^2 \to R(X)$ given by $a\mapsto (>_a)$ is constant
+    on equivalence classes of $\sim$. This map is surjective by definition.
+    Furthermore, $a,a'$ in distinct equivalence classes of $\sim$
+    give distinct preferences $>_a, >_{a'}\in R(X)$, again by
+    proposition~\ref{prop:compEqualizerAngle}, because $a$ and $a'$ are on a
+    different side of some $b\in B$ under the $\theta$ order.
+    Thus, there is a bijection between equivalence classes of $\sim$ and
+    preferences in $P_2(X)$.
+
+    Note that $|D|\le {m \choose 2}$, so $\sim$ divides the $\Rgz^2$ into at most
+    ${m \choose 2}+1$ regions based on the $\theta$ order.
+    Thus $\sizeof{P_2(X)} \leq \binom{m}{2} + 1$, as desired.
+  \end{proof}
+
+  Furthermore, this upper bound is tight.
+  Notice that the proof of the upper bound gives a simple condition for the
+  upper bound to be tight: no point of $X$ should dominate another,
+  and every pair of points $x,y\in X$ should give a distinct indifference
+  vector $\indif(x,y)$.
+  To construct such an $X$ with $m$ outcomes, consider
+  $X' = \{ (i,m + 1 - i) | i=1,\ldots,m \}$, and randomly perturb each point a
+  bit such that all $\indif(x,y)$ vectors are distinct\footnote{
+    If you want to get really abstract and fancy, let
+    $\alpha_1,\ldots, \alpha_n$ be real numbers which are
+    algebraically independent over $\mathbb Q$, and such that
+    $|\alpha_i| < 1/3$. Then the points $\{(i,m + 1 - i + \alpha_i)\}_{i=1}^m$
+    cannot possibly yield a repeated indifference vector, by
+    algebraic considerations.
+  }.
 
 \section{Impossibility Results}
 
-  The following preference set may be important in high dimension.
-  We call it $k$-{\sc Cycle}:
-  \begin{align*}
-    1 > 2 > 3 > 4 \\
-    2 > 3 > 4 > 1 \\
-    3 > 4 > 1 > 2 \\
-    4 > 1 > 2 > 3 \\
-  \end{align*}
-  \begin{align*}
-    \begin{array}{ccccccccccccccccccccccccccccccccccccccccc}
-    1 &>& 2 &>& 3 &>&\ldots &>& k-2 &>& k-1 &>& k \\
-    2 &>& 3 &>& 4 &>& \ldots &>& k-1 &>& k &>& 1 \\
-    3 &>& 4 &>& 5 &>& \ldots &>& k &>& 1 &>& 2 \\
-      &&    &&    &&   \vdots \\
-    k-1&>&k&>& 1 &>&\ldots &>& k-4 &>& k-3 &>& k-2\\
-    k &>& 1 &>& 2 &>& \ldots &>& k-3 &>& k-2 &>& k-1 \\
-    \end{array}
-  \end{align*}
-  \begin{theorem}\label{thrm:noBigCycles}
-    $(d+1)$-{\sc Cycle} is not $d$-dimensional for any $d$.
-  \end{theorem}
-  \begin{proof}
-    Suppose for contradiction there existed
-    $a_1,\ldots,a_{d+1}\in\Rgz^{d}$ such that $>_{a_i}$ yielded the $i$th line of
-    $(d+1)$-{\sc Cycle} (in particular, the line whose favorite point is $i$).
-    The vectors $\{a_i\}$ cannot be linearly independent.
-    Thus, there exists a linear combination of vectors
-    $u_1 a_1 + \ldots + u_{d+1} a_{d+1} = 0$.
-    Let $S = \{a_i | u_i > 0\}$ and let $T = \{a_i | u_i < 0\}$.
-    Note that, because every coordinate of each $a_i$ is nonnegative
-    (and no $a_i$ is zero) neither $S$ nor $T$ are empty.
-    We have
-    \[ \sum_{a_i \in S} u_i a_i = \sum_{a_i \in T} -u_i a_i \]
-    Denote this above vector by $b$, and note that 
-    $b\in\Rgz^{d} \setminus \{0\}$ and $b\in \cone(S) \cap \cone(T)$.
+  \subsection{Large preference cycles are impossible in any dimension}
+    The following preference set may be important in high dimension.
+    We call it $k$-{\sc Cycle}:
+    % \begin{align*}
+    %   1 > 2 > 3 > 4 \\
+    %   2 > 3 > 4 > 1 \\
+    %   3 > 4 > 1 > 2 \\
+    %   4 > 1 > 2 > 3 \\
+    % \end{align*}
+    \begin{align*}
+      \begin{array}{ccccccccccccccccccccccccccccccccccccccccc}
+      1 &>& 2 &>& 3 &>&\ldots &>& k-2 &>& k-1 &>& k \\
+      2 &>& 3 &>& 4 &>& \ldots &>& k-1 &>& k &>& 1 \\
+      3 &>& 4 &>& 5 &>& \ldots &>& k &>& 1 &>& 2 \\
+        &&    &&    &&   \vdots \\
+      k-1&>&k&>& 1 &>&\ldots &>& k-4 &>& k-3 &>& k-2\\
+      k &>& 1 &>& 2 &>& \ldots &>& k-3 &>& k-2 &>& k-1 \\
+      \end{array}
+    \end{align*}
+    \begin{theorem}\label{thrm:noBigCycles}
+      $(d+1)$-{\sc Cycle} is not $d$-dimensional for any $d$.
+    \end{theorem}
+    \begin{proof}
+      Suppose for contradiction there existed
+      $a_1,\ldots,a_{d+1}\in\Rgz^{d}$ such that $>_{a_i}$ yielded the $i$th line of
+      $(d+1)$-{\sc Cycle} (in particular, the line whose favorite point is $i$).
+      The vectors $\{a_i\}$ cannot be linearly independent.
+      Thus, there exists a linear combination of vectors
+      $u_1 a_1 + \ldots + u_{d+1} a_{d+1} = 0$.
+      Let $S = \{a_i | u_i > 0\}$ and let $T = \{a_i | u_i < 0\}$.
+      Note that, because every coordinate of each $a_i$ is nonnegative
+      (and no $a_i$ is zero) neither $S$ nor $T$ are empty.
+      We have
+      \[ \sum_{a_i \in S} u_i a_i = \sum_{a_i \in T} -u_i a_i \]
+      Denote this above vector by $b$, and note that 
+      $b\in\Rgz^{d} \setminus \{0\}$ and $b\in \cone(S) \cap \cone(T)$.
 
-    Now, I claim that $b$ satisfies the following:
-    \[ 1 >_b 2 >_b 3 >_b \ldots >_b d >_b d+1 >_b 1 \]
-    Proof: For each pair $i > i+1$,
-    observe that the inequality is satisfied for all the vectors $a_i$ except
-    for one of them (namely, $a_{i+1}$ which ranks $i+1$ highest).
-    Thus, for either $S$ or $T$, every vector $a_i$ in the set has the opinion
-    $i >_{a_i} i+1$. Thus, every vector in the cone of that set
-    has the opinion $i > i+1$ as well, in particular, $i >_b i+1$.
-    Of course, the above argument works for the pair $d>1$ as well.
+      We claim that $b$ satisfies the following:
+      \[ 1 >_b 2 >_b 3 >_b \ldots >_b d >_b d+1 >_b 1 \]
+      Proof: For each pair $i > i+1$,
+      observe that the inequality is satisfied for all the vectors $a_i$ except
+      for one of them (namely, $a_{i+1}$ which ranks $i+1$ highest).
+      Thus, for either $S$ or $T$, every vector $a_i$ in the set has the opinion
+      $i >_{a_i} i+1$. Thus, every vector in the cone of that set
+      has the opinion $i > i+1$ as well, by proposition~\ref{prop:conesAgreement}.
+      In particular, $i >_b i+1$.
+      Of course, the above argument works for the pair $d>1$ as well.
 
-    Thus, transitivity gives us $1>_b 1$, a contradiction.
-  \end{proof}
-  This is one of our few results which work for any dimension.
-  We'll see that $3$-{Cycle} being impossible for $2$ dimensional preferences
-  is a necessary condition for many of the nice properties of $2$ dimensional
-  preferences (especially theorem~\ref{thrm:2DCondorcet}).
-  Intuitively, it is possible that ``cyclic disagreements'' are a core issue for
-  different applications with ordinal preferences (we consider voting here, but
-  other cases include matching or resource allocation).
-  Put another way, the imposibility of the $d+1$ cycle in $d$ dimensions gives a
-  very nicely parametrized example of preferences getting more complicated as
-  dimension increases.
+      Thus, transitivity gives us $1>_b 1$, a contradiction.
+    \end{proof}
+    This is one of our few results which work for any dimension.
+    We'll see that $3$-{Cycle} being impossible for $2$ dimensional preferences
+    is a necessary condition for many of the nice properties of $2$ dimensional
+    preferences (especially theorem~\ref{thrm:2DCondorcet}).
+    Intuitively, it is possible that ``cyclic disagreements'' are a core issue for
+    different applications with ordinal preferences (we consider voting here, but
+    other cases include matching or resource allocation).
+    Put another way, the imposibility of the $d+1$ cycle in $d$ dimensions gives a
+    very nicely parametrized example of preferences getting more complicated as
+    dimension increases.
 
 
-  \subsection{$d=2$}
+  \subsection{Combinatorial impossibilities for $2$ dimensional preferences}
 
-    \begin{proposition}
+    \begin{proposition}\label{prop:noAllBestWorst}
       Let $P = P_2(X)$ be any set of $2$ dimensional preferences,
       where $|X| \ge 3$.
       It is not possible for every $x\in X$ to be both the
@@ -294,64 +509,113 @@
   |1      ''-._|
   |------------x
       \end{verbatim}
-      The remaining point $z\ne x,y$ must lie in region $1$ or $2$, as all other
+      Any remaining point $z\ne x,y$ must lie in region $1$ or $2$, as all other
       regions either violate the assumption that $x_1 > z_1$ and $y_2 > z_2$
       or cause one point to dominate another.
       If $z$ lies in region $1$, it can never be the favorite, by
-      proposition~\ref{prop:noFavoriteHull}.
-      If $z$ lies in region $2$, it can never be the least favorite, again by
-      proposition~\ref{prop:noFavoriteHull}.
-      ((TODO: MAYBE SPELL OUT HOW HULLS GET INVOLVED ETC))
+      proposition~\ref{prop:domHull}, because it is dominated by some point in
+      $\hull(x,y)$.
+      If $z$ lies in region $2$, it can never be the least favorite, this time
+      by the opposite but completely analogous version of 
+      proposition~\ref{prop:domHull}, because $z$ dominates a point in $\hull(x,y)$.
+      For the corner case where $z\in\hull(x,y)$, observe that $z$ is
+      \emph{always} the middle option among $x$ and $y$.
     \end{proof}
 
     This proposition, combined with Theorem~\ref{thrm:noBigCycles}, gives a
     complete combinatorial classification of two dimensional preferences on
-    exactly three outcomes:
-    ((TODO: BRING SANDWICH UP HERE OR SOMETHING IDK ITS HARD TO SEPARATE THE
-    COMBINATORIAL AND VOTING DISCUSSION))
-    \begin{theorem}
-      A set of preferences $P$ on exactly three outcomes is $2$ dimensional if
-      and only if it does not contain $3$-{\sc Cycle} or {\sc Sandwich} 
-      (up to relabeling).
-    \end{theorem}
-    \begin{proof}
-      We have seen that $3$-{\sc Cycle} and {\sc Sandwich} are not $2$
-      dimensional.
-      Thus, it suffices to show that for any set of preferences which does not
-      contain a $3$-{\sc Cycle}, the only way for the preference set to
-      fail to be $2$ dimensional is if it contains {\sc Sandwich}.
+    exactly three outcomes. Consider all preferences on three outcomes,
+    organized with the two copies of $3$-{\sc Cycle} in different columns.
+    \begin{align*}
+      1 > 2 > 3 && 1 > 3 > 2 \\
+      2 > 3 > 1 && 3 > 2 > 1 \\
+      3 > 1 > 2 && 2 > 1 > 3 \\
+    \end{align*}
+    In order to make our preference set $2$ dimensional, we need to exclude one
+    preference from each cycle.
+    By relabeling, we can without loss of generality assume that the
+    preference with $1 > 2 > 3$ is not in $P$, and consider removing a
+    preference from the other cycle.
+    If $1 > 3 > 2$ or $2 > 1 > 3$ are removed from $P$, then $P$ will not
+    violate proposition~\ref{prop:noAllBestWorst}\footnote{
+      We will see later in section~\ref{sec:singleVsTwoD}
+      that these preference sets are $2$ dimensional. Up to relabeling, they are
+      {\sc BadCompromise} and {\sc GoodCompromise}, respectively.
+    }.
+    If we only remove $3 > 2 > 1$, then every outcome is some preference's
+    favorite and some other preference's least favorite\footnote{
+      This gives {\sc FlipFlop} from section~\ref{sec:singleVsTwoD}.
+    }.
+    So this $P$ is not two dimensional.
 
-      The following lists all preference on three outcomes, organized by column
-      into the two copies of $3$-{\sc Cycle} they form.
-      \begin{align*}
-        1 > 2 > 3 && 1 > 3 > 2 \\
-        2 > 3 > 1 && 3 > 2 > 1 \\
-        3 > 1 > 2 && 2 > 1 > 3 \\
-      \end{align*}
-      At least one element from each of these cycles must not be present in $P$.
-      By relabeling, we can without loss of generality assume that the
-      preference with $1 > 2 > 3$ is not in $P$.
-      Now, we simply need to look at three cases based on which element of the
-      other cycle is not in $P$.
-      \begin{itemize}
-        \item Suppose $1 > 3 > 2$ is not in $P$.
-          Up to relabeling, all the remaining preferences form a copy of
-          {\sc BadCompromise}, where $1$ is the point which is never a voter's
-          favorite.
-        \item Suppose $3 > 2 > 1$ is not in $P$.
-          In this case, the remaining preferences form a copy of {\sc Sandwich},
-          where $3$ is the outcome which is always either favorite or least
-          favorite.
-        \item Suppose $2 > 1 > 3$ is not in $P$.
-          Up to relabeling, all the remaining preferences form a copy of
-          {\sc GoodCompromise}, where $2$ is the point which is never a voter's
-          least favorite.
-      \end{itemize}
-    \end{proof}
+    % \begin{theorem}
+    %   A set of preferences $P$ on exactly three outcomes is $2$ dimensional if
+    %   and only if it does not contain $3$-{\sc Cycle} or {\sc Sandwich} 
+    %   (up to relabeling).
+    % \end{theorem}
+    % \begin{proof}
+    %   We have seen that $3$-{\sc Cycle} and {\sc Sandwich} are not $2$
+    %   dimensional.
+    %   Thus, it suffices to show that for any set of preferences which does not
+    %   contain a $3$-{\sc Cycle}, the only way for the preference set to
+    %   fail to be $2$ dimensional is if it contains {\sc Sandwich}.
 
-    ((WE BELIEVE THAT THE MATERIAL ABOUT SLOPES MAY PROVIDE A MORE GENERAL
-    COMBINATORIAL CLASSIFICATION OF 2D PREFS. SHOW SOME NECESSARY CONDITIONS WE
-    CAN PROVE. CONJECTURE THAT A RELATED THING IS AN IFF))
+    %   The following lists all preference on three outcomes, organized by column
+    %   into the two copies of $3$-{\sc Cycle} they form.
+    %   \begin{align*}
+    %     1 > 2 > 3 && 1 > 3 > 2 \\
+    %     2 > 3 > 1 && 3 > 2 > 1 \\
+    %     3 > 1 > 2 && 2 > 1 > 3 \\
+    %   \end{align*}
+    %   At least one element from each of these cycles must not be present in $P$.
+    %   By relabeling, we can without loss of generality assume that the
+    %   preference with $1 > 2 > 3$ is not in $P$.
+    %   Now, we simply need to look at three cases based on which element of the
+    %   other cycle is not in $P$.
+    %   \begin{itemize}
+    %     \item Suppose $1 > 3 > 2$ is not in $P$.
+    %       Up to relabeling, all the remaining preferences form a copy of
+    %       {\sc BadCompromise}, where $1$ is the point which is never a voter's
+    %       favorite.
+    %     \item Suppose $3 > 2 > 1$ is not in $P$.
+    %       In this case, the remaining preferences form a copy of {\sc Sandwich},
+    %       where $3$ is the outcome which is always either favorite or least
+    %       favorite.
+    %     \item Suppose $2 > 1 > 3$ is not in $P$.
+    %       Up to relabeling, all the remaining preferences form a copy of
+    %       {\sc GoodCompromise}, where $2$ is the point which is never a voter's
+    %       least favorite.
+    %   \end{itemize}
+    % \end{proof}
+
+  % \subsection{A necessary algorithmic condition for $2$ dimensional preferences}
+  %   ((WE BELIEVE THAT THE MATERIAL ABOUT SLOPES MAY PROVIDE A MORE GENERAL
+  %   COMBINATORIAL CLASSIFICATION OF 2D PREFS. SHOW SOME NECESSARY CONDITIONS WE
+  %   CAN PROVE. CONJECTURE THAT A RELATED THING IS AN IFF))
+
+  %   algorithm:
+
+  %   consider all pairs x,y. If one never exceeds the other, drop it.
+
+  %   For all pairs of tuples, define (x,y) >*> (x',y') if whenever x>y,
+  %   we have x'>y'.
+
+  %   I THINK the digraph on such tuples should connected and acyclic if it's two
+  %   dimensional.
+
+  %   Optimization:
+  %   Pick an arbitrary remaining pair x,y and add the ordered tuple (x,y)
+  %   to a set. For all other x',y', add two tuples: (x',y') and (y',x').
+  %   If the component containing (x,y) is acyclic, you're good.
+
+
+
+
+
+
+
+
+
 
 
 
@@ -359,7 +623,7 @@
 \clearpage
 %============================================================
 %============================================================
-\part{Voting}
+\part{Voting With $2$ Dimensional Preferences}
 
 \section{Definitions}
   \subsection{Voting}
@@ -385,8 +649,8 @@
       \item A choice function $f$ is a \emph{dictatorship} if
         there exists an $i$ such that $f(\succ_1,\ldots,\succ_n) = a_i$,
         where $a_i$ is the favorite outcome of $\succ_i$
-      \item A welfare function $F$ satisfies \emph{in dependence of
-        irrelevant alternatives} if, whenever $a\succ_i b \iff a\succ_i' b$
+      \item A welfare function $F$ satisfies \emph{independence of
+        irrelevant alternatives} (IIA) if, whenever $a\succ_i b \iff a\succ_i' b$
         and $\succ = F(\succ_1,\ldots,\succ_n),
         \succ' = F(\succ'_1,\ldots,\succ'_n)$,
         we get $a\succ b \iff a\succ' b$
@@ -404,13 +668,13 @@
     Recall that when $P = R(M)$, there are many known impossibility results,
     the two most famous of which are:
 
-    \begin{theorem}[Arrow's Impossibility Theorem]
+    \begin{theorem}[Arrow's Impossibility Theorem \cite{AgtBookMechDesignInto}]
       If $|M| \ge 3$, then
       every unanimous social welfare function on $M$ which satisfies independence of
       irrelevant alternatives is a dictatorship.
     \end{theorem}
 
-    \begin{theorem}[Gibbard Satterthwaite]
+    \begin{theorem}[Gibbard Satterthwaite \cite{AgtBookNoMoney}]
       If $|M| \ge 3$, then
       every surjective, incentive compatible social choice function on $M$
       is a dictatorship.
@@ -436,58 +700,15 @@
 
 
 \section{Single-peaked verses $2$-dimensional preferences}
+  \label{sec:singleVsTwoD}
 
   % TODO: at end, put this at start of whichever page makes the most sense
+\begin{comment}
   \begin{wrapfigure}{r}{0.2\textwidth}
     \begin{center}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        2 > 1 > 3 \\
-        2 > 3 > 1 \\
-        3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{GoodCompromise}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        1 > 3 > 2 \\
-        3 > 1 > 2 \\
-        3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{BadCompromise}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 > 4 \\
-        1 > 2 > 4 > 3 \\
-        2 > 1 > 3 > 4 \\
-        2 > 1 > 4 > 3 \\
-      \end{align*}
-      \caption*{\textsc{FlipFlop}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 > 4 \\
-        4 > 3 > 2 > 1 \\
-      \end{align*}
-      \caption*{\textsc{Reverse}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        2 > 3 > 1 \\
-        3 > 1 > 2 \\
-      \end{align*}
-      \caption*{$3$-\textsc{Cycle}}
-      \vspace{-0.25in}
-      \begin{align*}
-        1 > 2 > 3 \\
-        1 > 3 > 2 \\
-        3 > 2 > 1 \\
-        2 > 3 > 1 \\
-      \end{align*}
-      \caption*{\textsc{Sandwich}}
-      \vspace{-0.5in}
     \end{center}
   \end{wrapfigure}
+\end{comment}
 
   When there are exactly three candidates, $2$-dimensional
   preferences have strictly more expressive power than
@@ -502,7 +723,6 @@
     Without loss of generality, relabel the outcomes
     of the single peaked preferences as $S = \{1,2,3\}$.
     The resulting preferences are given by {\sc GoodCompromise}.
-    ((INSERT PICTURE OF GOOD COMPROMISE AS A 2D SET))
   \end{proof}
   Furthermore, {\sc BadCompromise} gives an example of a preference set
   which is $2$-dimensional, but not single-peaked:
@@ -515,11 +735,47 @@
     cannot be the lowest ranked.
   \end{proof}
 
+  \begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+      \begin{minipage}{0.55\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/exGoodComp}
+      \end{minipage}\hfill
+      \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+          1 > 2 > 3 \\
+          2 > 1 > 3 \\
+          2 > 3 > 1 \\
+          3 > 2 > 1 \\
+        \end{align*}
+      \end{minipage}
+      \caption{{\sc GoodCompromise}}
+      \label{fig:gull}
+    \end{subfigure}
+    \quad \quad \quad
+    \begin{subfigure}[t]{0.45\textwidth}
+      \begin{minipage}{0.55\textwidth}
+        \includegraphics[width=0.9\textwidth]{figures/exGoodComp}
+      \end{minipage}\hfill
+      \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+          1 > 2 > 3 \\
+          1 > 3 > 2 \\
+          3 > 1 > 2 \\
+          3 > 2 > 1 \\
+        \end{align*}
+      \end{minipage}
+      \caption{\textsc{BadCompromise}}
+      \label{fig:gull}
+    \end{subfigure}
+  \end{figure}
+
   When $m>3$, neither single-peaked nor $2$-dimensional preferences
   are a subset of the other. One was to see this to to simply
   count the number of single-peaked preferences, and see that it
   grows much faster with $m$ than $2$-dimensional preferences do
-  (recall that we showed that the maximal size of a $2$-dimensional
+  (recall that we showed in theorem~\ref{thrm:maxNumberTwoD}
+  that the maximal size of a $2$-dimensional
   preference set is $O(m^2)$).
   \begin{proposition}
     The number of single-peaked preferences for any set $S$ of $m$ outcomes
@@ -538,6 +794,18 @@
     subsets $T$.
   \end{proof}
 
+  \begin{wrapfigure}{r}{0.2\textwidth}
+    \centering
+    {\textsc{FlipFlop}}
+    \begin{align*}
+      1 > 2 > 3 > 4 \\
+      1 > 2 > 4 > 3 \\
+      2 > 1 > 3 > 4 \\
+      2 > 1 > 4 > 3 \\
+    \end{align*}
+    \vspace{-2in}
+  \end{wrapfigure}
+
   A cleaner, more constructive way to see this is the following proposition
   \begin{proposition}
     The preference set {\sc FlipFlop} is single-peaked, but not
@@ -551,20 +819,31 @@
     Now we show that {\sc FlipFlop} is not $2$-dimensional.
     Note that neither $1$ nor $2$ can dominate the other,
     and the same holds for $3$ and $4$.
-    Let $a,b$ satisfy $1=_a2$ and $3=_b4$.
-    Suppose $a$ has angle smaller than $b$, the other case being symmetric.
+    So let $a=\indif(1,2)$ and $b=\indif(3,4)$.
+    % Suppose $\theta(a) < \theta(b)$ (the other case is symmetric).
+    Without knowing the outcome space $X\subseteq \Rgz^2$,
+    we can't tell which side of $a$ corresponds to $1 > 2$
+    verses $2 > 1$ (same with $b$).
+    However, we do know that at least one of the following implications should
+    hold for any preference $>$ over $X$:
+    \begin{align*}
+      1 > 2 \implies 3 > 4
+      && 1 > 2 \implies 4 > 3 &&
+      2 > 1 \implies 3 > 4
+      && 2 > 1 \implies 4 > 3
+    \end{align*}
+    For example, if $\theta(a) < \theta(b)$ and preference weights with smaller
+    angle than $a$ (resp. $b$) favor $1 > 2$ (resp. $3 > 4$),
+    then $1 > 2 \implies 3 > 4$.
 
-    Consider the pairs $(1,2)$ and $(3,4)$ as they appear in the list in the
-    upper bound section. Because all combinations of $1>2$ vs. $2>1$ and
-    $3>4$ vs. $4>3$ occur, neither pair can be before or after the other in the
-    list. This is a contradiction.
-
-    ((REVISE IMPOSSIBILITY HALF))
+    However, none of these implications are satisfied by the entire preference
+    set {\sc FlipFlop}.
+    ((POSSIBLY UNCLEAR))
   \end{proof}
 
   When considering restricted domains of preference, it is perhaps more
   important to consider which preference sets \emph{do not} fall into that
-  domain. Indeed, if too many preferences are possible, then the imposibility
+  domain. Indeed, if too many preferences are possible, then the impossibility
   results which hold for arbitrary preferences will apply.
 
   As we've directly shown, $3$-{\sc Cycle} is not $2$ dimensional.
@@ -583,37 +862,85 @@
   \end{proposition}
   \begin{proof}
     {\sc Sandwich} is not single-peaked by proposition~\ref{prop:noLeastFavorite}.
-    It's not $2$-dimensional by proposition
+    It's not $2$-dimensional by proposition~\ref{prop:noAllBestWorst}.
   \end{proof}
-  Another similarity between {\sc Sandwich}.
-  ((DISCUSS SETS WHICH ARE NEITHER SINGLE-PEAKED NOR 2-D))
 
-  ((ARGUE THAT 2-D IS MORE NATURAL THAN SINGLE-PEAKED,
+  \begin{figure}[h]
+    \begin{minipage}{0.15\textwidth}
+      \centering
+      {\textsc{Reverse}}
+      \begin{align*}
+        1 > 2 > 3 > 4 \\
+        4 > 3 > 2 > 1 \\
+      \end{align*}
+    \end{minipage}\hfill
+    \begin{minipage}{0.15\textwidth}
+      \centering
+      {$3$-\textsc{Cycle}}
+      \begin{align*}
+        1 > 2 > 3 \\
+        2 > 3 > 1 \\
+        3 > 1 > 2 \\
+      \end{align*}
+    \end{minipage}\hfill
+    \begin{minipage}{0.15\textwidth}
+      \centering
+      {\textsc{Sandwich}}
+      \begin{align*}
+        1 > 2 > 3 \\
+        1 > 3 > 2 \\
+        3 > 2 > 1 \\
+        2 > 3 > 1 \\
+      \end{align*}
+    \end{minipage}\hfill
+    \begin{minipage}{0.55\textwidth}
+      \centering
+      \begin{tabular}{ r | l }
+        $2$-dimensional & {\sc BadCompromise} \\
+        single peaked & {\sc FlipFlop} \\
+        both & {\sc Reverse}, {\sc GoodCompromise} \\
+        neither & $3$-{\sc Cycle}, {\sc Sandwich} \\
+      \end{tabular}
+    \end{minipage}\hfill
+
+
+  \end{figure}
+
+
+
+  ((ARGUE THAT 2-D IS MORE NATURAL AND POWERFUL THAN SINGLE-PEAKED,
   EVEN THOUGH THERE ARE (ASYMPTOTICALLY) MORE SINGLE-PEAKED))
+
 \section{Voting for $2$-dimensional preferences}
+
+  Define median-angle voting scheme.
+  ((TODO: DEFINE; STRING TOGETHER THESE RESULTS WITH SOME MOTIVATION))
 
   \begin{theorem}
     The median-angle voting rule for $2$-dimensional preferences
     is incentive compatible.
   \end{theorem}
   \begin{proof}
-    Let $u$ denote the median-angled preference vector under when all
+    Consider any voter $i$ and suppose the voters true preferences 
+    are given by weights $a_1,\ldots,a_n$.
+    Let $u$ denote the median-angled preference vector chosen when all
     agents report their true preference.
-    Suppose the manipulative voter $i$'s true preference $a$
-    has angle less than $u$ (the other case is symmetric).
+    Suppose $\theta(a_i) < \theta(u)$ (the other case is symmetric).
     The only way in which $i$ can change the chosen preference vector
-    is to increase its angle, say to some $v$.
-    Note that $u \in \cone(v,a)$.
+    by misreporting his value for $a_i$
+    is to \emph{increase} its angle, say to some $\nu$.
+    Note that because $\theta(a) < \theta(u) < \theta(\nu)$,
+    we have $u \in \cone(\nu,a)$.
+    % Consider any pair $x,y$ such that $x >_{a_i} y$ and $x >_\nu y$,
+    % I.e. the manipulated median-angled preference weight agrees with voter $i$.
 
-    Suppose $y$ is the outcome chosen by the non-manipulated median
-    angle preference $u$.
-    Now, in order for $i$ to profit by his manipulation,
-    there must be some $x$ such that
-    $x >_a y$, $y >_u x$, and $x >_v y$.
-    However, this is a contradiction, via the lemma about cones
-    preserving agreed upon opinions.
-
-    ((PROOF NEEDS REVISION))
+    For the sake of contradiction, assume $i$ could profit from this
+    manipulation, i.e. he could get an outcome he favored chosen by $\nu$.
+    Let $y$ be the outcome selected by $u$, and let $x$ be selected by $\nu$.
+    We have $x >_\nu y$ and $x >_{a_i} y$.
+    By proposition~\ref{prop:conesAgreement}, we get $x >_u y$ as well.
+    However, this contradicts the assumption that $u$ selects $y$,
+    and completes our proof.
   \end{proof}
 
   \begin{theorem}
@@ -621,9 +948,21 @@
     alternatives
   \end{theorem}
   \begin{proof}
-  \end{proof}
+    Consider any pair of outcomes $x,y$. If either dominates the other, the
+    IIA axiom becomes easy to verify.
+    So suppose neither dominates the other, without loss of generality take
+    $x_1 < y_1$, $x_2 > y_2$, and let $b = \indif(x,y)$.
 
-\section{$2$-dimensional entails a Condorcet winner}
+    Suppose $\{a_i\}$ and $\{a_i'\}$ are collections of preference weights such
+    that $x>_{a_i} y \iff x>_{a_i'} y$ for each $i$.
+    By proposition \ref{prop:compEqualizerAngle},
+    this means that $\theta(a_i) > \theta(b) \iff \theta(a_i') > \theta(b)$.
+    Let $u$ denote the median-angled vector among $\{a_i\}$,
+    and $u'$ for $\{a_i'\}$.
+    Because each pair $a_i, a_i'$ lies on the same side of $b$,
+    we must have $u$ and $u'$ on the same side of $b$ as well.
+    Thus, $x >_u y \iff x >_{u'} y$, as desired.
+  \end{proof}
 
   \begin{theorem}\label{thrm:2DCondorcet}
     Among an odd number of $2$-dimensional preferences,
@@ -636,14 +975,14 @@
     Given some outcome $y\ne x$, if $y \ll x$, then
     $y$ is never preferred to $x$.
     So suppose neither $x$ nor $y$ dominate each other, and let
-    $w$ be the vector such that $x =_w y$.
-    On one side of $w$, preferences prefer $x$ to $y$,
-    and on the other side, they prefer $y$ to $x$.
-    Because $x$ is preferred by the median-angled voter,
-    more than half of the preference vectors lie on the side of $w$
-    which prefers $x$.
-
-    ((PROOF NEEDS REVISION))
+    $b = \indif(x,y)$.
+    Let $S$ be the set of preference weights $a$ such that $x>_a y$.
+    By proposition~\ref{prop:compEqualizerAngle}, either consists of all vectors
+    $a$ with $\theta(a) > \theta(b)$ or all $a$ with $\theta(a) < \theta(b)$.
+    The median angled preference weight $u$ must lie in $S$.
+    Thus, more than half of all the input preference weights must lie in $S$.
+    Thus, more than half of the input preferences agree that $x > y$.
+    Because $y$ was arbitrary, this means $x$ is the Condorcet winner.
   \end{proof}
 
   We note the following important consequence of the previous theorem:
@@ -659,4 +998,6 @@
   PROCEDURE TO FAIL BECAUSE IT WON'T HAVE A CONDORCET WINNER. BUT AD HOC 
   WE DON'T KNOW HE CAN'T MANIPULATE THE CONDORCET WINNER))
 
+  \bibliography{weightedPref}{}
+  \bibliographystyle{alpha}
 \end{document}
