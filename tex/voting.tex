@@ -57,7 +57,7 @@
 % \renewcommand{\qedsymbol}{\filledbox}
  
 \title{
-  Combinatorics and Voting With Dimensional Preferences
+  Dimensional Preferences: Combinatorics and Voting
 }
 \author{
   Clay Thomas \\
@@ -69,17 +69,33 @@
 
 \maketitle
 \begin{abstract}
-  ((TODO: REWRITE))
-  The study of voting rules often restricts attention to
-  well-behaved classes of possible preferences of voters.
-  We define a new class: $2$-dimensional preferences,
-  for which very good voting rules are possible.
-  We argue that $2$-dimensional preferences are in some ways
-  more natural and expressive than more traditional classes
-  such as single-peaked preferences.
-  Furthermore, we give an almost-complete combinatorial classification
-  of $2$-dimensional preferences, and provide some additional
-  results about the natural extension of $d$-dimensional preferences.
+  Restricted classes of total orders
+  are a common tool used to model the preferences of rational agents.
+  We introduce a new class of ordinal preferences called 
+  $d$-dimensional preferences.
+  In part I of this paper,
+  we prove a sequence of results about $d$-dimensional preferences,
+  demonstrating how an underlying set of outcomes in $\Rgz^d$
+  can give a natural structure to the set of possible preferences.
+
+  We are particularly successful when studying $2$-dimensional preferences.
+  In part II of this paper, we apply our theory to the subject of
+  \emph{voting schemes} for $2$-dimensional preferences.
+  We show that very good voting schemes exist for these preferences.
+  Specifically, we give a incentive compatible voting scheme satisfying
+  independence of irrelevant alternatives which always selects a Condorcet
+  winner.
+
+  % The study of voting rules often restricts attention to
+  % well-behaved classes of possible preferences of voters.
+  % We define a new class: $2$-dimensional preferences,
+  % for which very good voting rules are possible.
+  % We argue that $2$-dimensional preferences are in some ways
+  % more natural and expressive than more traditional classes
+  % such as single-peaked preferences.
+  % Furthermore, we give an almost-complete combinatorial classification
+  % of $2$-dimensional preferences, and provide some additional
+  % results about the natural extension of $d$-dimensional preferences.
 \end{abstract}
 
 \section{Introduction}
@@ -138,7 +154,13 @@
     realistic while still having strong structure.
 
     Next, we turn to study the social choice theory of $2$-dimensional
-    preferences. We compare and contrast $2$-dimensional preferences with 
+    preferences\footnote{
+      We have tried to add sufficient references so that Part II is readable
+      without studying Part I in detail, and just occasionally glancing back for
+      the lemmas needed.
+      Propositions~\ref{prop:conesAgreement} and~\ref{prop:compEqualizerAngle}
+      are the most important for section~\ref{sec:voting}.
+    }. We compare and contrast $2$-dimensional preferences with 
     \emph{single-peaked preferences}, the
     classic restricted class used in social choice theory.
     Each model different phenomenon, but we argue that $2$-dimensional
@@ -149,7 +171,7 @@
     preference weight vectors $a_1,a_2,\ldots,a_n$ as inputs,
     and outputs the favorite outcome of the median-angled (from the positive $x$
     axis) vector $u$.
-    We prove that this voting scheme
+    It turns out that this mechanism
     satisfies essentially all of the basic desirable properties for a voting scheme.
 
 
@@ -162,11 +184,11 @@
 \clearpage
 %============================================================
 %============================================================
-\part{The Combinatorics of $d$ Dimensional Preferences}
+\part{The Combinatorics of $d$-Dimensional Preferences}
 
 \section{Definition of $d$-dimensional preferences}
   \begin{wrapfigure}{r}{0.25\textwidth}
-    \vspace{-0.7in}
+    \vspace{-0.6in}
     \begin{center}
       \includegraphics[width=0.2\textwidth]{figures/def2DPref}
     \end{center}
@@ -209,8 +231,14 @@
   \end{itemize}
   The above hints that there should be some sort of continuum between $d=1$
   and $d=n$ of how complex a preference set $P_d(X)$ can be.
-  We find that $d=2$ is a particular sweet spot between expressibility and
+  We will find that $d=2$ is a particular sweet spot between expressibility and
   simplicity.
+  A core piece of intuition to keep in mind for this paper is that
+  a collection of $d$-dimensional preferences is really a $d-1$ dimensional space:
+  preferences $>_a$ are invariant under $\|a\|$, so without loss of generality
+  we can take all preferences to lie on the unit sphere.
+  In particular, $2$-dimensional preferences are a well-behaved one dimensional
+  space.
 
 \section{Lemmas}
   In this section, we set up the tools needed to reason about 
@@ -301,11 +329,12 @@
 
   \subsection{Lemma relating different preference vectors}
     \begin{wrapfigure}{r}{0.25\textwidth}
-      \vspace{-1in}
+      \vspace{-1.1in}
       \begin{center}
         \includegraphics[width=0.28\textwidth]{figures/defCone}
       \end{center}
       \caption{The convex cone}
+      \vspace{-1in}
     \end{wrapfigure}
 
     % This next group of lemmas relates different different preference vectors.
@@ -335,7 +364,7 @@
   \subsection{Lemmas for $2$ dimensional preferences}
 
     This section turns to our main focus: $2$ dimensional preferences.
-    Given two points $x,y$ in our set of outcomes $X$, we give a simply
+    Given two points $x,y$ in our set of outcomes $X$, we give a simple
     classification of which preference weight prefer $x$ and which prefer $y$.
     To do so, we introduce the notion of a weight ``indifferent between $x$ and $y$''.
     \begin{lemma}
@@ -380,10 +409,12 @@
     interpretation by considering $\theta(a)$ to be the angle of $a$ from the
     positive $x$ axis, but we use an equivalent algebraic definition to simply
     our proofs.
+    Of course, feel free to ignore this definition, and just use the more
+    natural interpretation of $\theta(\cdot)$ as a function which gives the angle.
 
     \begin{definition}
       We say $a$ has a larger angle than $b$, denoted $\theta(a) > \theta(b)$,
-      if $a_2 / a_1 > b_2 / b_1$. 
+      if $a_2 / a_1 > b_2 / b_1$.
       % If one of those quotients is not defined,
       % $\theta(a) > \theta(b)$ if $a_1 = 0$ and $b_1 \ne 0$.
       % (  $a \times b = a_1 b_2 - a_2 b_1 < 0$.  )
@@ -416,6 +447,11 @@
         \\ & \iff \theta(a) > \theta(b)
       \end{align*}
     \end{proof}
+
+    % For completeness, we prove the following simple result:
+    % \begin{proposition}
+    %   If $\theta(a) < \theta(u) < \theta(b)$, then $u\in \cone(a,b)$.
+    % \end{proposition}
 
 \clearpage % NOTE: maybe not
 \section{Bounding the number of $2$-dimensional preferences}
@@ -532,7 +568,7 @@
       $i >_{a_i} i+1$. Thus, every vector in the cone of that set
       has the opinion $i > i+1$ as well, by proposition~\ref{prop:conesAgreement}.
       In particular, $i >_b i+1$.
-      Of course, the above argument works for the pair $d>1$ as well.
+      Of course, the above argument works for the pair $d+>1$ as well.
 
       Thus, transitivity gives us $1>_b 1$, a contradiction.
     \end{proof}
@@ -543,8 +579,8 @@
     Intuitively, it is possible that ``cyclic disagreements'' are a core issue for
     different applications with ordinal preferences (we consider voting here, but
     other cases include matching or resource allocation).
-    Put another way, the imposibility of the $d+1$ cycle in $d$ dimensions gives a
-    very nicely parametrized example of preferences getting more complicated as
+    The impossibility of the $d+1$ cycle in $d$ dimensions gives a
+    very nice example of preference sets getting more complicated as
     dimension increases.
 
 
@@ -554,7 +590,7 @@
       Let $P = P_2(X)$ be any set of $2$ dimensional preferences,
       where $|X| \ge 3$.
       It is not possible for every $x\in X$ to be both the
-      favorite and least favorite outcome of some preverence in $P$.
+      favorite and least favorite outcome of some preference in $P$.
     \end{proposition}
     \begin{proof}
       If any point dominates another, then the dominated point cannot be favorite.
@@ -562,12 +598,7 @@
       by any other point. Pick two points $x \ne y$ such that $x$ has the largest
       first coordinate (i.e. $x_1$) among all of $X$, and $y$ has the highest second
       coordinate (i.e. $y_2$).
-      Consider the figure to the right.
-      \begin{wrapfigure}{r}{0.2\textwidth}
-        \begin{center}
-          \includegraphics[width=0.2\textwidth]{figures/noBestWorst}
-        \end{center}
-      \end{wrapfigure}
+      Consider figure~\ref{fig:noAllBestWorst}.
       Any remaining point $z\ne x,y$ must lie in region $1$ or $2$, as all other
       regions either violate the assumption that $x_1 > z_1$ and $y_2 > z_2$
       or cause one point to dominate another.
@@ -580,6 +611,14 @@
       For the corner case where $z\in\hull(x,y)$, observe that $z$ is
       \emph{always} the middle option among $x$ and $y$.
     \end{proof}
+
+    \begin{wrapfigure}{r}{0.2\textwidth}
+      \begin{center}
+        \includegraphics[width=0.2\textwidth]{figures/noBestWorst}
+      \end{center}
+      \caption{Proposition~\ref{prop:noAllBestWorst}}
+      \label{fig:noAllBestWorst}
+    \end{wrapfigure}
 
     This proposition, combined with Theorem~\ref{thrm:noBigCycles}, gives a
     complete combinatorial classification of two dimensional preferences on
@@ -603,7 +642,7 @@
     }.
     If we only remove $3 > 2 > 1$, then every outcome is some preference's
     favorite and some other preference's least favorite\footnote{
-      This gives {\sc FlipFlop} from section~\ref{sec:singleVsTwoD}.
+      This gives {\sc Sandwich} from section~\ref{sec:singleVsTwoD}.
     }.
     So this $P$ is not two dimensional.
 
@@ -758,34 +797,36 @@
     and its opinion strictly decreases as you move farther away from the favorite.
     Note that no assumption is made about outcomes on different sides of the peak.
     Define
+
     \begin{align*}
-      P_{sp}(S) = \{ \succ \in R(S) | \succ \text{is single peaked }\}
+      P_{sp}(S) = \{ \succ \in R(S) | \succ \text{is single peaked }\} && \ 
     \end{align*}
+    \begin{wrapfigure}{r}{0.3\textwidth}
+      \vspace{-0.75in}
+      \begin{center}
+        \includegraphics[width=0.3\textwidth]{figures/defSP}
+      \end{center}
+      \caption{All single peaked preferences on $3$ outcomes}
+      \label{fig:singlePeakedThree}
+    \end{wrapfigure}
 
     Single-peaked preferences are studied because the order structure on $S$
     gives a natural voting mechanism: poll voters asking for their favorite
     outcome, i.e. their peak, and output the median peak.
     It is know that this voting scheme satisfies independence of irrelevant
-    alternatives (so Arrow's theorem does not hold,
+    alternatives (so Arrow's theorem does not hold
     \cite{AgtBookMechDesignInto}) and that this voting scheme is incentive
     compatible (so Gibbard Satterthwaite does not hold \cite{AgtBookNoMoney}).
     As we will see, a voting scheme inspired by this will perform well for
     $2$-dimensional preferences, achieving the same positive results as
     single-peaked preferences.
 
-
 \section{Single-peaked verses $2$-dimensional preferences}
   \label{sec:singleVsTwoD}
 
   % TODO: at end, put this at start of whichever page makes the most sense
-\begin{comment}
-  \begin{wrapfigure}{r}{0.2\textwidth}
-    \begin{center}
-    \end{center}
-  \end{wrapfigure}
-\end{comment}
 
-  When there are exactly three candidates, $2$-dimensional
+  When there are exactly three outcomes, $2$-dimensional
   preferences have strictly more expressive power than
   single-peaked preferences.
   \begin{proposition}
@@ -797,7 +838,8 @@
   \begin{proof}
     Without loss of generality, relabel the outcomes
     of the single peaked preferences as $S = \{1,2,3\}$.
-    The resulting preferences are given by {\sc GoodCompromise}.
+    The resulting preferences, as shown in figure~\ref{fig:singlePeakedThree},
+    are given by {\sc GoodCompromise}.
   \end{proof}
   Furthermore, {\sc BadCompromise} gives an example of a preference set
   which is $2$-dimensional, but not single-peaked:
@@ -846,9 +888,9 @@
   \end{figure}
 
   When $m>3$, neither single-peaked nor $2$-dimensional preferences
-  are a subset of the other. One was to see this to to simply
+  are a subset of the other. One way to see this is to simply
   count the number of single-peaked preferences, and see that it
-  grows much faster with $m$ than $2$-dimensional preferences do
+  grows much faster with $m$ than $2$-dimensional preferences
   (recall that we showed in theorem~\ref{thrm:maxNumberTwoD}
   that the maximal size of a $2$-dimensional
   preference set is $O(m^2)$).
@@ -912,8 +954,7 @@
     then $1 > 2 \implies 3 > 4$.
 
     However, none of these implications are satisfied by the entire preference
-    set {\sc FlipFlop}.
-    ((POSSIBLY UNCLEAR))
+    set {\sc FlipFlop}. Thus {\sc FlipFlop} cannot be $2$-dimensional.
   \end{proof}
 
   When considering restricted domains of preference, it is perhaps more
@@ -983,7 +1024,7 @@
   $2$-dimensional and single-peaked preferences.
   While single peaked and $2$-dimensional model noticeably different causes of
   preferences, we argue that $2$-dimensional preferences are in some sense more
-  natural. The rest of this section gives some justification
+  natural. The rest of this section gives some non-formal justification
   for this highly subjective statement.
 
   In the ``school ranking'' example given in the introduction, the preference of
@@ -1020,15 +1061,16 @@
 \section{Voting for $2$-dimensional preferences}
   \label{sec:voting}
 
-  Define median-angle voting scheme.
-  ((TODO: DEFINE; STRING TOGETHER THESE RESULTS WITH SOME MOTIVATION))
+  Suppose the set of outcomes $X$ is known.
+  Taking inspiration from single-peaked preferences, we define the following
+  mechanism for voting:
 
-  Single-peaked 
   \begin{algorithm}
-    Poll a preference weight $a_i\in\Rgz^d$ from each voter $i$ \\
+    \caption{Median-angle voting scheme}
+    Poll the preference weight $a_i\in\Rgz^d$ from each voter $i$ \\
     Reorder the list $a_i$ by the $\theta$ order, so 
       $\theta(a_i) < \theta(a_{i+1})$ \\
-    Return the favorite option of the median-angled preference weight
+    Return the favorite outcome of the median-angled preference weight
   \end{algorithm}
 
   \begin{figure}[h]
@@ -1054,7 +1096,20 @@
     \caption{}\label{fig:animals}
   \end{figure}
 
+  Intuitively, this seems like a promising voting scheme.
+  Preferences are more similar when angles are closer,
+  and preference angle gives a continuum between one extreme and the other.
+  Thus, the median voter is a natural choice to represent the population.
+  It turns out that the framework developed in Part I of this paper gives
+  simple proofs of many desirable properties for this voting rule.
+  These properties essentially tell us that $2$-dimensional preferences are at
+  least as well-behaved as single-peaked preferences.
+
+  Our first result states that a voter cannot strategically manipulate the
+  median-angle voting scheme, i.e. the Gibbard Satterthwaite theorem does not
+  hold for $2$-dimensional preferences.
   \begin{theorem}\label{thrm:2DincentiveCompat}
+    Let the number of voters $n$ be odd.
     The median-angle voting rule for $2$-dimensional preferences
     is incentive compatible.
   \end{theorem}
@@ -1064,11 +1119,11 @@
     Let $u$ denote the median-angled preference vector chosen when all
     agents report their true preference.
     Suppose $\theta(a_i) < \theta(u)$ (the other case is symmetric).
-    The only way in which $i$ can change the chosen preference vector
+    The only way in which $i$ can change the median-angled preference vector
     by misreporting his value for $a_i$
     is to \emph{increase} its angle, say to some $\nu$.
-    Note that because $\theta(a) < \theta(u) < \theta(\nu)$,
-    we have $u \in \cone(\nu,a)$.
+    Note that because $\theta(a_i) < \theta(u) < \theta(\nu)$,
+    we have $u \in \cone(a_i, \nu)$.
     % Consider any pair $x,y$ such that $x >_{a_i} y$ and $x >_\nu y$,
     % I.e. the manipulated median-angled preference weight agrees with voter $i$.
 
@@ -1081,9 +1136,16 @@
     and completes our proof.
   \end{proof}
 
+  We also define the median-angle social welfare function in the obvious way: if
+  the median-angled preference vector is $u$,
+  return the linear order $(>_u) \in P_2(X)$
+  Given this definition, we see that median-angled voting satisfies independence
+  of irrelevant alternatives, and thus Arrow's impossibility theorem does not
+  hold for $2$-dimensional preferences.
+
   \begin{theorem}\label{thrm:2DIIA}
-    The median-angle social welfare rule satisfies independence of irrelevant
-    alternatives
+    The median-angle social welfare function satisfies independence of irrelevant
+    alternatives.
   \end{theorem}
   \begin{proof}
     Consider any pair of outcomes $x,y$. If either dominates the other, the
@@ -1102,6 +1164,9 @@
     Thus, $x >_u y \iff x >_{u'} y$, as desired.
   \end{proof}
 
+  The next theorem justifies median-angle voting as \emph{the} natural
+  voting scheme for $2$-dimensional preferences, using the notion of a Condorcet
+  winner.
   \begin{theorem}\label{thrm:2DCondorcet}
     Among an odd number of $2$-dimensional preferences,
     there is always a Condorcet winner, which is selected
@@ -1115,9 +1180,10 @@
     So suppose neither $x$ nor $y$ dominate each other, and let
     $b = \indif(x,y)$.
     Let $S$ be the set of preference weights $a$ such that $x>_a y$.
-    By proposition~\ref{prop:compEqualizerAngle}, either consists of all vectors
+    By proposition~\ref{prop:compEqualizerAngle}, $S$ either consists of all vectors
     $a$ with $\theta(a) > \theta(b)$ or all $a$ with $\theta(a) < \theta(b)$.
-    The median angled preference weight $u$ must lie in $S$.
+    Because $x >_u y$,
+    the median angled preference weight $u$ must lie in $S$.
     Thus, more than half of all the input preference weights must lie in $S$.
     Thus, more than half of the input preferences agree that $x > y$.
     Because $y$ was arbitrary, this means $x$ is the Condorcet winner.
