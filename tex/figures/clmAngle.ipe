@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70206" creator="Ipe 7.2.7">
-<info created="D:20181221043357" modified="D:20190114134332"/>
+<info created="D:20181221043357" modified="D:20190115183501"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -254,14 +254,7 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<path layer="alpha" stroke="brown" pen="fat">
-144.004 448.105 m
-15.7304 0 0 15.7304 128.274 448.054 135.298 462.13 a
-</path>
-<text matrix="1 0 0 1 16 -16" transformations="translations" pos="96 656" stroke="black" type="label" width="12.723" height="10.672" depth="4.82" valign="baseline" size="Huge" style="math">y</text>
-<text transformations="translations" pos="320 432" stroke="black" type="label" width="13.792" height="10.672" depth="0" valign="baseline" size="Huge" style="math">x</text>
-<text matrix="1 0 0 1 -8 0" transformations="translations" pos="112 432" stroke="black" type="label" width="19.222" height="16.938" depth="0" valign="baseline" size="Huge" style="math">O</text>
-<use name="mark/circle(sx)" pos="288 528" size="large" stroke="black"/>
+<use layer="alpha" name="mark/circle(sx)" pos="288 528" size="large" stroke="black"/>
 <use name="mark/circle(sx)" pos="160 592" size="large" stroke="black"/>
 <use name="mark/circle(sx)" pos="288 528" size="large" stroke="black"/>
 <use name="mark/disk(sx)" pos="160 592" size="large" stroke="black"/>
@@ -271,7 +264,7 @@ h
 160 592 l
 288 528 l
 </path>
-<path stroke="black" fill="black" pen="fat" arrow="linear/large">
+<path stroke="darkred" fill="black" pen="fat" arrow="linear/large">
 128 448 m
 192 576 l
 </path>
@@ -283,25 +276,21 @@ h
 128 448 m
 320 448 l
 </path>
-<text matrix="1 0 0 1 0 -8" transformations="translations" pos="160 608" stroke="black" type="label" width="8.28" height="16.25" depth="0" valign="baseline" size="Huge" style="math">i</text>
-<text matrix="1 0 0 1 -8 0" transformations="translations" pos="304 528" stroke="black" type="label" width="11.435" height="16.25" depth="4.82" valign="baseline" size="Huge" style="math">j</text>
-<text matrix="1 0 0 1 -4 0" transformations="translations" pos="176 512" stroke="black" type="label" width="12.741" height="10.672" depth="0" valign="baseline" size="Huge" style="math">a
-</text>
+<text matrix="1 0 0 1 0 -8" transformations="translations" pos="160 608" stroke="black" type="label" width="13.792" height="10.672" depth="0" valign="baseline" size="Huge" style="math">x</text>
+<text matrix="1 0 0 1 -8 0" transformations="translations" pos="304 528" stroke="black" type="label" width="12.723" height="10.672" depth="4.82" valign="baseline" size="Huge" style="math">y</text>
+<text matrix="1 0 0 1 -4 0" transformations="translations" pos="176 512" stroke="black" type="label" width="10.319" height="17.213" depth="0" valign="baseline" size="Huge" style="math">b</text>
 <path stroke="black" fill="black" dash="dashed" pen="fat" arrow="linear/large">
 128 448 m
 160 560 l
 </path>
-<text transformations="translations" pos="144 560" stroke="black" type="label" width="10.319" height="17.213" depth="0" valign="baseline" size="Huge" style="math">b</text>
-<text matrix="1 0 0 1 -30.4125 -60.2112" transformations="translations" pos="176 512" stroke="brown" type="label" width="12.31" height="9.965" depth="2.15" valign="baseline" size="Large" style="math">\theta_a</text>
-<text matrix="1 0 0 1 -19.0453 -38.7598" transformations="translations" pos="176 512" stroke="darkblue" type="label" width="11.32" height="9.965" depth="2.15" valign="baseline" size="Large" style="math">\theta_b</text>
-<path stroke="darkblue" pen="fat">
-163.418 448.52 m
-35.0115 0 0 35.0115 128.41 447.971 138.154 481.599 a
-</path>
-<path stroke="black">
+<path stroke="darkred">
 200 572 m
 196 564 l
 188 568 l
+</path>
+<path stroke="black" fill="black" dash="dashed" pen="fat" arrow="linear/large">
+128 448 m
+224 496 l
 </path>
 </page>
 </ipe>

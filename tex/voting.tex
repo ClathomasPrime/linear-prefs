@@ -562,13 +562,12 @@
       by any other point. Pick two points $x \ne y$ such that $x$ has the largest
       first coordinate (i.e. $x_1$) among all of $X$, and $y$ has the highest second
       coordinate (i.e. $y_2$).
-      Consider the following figure:
-      \begin{verbatim}
-  y-------------
-  |''--.._    2|
-  |1      ''-._|
-  |------------x
-      \end{verbatim}
+      Consider the figure to the right.
+      \begin{wrapfigure}{r}{0.2\textwidth}
+        \begin{center}
+          \includegraphics[width=0.2\textwidth]{figures/noBestWorst}
+        \end{center}
+      \end{wrapfigure}
       Any remaining point $z\ne x,y$ must lie in region $1$ or $2$, as all other
       regions either violate the assumption that $x_1 > z_1$ and $y_2 > z_2$
       or cause one point to dominate another.
@@ -826,7 +825,7 @@
     \quad \quad \quad
     \begin{subfigure}[t]{0.45\textwidth}
       \begin{minipage}{0.55\textwidth}
-        \includegraphics[width=0.9\textwidth]{figures/exGoodComp}
+        \includegraphics[width=0.9\textwidth]{figures/exBadComp}
       \end{minipage}\hfill
       \begin{minipage}{0.45\textwidth}
         \begin{align*}
@@ -994,6 +993,29 @@
       $\theta(a_i) < \theta(a_{i+1})$ \\
     Return the favorite option of the median-angled preference weight
   \end{algorithm}
+
+  \begin{figure}[t]
+    \centering
+    \begin{subfigure}[t]{0.3\textwidth}
+      \includegraphics[width=0.9\textwidth]{figures/defMedianAngle}
+      \caption{$x_1$ dominates $x_2$ ($x_1 \gg x_2$)}
+      \label{fig:gull}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[t]{0.3\textwidth}
+      \includegraphics[width=0.9\textwidth]{figures/thrmIncentiveComp}
+      \caption{The convex $\hull$}
+      \label{fig:tiger}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[t]{0.3\textwidth}
+      \includegraphics[width=0.9\textwidth]{figures/thrmIIA}
+      \caption{Proposition~\ref{prop:domHull}}
+      \label{fig:domHull}
+    \end{subfigure}
+
+    \caption{}\label{fig:animals}
+  \end{figure}
 
   \begin{theorem}
     The median-angle voting rule for $2$-dimensional preferences
