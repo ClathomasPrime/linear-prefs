@@ -695,7 +695,8 @@
       \item A \emph{social welfare function on $P$}
         is a function $F : P^n \to P$
       \item A \emph{social choice function on $P$}
-        is a function $f : P^n \to M$
+        is a function $f : P^n \to M$. We also call such an $f$ a 
+        \emph{voting scheme} or a \emph{voting rule}.
       \item A welfare function $F$ is \emph{unanimous} if,
         for any $\succ\ \in P$, we have $F(\succ,\ldots,\succ) =\ \succ$
       % \item A choice function $f$ is \emph{unanimous} if,
@@ -712,11 +713,15 @@
         irrelevant alternatives} (IIA) if, whenever $a\succ_i b \iff a\succ_i' b$
         and $\succ = F(\succ_1,\ldots,\succ_n),
         \succ' = F(\succ'_1,\ldots,\succ'_n)$,
-        we get $a\succ b \iff a\succ' b$
+        we get $a\succ b \iff a\succ' b$. \\
+        That is, if no voter changes their opinion between $a$ and $b$,
+        the group preference between $a$ and $b$ does not change.
       \item A choice function $f$ is \emph{incentive compatible} if,
         for any $\succ_1,\ldots,\succ_n, i, \succ_i'$, we have \\
         $f(\succ_1,\ldots,\succ_i,\ldots,\succ_n) 
-        \succeq_i f(\succ_1,\ldots,\succ_i',\ldots,\succ_n)$
+        \succeq_i f(\succ_1,\ldots,\succ_i',\ldots,\succ_n)$ \\
+        That is, no voter can get an outcome he strictly prefers by giving a
+        false input to $f$.
       \item A collection of preferences $\succ_1,\ldots,\succ_n$,
         has a Condorcet winner $x \in M$ if, for any other $y\in M$,
         we have $x \succ_i y$ for more than half of the indices
@@ -729,13 +734,13 @@
 
     \begin{theorem}[Arrow's Impossibility Theorem \cite{AgtBookMechDesignInto}]
       If $|M| \ge 3$, then
-      every unanimous social welfare function on $M$ which satisfies independence of
-      irrelevant alternatives is a dictatorship.
+      every unanimous social welfare function on $R(M)$
+      which satisfies independence of irrelevant alternatives is a dictatorship.
     \end{theorem}
 
     \begin{theorem}[Gibbard Satterthwaite \cite{AgtBookMechDesignInto}]
       If $|M| \ge 3$, then
-      every surjective, incentive compatible social choice function on $M$
+      every surjective, incentive compatible social choice function on $R(M)$
       is a dictatorship.
     \end{theorem}
 
@@ -935,7 +940,7 @@
     It's not $2$-dimensional by proposition~\ref{prop:noAllBestWorst}.
   \end{proof}
 
-  \begin{figure}[h]
+  \begin{figure}[H]
     \begin{minipage}{0.15\textwidth}
       \centering
       {\textsc{Reverse}}
@@ -972,16 +977,48 @@
         neither & $3$-{\sc Cycle}, {\sc Sandwich} \\
       \end{tabular}
     \end{minipage}\hfill
-
-
   \end{figure}
 
+  The above discussion gives a fairly clear picture of the relationship between
+  $2$-dimensional and single-peaked preferences.
+  While single peaked and $2$-dimensional model noticeably different causes of
+  preferences, we argue that $2$-dimensional preferences are in some sense more
+  natural. The rest of this section gives some justification
+  for this highly subjective statement.
 
+  In the ``school ranking'' example given in the introduction, the preference of
+  students is determined by a single underlying attribute of the student:
+  their preference for STEM vs liberal arts.
+  In contrast, single-peaked preferences allow voters to have arbitrary
+  preferences about outcomes on either side of their peak.
+  Two voters with the same peak could have very different preference sets:
+  one could like all the points below the peak before any above the peak,
+  while the other could simply rank options by distance (for example,
+  usual real number distance) from the peak.
+  These two voters seem incompatible within the same underlying situation:
+  one has a sort of ``hard budget'' at its peak, while the other just
+  wants to get close to his favorite.
+  A common motivation given for single-peaked preferences is that of political
+  policy (with the familiar ``left and right'' manifest literally).
+  But why would a voter's favorite policy be the most liberal one which he does
+  not hate? This corresponds to the voter who prefers all outcomes right of his
+  peak to all those left of his peak.
 
-  ((ARGUE THAT 2-D IS MORE NATURAL AND POWERFUL THAN SINGLE-PEAKED,
-  EVEN THOUGH THERE ARE (ASYMPTOTICALLY) MORE SINGLE-PEAKED))
+  Admitedly, for $m \gg 3$, the size of single-peaked preference sets can be
+  much larger than that of $2$-dimensional preferences.
+  However, we believe that single-peaked preferences still miss certain well
+  motivated preference sets, without gaining much essential.
+  Indeed, the ordinal preference set {\sc BadCompromise} models the intuitive
+  idea of a bad compromise very well: the ``compromise'' outcome $2$ is
+  no voter's favorite\footnote{
+    Indeed, our voting scheme given in section~\ref{sec:voting} will never
+    select outcome $2$ in this case!
+  }. However, single-peaked preferences such as {\sc FlipFlop} have no obvious
+  interpretation, except for the voters making arbitrary decisions about
+  outcomes on different sides of their peak.
 
 \section{Voting for $2$-dimensional preferences}
+  \label{sec:voting}
 
   Define median-angle voting scheme.
   ((TODO: DEFINE; STRING TOGETHER THESE RESULTS WITH SOME MOTIVATION))
@@ -994,30 +1031,30 @@
     Return the favorite option of the median-angled preference weight
   \end{algorithm}
 
-  \begin{figure}[t]
+  \begin{figure}[h]
     \centering
     \begin{subfigure}[t]{0.3\textwidth}
       \includegraphics[width=0.9\textwidth]{figures/defMedianAngle}
-      \caption{$x_1$ dominates $x_2$ ($x_1 \gg x_2$)}
+      \caption{The median-angled preference vector}
       \label{fig:gull}
     \end{subfigure}
     ~
     \begin{subfigure}[t]{0.3\textwidth}
       \includegraphics[width=0.9\textwidth]{figures/thrmIncentiveComp}
-      \caption{The convex $\hull$}
+      \caption{Theorem~\ref{thrm:2DincentiveCompat}}
       \label{fig:tiger}
     \end{subfigure}
     ~
     \begin{subfigure}[t]{0.3\textwidth}
       \includegraphics[width=0.9\textwidth]{figures/thrmIIA}
-      \caption{Proposition~\ref{prop:domHull}}
+      \caption{Theorems~\ref{thrm:2DIIA} and~\ref{thrm:2DCondorcet}}
       \label{fig:domHull}
     \end{subfigure}
 
     \caption{}\label{fig:animals}
   \end{figure}
 
-  \begin{theorem}
+  \begin{theorem}\label{thrm:2DincentiveCompat}
     The median-angle voting rule for $2$-dimensional preferences
     is incentive compatible.
   \end{theorem}
@@ -1044,7 +1081,7 @@
     and completes our proof.
   \end{proof}
 
-  \begin{theorem}
+  \begin{theorem}\label{thrm:2DIIA}
     The median-angle social welfare rule satisfies independence of irrelevant
     alternatives
   \end{theorem}
@@ -1099,7 +1136,7 @@
     are certainly two dimensional, so the manipulator could report $3 > 1 > 2$
     and create $3$-{\sc Cycle}).
     We conjecture that a single manipulator cannot \emph{change} the Condorcet
-    winner, i.e. the manipulated preference set still has a Condorcet winner
+    winner, i.e. the manipulated preference set cannot have a Condorcet winner
     different than the original one, but proving this result requires a bit more
     thought.
   } this still gives a good voting rule for honest agents with two dimensional
