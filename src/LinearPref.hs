@@ -86,20 +86,16 @@ satisfies (a,b) ls =
 contradictory :: Eq l => [l] -> [(l,l)] -> Bool
 contradictory labels tuples = undefined
 
+-- not well-named
+dominated :: Eq l => (l,l) -> [[l]] -> Bool
+dominated (a,b) prefs = all dom prefs
+  where dom pref = greaterByPref pref a b
+
 --------------------------------------------------------------------------------
 
 noOneFirst :: [[Int]]
 noOneFirst = permutations [1..4]
   \\ fmap (1:) (permutations [2..4])
-
-flipFlop :: [[Int]]
-flipFlop =
-  [ [1,2,  3,4]
-  , [1,2,  4,3]
-  , [2,1,  3,4]
-  , [2,1,  4,3]
-  ]
-
 
 --------------------------------------------------------------------------------
 
@@ -109,3 +105,15 @@ fullSinglePeaked as = nub $ do
   let left = reverse left'
   interleaves left right
 
+--------------------------------------------------------------------------------
+
+flipFlop :: [[Int]]
+flipFlop =
+  [ [1,2,  3,4]
+  , [1,2,  4,3]
+  , [2,1,  3,4]
+  , [2,1,  4,3]
+  ]
+
+kCycle :: Int -> [[Int]]
+kCycle k = rotations [1..k]

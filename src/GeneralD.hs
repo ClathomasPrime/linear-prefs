@@ -65,6 +65,12 @@ meshNCell dim delta = meshNCell' dim 1.0
           ys <- meshNCell' (n-1) (total - x)
           return $ x:ys
 
+randomMeshPoint :: (MonadRandom m, Fractional a, Enum a)
+                => Int -> m (Point a)
+randomMeshPoint d = do
+  u <- take d . fmap (/10^3) . fmap fromIntegral <$> getRandomRs (0 :: Int,10^3)
+  return $ fmap (/sum u) u
+
 --------------------------------------------------------------------------------
 
 genLinearPrefs :: (Fractional n, Enum n, Ord n, Ord a)
@@ -121,3 +127,16 @@ getRandomRat prec (low,high) = do
   i :: Integer <- getRandomR (0, 10^prec)
   let frac = toRational i / toRational (10^prec :: Integer)
   return $ low + frac * (high - low)
+
+--------------------------------------------------------------------------------
+
+simpleRandPrefs :: MonadRandom m => m [[Int]]
+simpleRandPrefs = randPrefs 2 4 10
+
+-- all these are distinct
+randPrefs :: MonadRandom m => Int -> Int -> Int -> m [[Int]]
+randPrefs d numOutcomes numVoters = do
+  outcomes <- arbitraryLable <$> roundedUnitBoxPoints 3 d numOutcomes
+  voters <- replicateM numVoters (randomMeshPoint d)
+  return . nub $ fmap (\(a :: Point Rational) -> linearPref a outcomes) voters
+

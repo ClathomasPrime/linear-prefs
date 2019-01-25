@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e33bd7485f113010f13fa5ea01be0bd1250dee53b5edce2db7ba1b94ec10fbb4
+-- hash: c156685f992c9a96f765d8994e86bc3299217e3f249ad2e5297d4ae13c4251cb
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -22,6 +22,7 @@ executable many-matching
   main-is: Main.hs
   other-modules:
       BoundedD
+      ConnectedGraph
       Data
       Drawing
       GeneralD
@@ -36,6 +37,7 @@ executable many-matching
   build-depends:
       MonadRandom
     , base >=4.7 && <5
+    , containers
     , diagrams
     , diagrams-lib
     , diagrams-svg
