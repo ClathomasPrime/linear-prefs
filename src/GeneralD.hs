@@ -131,7 +131,7 @@ getRandomRat prec (low,high) = do
 --------------------------------------------------------------------------------
 
 simpleRandPrefs :: MonadRandom m => m [[Int]]
-simpleRandPrefs = randPrefs 2 4 10
+simpleRandPrefs = randPrefs 2 10 1000
 
 -- all these are distinct
 randPrefs :: MonadRandom m => Int -> Int -> Int -> m [[Int]]

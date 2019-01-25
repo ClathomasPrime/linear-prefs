@@ -32,6 +32,39 @@ medianIndex :: [a] -> a
 medianIndex xs = xs !! (length xs `div` 2)
 -- ^ Higher-index biased.
 
+
+listSplits :: [a] -> [([a],[a])]
+listSplits [] = [([],[])]
+listSplits (a:as) = ([],a:as) : map phi (listSplits as)
+  where phi (u,v) = (a:u,v)
+
+--------------------------------------------------------------------------------
+
+sortGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
+sortGroupBy pred as = groupBy pred . sortBy pred' $ as
+  where pred' a b
+          | pred a b = GT
+          | otherwise = LT
+
+compareDivides :: Integral a => a -> a -> Ordering
+compareDivides a b
+  | a == b = EQ
+  | a `rem` b == 0 = GT
+  | otherwise = LT
+
+
+-- Sorts such that, whenever pred a b, a comes before b
+-- ASSUMING that pred a b, pred b c implies pred a c
+sortPartial :: (a -> a -> Bool) -> [a] -> [a]
+sortPartial pred as = foldl insert [] as
+  where insert [] a = [a]
+        insert (x:xs) a
+          | pred a x = a:x:xs
+          | otherwise = x : insert xs a
+
+firstHalf :: [a] -> [a]
+firstHalf as = take (length as `div` 2) as
+
 --------------------------------------------------------------------------------
 
 most :: Monad m => (a -> a -> Ordering) -> Int -> m a -> m a

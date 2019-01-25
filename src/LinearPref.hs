@@ -3,6 +3,8 @@ module LinearPref where
 
 import Data.List
 
+import Util
+
 type LinearPref l = [l]
 
 compareByPref :: Eq l => [l] -> l -> l -> Ordering
@@ -30,11 +32,6 @@ subsetsOfSize _ [] = []
 subsetsOfSize k (a:as) =
   ((a:) <$> subsetsOfSize (k-1) as) ++ subsetsOfSize k as
 
-splits :: [a] -> [([a],[a])]
-splits [] = [([],[])]
-splits (a:as) = ([],a:as) : map phi (splits as)
-  where phi (u,v) = (a:u,v)
-
 interleaves :: [a] -> [a] -> [[a]]
 interleaves as [] = [as]
 interleaves [] bs = [bs]
@@ -43,7 +40,7 @@ interleaves (a:as) (b:bs)
   ++ fmap (b:) (interleaves (a:as) bs)
 
 rotations :: [a] -> [[a]]
-rotations as = map (\(x,y) -> y ++ x) (init $ splits as)
+rotations as = map (\(x,y) -> y ++ x) (init $ listSplits as)
 
 sublist :: Eq l => [l] -> [l] -> Bool
 sublist [] _ = True
@@ -68,10 +65,18 @@ hasKCycle ls k prefs = any cycleInPrefs subsets
 
 toOrderedPairs :: [l] -> [(l,l)]
 toOrderedPairs ls = do
-  (front,back) <- splits ls
+  (front,back) <- listSplits ls
   case reverse front of
     (a:_) -> fmap (a,) back
     _ -> []
+
+-- fromOrderedPairs assumes all (n choose 2) total order pairs are given
+fromOrderedPairs :: Eq l => [l] -> [(l,l)] -> [l]
+fromOrderedPairs outcomes orders = reverse $ sortBy cmp outcomes
+  where cmp a b
+          | (a,b) `elem` orders = GT
+          | (b,a) `elem` orders = LT
+          | otherwise = error "ordered pair unexpected stuff occured idk"
 
 intersectTotalOrders :: Eq l => [[l]] -> [(l,l)]
 intersectTotalOrders ls =
@@ -101,7 +106,7 @@ noOneFirst = permutations [1..4]
 
 fullSinglePeaked :: Eq a => [a] -> [[a]]
 fullSinglePeaked as = nub $ do
-  (left', right) <- splits as
+  (left', right) <- listSplits as
   let left = reverse left'
   interleaves left right
 
@@ -117,3 +122,10 @@ flipFlop =
 
 kCycle :: Int -> [[Int]]
 kCycle k = rotations [1..k]
+
+goodCompromise :: [[Int]]
+goodCompromise = [ [1,2,3], [2,1,3], [2,3,1], [3,2,1] ]
+
+badCompromise :: [[Int]]
+badCompromise = [ [1,2,3], [1,3,2], [3,1,2], [3,2,1] ]
+

@@ -1,5 +1,8 @@
 module Rules where
 
+-- This module is abandoned for now. Maybe be useful when its time to generalize
+-- to higher dimensions
+
 import Util
 import GeneralD
 import LinearPref
