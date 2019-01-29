@@ -16,8 +16,8 @@ data TwoDSpec l = TwoDSpec
   , pivotList :: [[(l,l)]]
   } deriving(Show)
 
-specsToPrefs :: Eq l => TwoDSpec l -> [[l]]
-specsToPrefs (TwoDSpec outcomes fixed pivots)
+specToPrefs :: Eq l => TwoDSpec l -> [[l]]
+specToPrefs (TwoDSpec outcomes fixed pivots)
   = fmap (fromOrderedPairs outcomes . buildPref) $ listSplits pivots
   where buildPref (flip,leave)
           = fixed ++ (concat $ leave ++ fmap (fmap swap) flip)
@@ -66,6 +66,6 @@ prefs05 = [ [1,3,2,4], [1,2,4,3], [1,4,2,3], [1,2,3,4] ]
 
 checkAlg :: Ord l => [[l]] -> Maybe [[l]]
 checkAlg prefs
-  | ((==) `on` sort) prefs (specsToPrefs $ convertTwoD prefs) = Nothing
+  | ((==) `on` sort) prefs (specToPrefs $ convertTwoD prefs) = Nothing
   | otherwise = Just prefs
 -- e.g. fmap checkAlg <$> replicateM 100 (randPrefs d 10 1000)

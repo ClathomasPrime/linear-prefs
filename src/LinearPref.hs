@@ -123,6 +123,9 @@ flipFlop =
 kCycle :: Int -> [[Int]]
 kCycle k = rotations [1..k]
 
+sandwich :: [[Int]]
+sandwich = [ [1,2,3], [1,3,2], [3,2,1], [2,3,1] ]
+
 goodCompromise :: [[Int]]
 goodCompromise = [ [1,2,3], [2,1,3], [2,3,1], [3,2,1] ]
 
