@@ -1,12 +1,5 @@
 
-Vague/maybe leads:
-* https://link.springer.com/article/10.1007/BF02310791
-* https://ac.els-cdn.com/S0169721810000183/1-s2.0-S0169721810000183-main.pdf?_tid=86eaab99-2cce-4db1-a3c8-8d4daf6c5149&acdnat=1548375032_fbbe4713536bfb8955ebb14d3abef1ac
-* https://www.jstor.org/stable/pdf/30034333.pdf?refreqid=excelsior%3A6a1a5406c01df958074441a65909f29c
-* https://pdfs.semanticscholar.org/9009/5f7ebf4466548aa51f979ac22ce0fa7f459f.pdf
-* https://rangevoting.org/LauwersTopoSC.pdf
-
-Jackpot: "left-right orderings of **individuals** (instead of outcomes)
+"left-right orderings of **individuals** (instead of outcomes)
 =====
 Excerpt from "Majority voting on restricted domains" introduction, page 2
 http://eprints.lse.ac.uk/20114/1/Majority_voting_on_restricted_domains_(LSERO).pdf
@@ -45,3 +38,12 @@ median choice rule.  Social Choice and Welfare 26(2): 363-383
 
 [39] Saporiti, A. (forthcoming) On the existence of Nash equilibrium in
 electoral competition. Game Theory and Information
+
+
+Less useful links:
+====
+* https://link.springer.com/article/10.1007/BF02310791
+* https://ac.els-cdn.com/S0169721810000183/1-s2.0-S0169721810000183-main.pdf?_tid=86eaab99-2cce-4db1-a3c8-8d4daf6c5149&acdnat=1548375032_fbbe4713536bfb8955ebb14d3abef1ac
+* https://www.jstor.org/stable/pdf/30034333.pdf?refreqid=excelsior%3A6a1a5406c01df958074441a65909f29c
+* https://pdfs.semanticscholar.org/9009/5f7ebf4466548aa51f979ac22ce0fa7f459f.pdf
+* https://rangevoting.org/LauwersTopoSC.pdf
