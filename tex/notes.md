@@ -1,3 +1,6 @@
+This might be enriching:
+http://www.cse.unsw.edu.au/~haziz/comsoc10years.pdf
+
 
 "left-right orderings of **individuals** (instead of outcomes)
 =====
@@ -15,29 +18,55 @@ alternatives ñcan be ordered from ëleftíto ërightísuch that, for each pair 
 alternatives x and y , the individuals preferring x to y are either all to the left,
 or all the right, of those preferring y to x
 
+Aditional information/perspective from Wulf Gaertner's book
+
 ## intermediateness
 
 [17] Grandmont, J.-M. (1978) Intermediate Preferences and the Majority Rule.
 Econometrica 46(2): 317-330
 
+    Preliminary work I think, not super important
+
 ## order restriction
 
 [36] Rothstein, P. (1990) Order Restricted Preferences and Majority Rule.
 So- cial Choice and Welfare 7(4): 331-342
+    
+    First real clear, core look at "order restricted" / "single crossing"
 
 [37] Rothstein, P. (1991) Representative Voter Theorems.
 Public Choice 72(2-3): 193-212
+
+    Introduces a very cool notion of representative voter
 
 ## single-crossingness 
 
 [34] Roberts, K. W. S. (1977) Voting over Income Tax Schedules.
 Journal of Public Economics 8(3): 329-340
 
+    "hierarchical adherence", a special case of order restricted
+
 [38] Saporiti, A., TohmÈ, F. (2006) Single-crossing, strategic voting and the
 median choice rule.  Social Choice and Welfare 26(2): 363-383
 
+    "single crossing" is equivalent to order restricted
+
 [39] Saporiti, A. (forthcoming) On the existence of Nash equilibrium in
 electoral competition. Game Theory and Information
+
+[!] Gans and Smart (1996). Majority voting with single-crossing preferences.
+Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0047272795015035
+    
+    Also equivalent. Apparently discusses 1) ease of checking (computational ease?)
+    and 2) a two-dimensional example (TODO: check if they realized 2D linear = SC already).
+
+Computational Complexity of checking a condition on a pref set
+====
+
+[!] Are There Any Nicely Structured Preference Profiles Nearby? 
+citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
+
+[!] https://arxiv.org/abs/1211.2627
 
 
 Less useful links:
