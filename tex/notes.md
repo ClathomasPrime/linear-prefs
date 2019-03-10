@@ -42,7 +42,11 @@ https://arxiv.org/pdf/1507.08219.pdf
 
     Does lots of cool stuff. One of them: characterizes those sets for which a
     "representative voter theorem" holds. The answer: it's basically just single crossing,
-    plus a very small list of other examples.
+    plus a very small list of other examples, all of them pretty similar to FlipFlop.
+    
+    This is a very, very cool paper. They put tonnes of combinatorial structure on top
+    of preference domains, and their method is really effective. A core tool is median graphs.
+    
 
 Computational Complexity of checking a condition on a pref set
 ====
