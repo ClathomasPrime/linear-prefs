@@ -1,8 +1,54 @@
 This might be enriching:
 http://www.cse.unsw.edu.au/~haziz/comsoc10years.pdf
 
+Single Crossing
+====
+[!] Gans and Smart (1996). Majority voting with single-crossing preferences.
+Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0047272795015035
+    
+    First paper which clarified single crossing and showed equivalence/generalization
+    of many previous papers.
+    They discusses ease of checking in practice (by this they 
+    DONT mean computational ease, they mean that you can prove certain scenarios 
+    end up being single crossing under certain assumptions, and you can easily prove things
+    (I think - I really really don't understand all the economics mumbo jumbo)).
 
-"left-right orderings of **individuals** (instead of outcomes)
+Representative Voting
+====
+[!] Rothstein, P. (1991) Representative Voter Theorems.
+Public Choice 72(2-3): 193-212
+
+    Introduces a very cool notion of representative voter
+
+Computational Complexity of checking a condition on a pref set
+====
+
+[!] Are There Any Nicely Structured Preference Profiles Nearby? 
+citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
+
+    Problem: how many {voters, outcomes} must you delete to get a _____ set of preferences
+
+[!] Computational aspects of nearly single-peaked electorates. https://arxiv.org/abs/1211.2627
+
+    Concurrent with previous paper, but focusing on single-peaked (with a bit more detail)
+
+[!] A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
+
+    Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
+    some is never ranked worst) plus a "forbidden subconfiguration" (they call it an alpha-configuration -
+    the preference set is "4 > 1 > 2 > 3; 4 > 3 > 2 > 1" basically the whole idea).
+    
+    Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
+    for checking SP as well.
+
+[!] A characterization of the single-crossing domain. https://link.springer.com/article/10.1007/s00355-012-0717-8
+
+    Inspired by the previous paper, these guys give a "forbidden subconfiguration" characterization
+    of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
+    O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly). 
+
+
+How I first found single crossing:
 =====
 Excerpt from "Majority voting on restricted domains" introduction, page 2
 http://eprints.lse.ac.uk/20114/1/Majority_voting_on_restricted_domains_(LSERO).pdf
@@ -54,41 +100,6 @@ median choice rule.  Social Choice and Welfare 26(2): 363-383
 [39] Saporiti, A. (forthcoming) On the existence of Nash equilibrium in
 electoral competition. Game Theory and Information
 
-[!] Gans and Smart (1996). Majority voting with single-crossing preferences.
-Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0047272795015035
-    
-    Also equivalent. They bring together previous research on related pref sets.
-    They discusses ease of checking in practice (by this they 
-    DONT mean computational ease, they mean that you can prove certain scenarios 
-    end up being single crossing under certain assumptions, and you can easily prove things
-    (I think - I really really don't understand all the economics mumbo jumbo)).
-
-Computational Complexity of checking a condition on a pref set
-====
-
-[!] Are There Any Nicely Structured Preference Profiles Nearby? 
-citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
-
-    Problem: how many {voters, outcomes} must you delete to get a _____ set of preferences
-
-[!] Computational aspects of nearly single-peaked electorates. https://arxiv.org/abs/1211.2627
-
-    Concurrent with previous paper, but focusing on single-peaked (with a bit more detail)
-
-[!] A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
-
-    Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
-    some is never ranked worst) plus a "forbidden subconfiguration" (they call it an alpha-configuration -
-    the preference set is "4 > 1 > 2 > 3; 4 > 3 > 2 > 1" basically the whole idea).
-    
-    Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
-    for checking SP as well.
-
-[!] A characterization of the single-crossing domain. https://link.springer.com/article/10.1007/s00355-012-0717-8
-
-    Inspired by the previous paper, these guys give a "forbidden subconfiguration" characterization
-    of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
-    O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly). 
 
 
 Less useful links:
