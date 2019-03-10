@@ -60,6 +60,14 @@ citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
 
     Concurrent with previous paper, but focusing on single-peaked (with a bit more detail)
 
+Cool thing for later: application to matching
+====
+
+[!] "The Uniqueness of Stable Matchings" http://pareto.uab.es/jmasso/pdf/ClarkCTE2006.pdf
+
+    Defines "no crossing" for bipartite systems with preferences;
+    studies how it relates to single crossing;
+    shows it gives really good matchings.
 
 How I first found single crossing:
 =====
