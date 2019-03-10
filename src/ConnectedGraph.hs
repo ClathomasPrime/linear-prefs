@@ -5,6 +5,8 @@ import Util
 import ConvertTwoD
 -- import GeneralD
 import LinearPref
+import SingleCrossing
+
 -- import Control.Monad
 import qualified Data.Map as Map
 import Data.Map (Map)
@@ -13,11 +15,13 @@ import Data.Tuple
 -- import Data.Function
 import Data.Maybe
 
+
 import Debug.Trace
 
 
 --------------------------------------------------------------------------------
 -- Graph stuff (most of the rest of this stuff) is outdated: I was overthinking it
+-- Yep still outdated
 
 type Graph x = Map x [x]
 

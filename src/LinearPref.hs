@@ -132,3 +132,8 @@ goodCompromise = [ [1,2,3], [2,1,3], [2,3,1], [3,2,1] ]
 badCompromise :: [[Int]]
 badCompromise = [ [1,2,3], [1,3,2], [3,1,2], [3,2,1] ]
 
+doubleFlop :: [[Int]]
+doubleFlop = [ [1,2,3,4], [2,1,4,3], [3,4,1,2], [4,3,2,1] ]
+
+swingAround :: [[Int]]
+swingAround = [ [1,2,3,4], [3,2,1,4], [2,1,4,3], [2,3,4,1] ]

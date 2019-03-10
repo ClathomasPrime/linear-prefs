@@ -19,6 +19,9 @@ dependencies:
   - diagrams-svg
   - pretty-simple
   - containers
+    # - glpk-hs
+  - hmatrix-glpk
+  - hmatrix
 
 executables:
   many-matching:

@@ -65,6 +65,12 @@ sortPartial pred as = foldl insert [] as
 firstHalf :: [a] -> [a]
 firstHalf as = take (length as `div` 2) as
 
+
+adjacentPairs :: [a] -> [(a,a)]
+adjacentPairs as = zip as $ tail' as
+  where tail' [] = []
+        tail' as = tail as
+
 --------------------------------------------------------------------------------
 
 most :: Monad m => (a -> a -> Ordering) -> Int -> m a -> m a
@@ -81,4 +87,9 @@ tryUntil nTrials test generator = do
      then return $ Just a
      else tryUntil (nTrials - 1) test generator
 
-
+phi :: Int -> Int -> Int
+phi n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)
+  - ((n-w) `c` 2) * (w `c` 1) - (w `c` 3)
+  where c n k
+          | k > n || k < 0 = 1
+          | otherwise = n `choose` k
