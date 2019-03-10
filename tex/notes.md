@@ -1,6 +1,6 @@
 This might be enriching:
 http://www.cse.unsw.edu.au/~haziz/comsoc10years.pdf
-
+  
 Single Crossing
 ====
 [!] Gans and Smart (1996). Majority voting with single-crossing preferences.
