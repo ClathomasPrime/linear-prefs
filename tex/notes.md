@@ -13,25 +13,6 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
     end up being single crossing under certain assumptions, and you can easily prove things
     (I think - I really really don't understand all the economics mumbo jumbo)).
 
-Representative Voting
-====
-[!] Rothstein, P. (1991) Representative Voter Theorems.
-Public Choice 72(2-3): 193-212
-
-    Introduces a very cool notion of representative voter
-
-Computational Complexity of checking a condition on a pref set
-====
-
-[!] Are There Any Nicely Structured Preference Profiles Nearby? 
-citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
-
-    Problem: how many {voters, outcomes} must you delete to get a _____ set of preferences
-
-[!] Computational aspects of nearly single-peaked electorates. https://arxiv.org/abs/1211.2627
-
-    Concurrent with previous paper, but focusing on single-peaked (with a bit more detail)
-
 [!] A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
 
     Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
@@ -46,6 +27,34 @@ citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
     Inspired by the previous paper, these guys give a "forbidden subconfiguration" characterization
     of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
     O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly). 
+
+
+Representative Voting
+====
+[!] Rothstein, P. (1991) Representative Voter Theorems.
+Public Choice 72(2-3): 193-212
+
+    Introduces a very cool notion of representative voter
+
+    
+[!] Condorcet Domains, Median Graphs and the Single-Crossing Property
+https://arxiv.org/pdf/1507.08219.pdf
+
+    Does lots of cool stuff. One of them: characterizes those sets for which a
+    "representative voter theorem" holds. The answer: it's basically just single crossing,
+    plus a very small list of other examples.
+
+Computational Complexity of checking a condition on a pref set
+====
+
+[!] Are There Any Nicely Structured Preference Profiles Nearby? 
+citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
+
+    Problem: how many {voters, outcomes} must you delete to get a _____ set of preferences
+
+[!] Computational aspects of nearly single-peaked electorates. https://arxiv.org/abs/1211.2627
+
+    Concurrent with previous paper, but focusing on single-peaked (with a bit more detail)
 
 
 How I first found single crossing:
