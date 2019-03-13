@@ -124,7 +124,8 @@ Journal of Public Economics 8(3): 329-340
 [38] Saporiti, A., TohmÈ, F. (2006) Single-crossing, strategic voting and the
 median choice rule.  Social Choice and Welfare 26(2): 363-383
 
-    "strategic foundation of representative voter theorem"
+    "strategic foundation of representative voter theorem":
+    voting for a median representative then picking his favorite is SP.
 
 [39] Saporiti, A. (forthcoming) On the existence of Nash equilibrium in
 electoral competition. Game Theory and Information
