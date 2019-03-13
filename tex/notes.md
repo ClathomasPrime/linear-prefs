@@ -60,6 +60,11 @@ citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
 
     Concurrent with previous paper, but focusing on single-peaked (with a bit more detail)
 
+[!] On Recognising Nearly Single-Crossing Preferences http://www.dominik-peters.de/publications/nearlysc.pdf
+
+    Continues this line of research further. Handles more edit distances from the "nearly single peaked" paper,
+    applied to single crossing.
+
 Cool thing for later: application to matching
 ====
 
