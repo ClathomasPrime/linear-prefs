@@ -28,6 +28,9 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
     of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
     O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly). 
 
+[!] Single-CrossingDifferencesonDistributions http://www.columbia.edu/~nk2339/Papers/KLR-sced.pdf
+
+    Seems to hint at "two dimensional stuff is single crossing" but will take a lot of unpacking...
 
 Representative Voting
 ====
