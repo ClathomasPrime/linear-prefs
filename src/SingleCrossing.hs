@@ -77,7 +77,7 @@ combobulate sc@(SingleCrossingSpec outcomes fixeds pivots) current = do
     else do
       index <- getRandomR (0,length pairs - 1)
       let pair = pairs !! index
-      flip <- Rand.fromList [(True, 0.8), (False, 0.2)]
+      flip <- Rand.fromList [(True, 0.7), (False, 0.3)]
       (restList, restSc) <- if flip
         then combobulate
                (SingleCrossingSpec outcomes fixeds $ [pair]:pivots)

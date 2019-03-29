@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 297f0caa5cadc2c7f66756dccd638e758b651cb38af1cc9adb4706660b3edd0e
+-- hash: 0ea535e87b4973e93155411d02145edd508e7e763fb82dde68e3f3bfd421ca1c
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -23,7 +23,6 @@ executable many-matching
   other-modules:
       BoundedD
       ConnectedGraph
-      ConvertTwoD
       Data
       Drawing
       GeneralD

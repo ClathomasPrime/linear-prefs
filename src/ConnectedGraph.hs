@@ -2,7 +2,7 @@
 module ConnectedGraph where
 
 import Util
-import ConvertTwoD
+import SingleCrossing
 -- import GeneralD
 import LinearPref
 import SingleCrossing

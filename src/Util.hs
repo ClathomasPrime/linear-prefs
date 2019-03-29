@@ -40,6 +40,12 @@ listSplits (a:as) = ([],a:as) : map phi (listSplits as)
 
 --------------------------------------------------------------------------------
 
+subset :: Eq a => [a] -> [a] -> Bool
+subset as bs = all (`elem` bs) as
+
+eqAsSet :: Eq a => [a] -> [a] -> Bool
+eqAsSet as bs = null (as \\ bs) && null (bs \\ as)
+
 sortGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
 sortGroupBy pred as = groupBy pred . sortBy pred' $ as
   where pred' a b
@@ -86,6 +92,14 @@ tryUntil nTrials test generator = do
   if test a
      then return $ Just a
      else tryUntil (nTrials - 1) test generator
+
+tryUntilSomething :: Monad m => Int -> m (Maybe a) -> m (Maybe a)
+tryUntilSomething 0 _ = return Nothing
+tryUntilSomething nTrials generator = do
+  a <- generator
+  case a of
+    Nothing -> tryUntilSomething (nTrials - 1) generator
+    Just a -> return $ Just a
 
 phi :: Int -> Int -> Int
 phi n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)

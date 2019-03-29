@@ -89,6 +89,22 @@ mostPrefs n d trials delta prec
 
 --------------------------------------------------------------------------------
 
+randomFullPrefs :: MonadRandom m => Int -> Int -> Double -> m [[Int]]
+randomFullPrefs d n delta
+  = genLinearPrefs d delta . arbitraryLable <$> unitBoxPoints d n
+
+simpleRandPrefs :: MonadRandom m => m [[Int]]
+simpleRandPrefs = randPrefs 2 10 1000
+
+-- all these are distinct
+randPrefs :: MonadRandom m => Int -> Int -> Int -> m [[Int]]
+randPrefs d numOutcomes numVoters = do
+  outcomes <- arbitraryLable <$> roundedUnitBoxPoints 3 d numOutcomes
+  voters <- replicateM numVoters (randomMeshPoint d)
+  return . nub $ fmap (\(a :: Point Rational) -> linearPref a outcomes) voters
+
+--------------------------------------------------------------------------------
+
 experiment :: MonadRandom m => m [(Int,Int)]
 experiment = mapM phi [4..6]
   where phi n = do
@@ -127,16 +143,4 @@ getRandomRat prec (low,high) = do
   i :: Integer <- getRandomR (0, 10^prec)
   let frac = toRational i / toRational (10^prec :: Integer)
   return $ low + frac * (high - low)
-
---------------------------------------------------------------------------------
-
-simpleRandPrefs :: MonadRandom m => m [[Int]]
-simpleRandPrefs = randPrefs 2 10 1000
-
--- all these are distinct
-randPrefs :: MonadRandom m => Int -> Int -> Int -> m [[Int]]
-randPrefs d numOutcomes numVoters = do
-  outcomes <- arbitraryLable <$> roundedUnitBoxPoints 3 d numOutcomes
-  voters <- replicateM numVoters (randomMeshPoint d)
-  return . nub $ fmap (\(a :: Point Rational) -> linearPref a outcomes) voters
 
