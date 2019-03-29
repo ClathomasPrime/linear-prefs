@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0ea535e87b4973e93155411d02145edd508e7e763fb82dde68e3f3bfd421ca1c
+-- hash: 5d0aa832ed76c718df104ba233ae738a0a6e914c4ad52367f3720cc7bce6f8e4
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -21,10 +21,9 @@ extra-source-files:
 executable many-matching
   main-is: Main.hs
   other-modules:
-      BoundedD
-      ConnectedGraph
+      CondorcetGraph
+      CondorcetOps
       Data
-      Drawing
       GeneralD
       LinearPref
       LinearProgram

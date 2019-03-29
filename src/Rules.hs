@@ -19,7 +19,7 @@ instance Show l => Show (Implication l) where
 conclusionsThatHold :: Eq l => [(l,l)] -> [[l]] -> [(l,l)]
 conclusionsThatHold hypoths prefs
   = intersectTotalOrders . filter satisfyHypoths $ prefs
-  where satisfyHypoths pref = all (`satisfies` pref) hypoths
+  where satisfyHypoths pref = all (pref `satisfies`) hypoths
 
 nontrivialMinimalRules :: Eq l => [[l]] -> [Implication l]
 nontrivialMinimalRules prefs = minimize $ nontrivialRules prefs

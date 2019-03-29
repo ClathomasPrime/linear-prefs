@@ -82,8 +82,8 @@ intersectTotalOrders :: Eq l => [[l]] -> [(l,l)]
 intersectTotalOrders ls =
   foldl1 intersect . fmap toOrderedPairs $ ls
 
-satisfies :: Eq l => (l,l) -> [l] -> Bool
-satisfies (a,b) ls =
+satisfies :: Eq l => [l] -> (l,l) -> Bool
+satisfies ls (a,b) =
   case (elemIndex a ls, elemIndex b ls) of
     (Just ax, Just bx) -> ax < bx
     _ -> False -- ^ Maybe not a good default but ?

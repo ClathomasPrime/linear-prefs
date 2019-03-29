@@ -5,10 +5,10 @@
 
 module Main where
 
-import Drawing (main')
+-- import Drawing (main')
 
 main :: IO ()
-main = main'
+main = return () -- main'
 --------------------------------------------------------------------------------
 
 
