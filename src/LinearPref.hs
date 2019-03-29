@@ -26,6 +26,9 @@ consistentPrefs schools prefs =
 arbitraryLable :: [x] -> [(Int, x)]
 arbitraryLable = zip [1..]
 
+alphaLable :: [x] -> [(Char, x)]
+alphaLable = zip ['a'..]
+
 subsetsOfSize :: Int -> [a] -> [[a]]
 subsetsOfSize 0 _ = [[]]
 subsetsOfSize _ [] = []
