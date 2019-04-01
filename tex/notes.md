@@ -1,7 +1,7 @@
 This might be enriching:
 http://www.cse.unsw.edu.au/~haziz/comsoc10years.pdf
   
-Single Crossing
+Single Crossing (and friends some)
 ====
 [!] Gans and Smart (1996). Majority voting with single-crossing preferences.
 Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0047272795015035
@@ -13,7 +13,22 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
     end up being single crossing under certain assumptions, and you can easily prove things
     (I think - I really really don't understand all the economics mumbo jumbo)).
 
-[!] A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
+[!] A characterization of the single-crossing domain. https://link.springer.com/article/10.1007/s00355-012-0717-8
+
+    Inspired by [Ballester and Haeringer 2011], these guys give a "forbidden subconfiguration" characterization
+    of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
+    O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly).
+    
+    
+
+[!] Single-CrossingDifferencesonDistributions http://www.columbia.edu/~nk2339/Papers/KLR-sced.pdf
+
+    Seems to hint at "two dimensional stuff is single crossing" but will take a lot of unpacking...
+
+Other domains
+====
+[Ballester and Haeringer 2011] 
+A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
 
     Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
     some is never ranked worst) plus a "forbidden subconfiguration" (they call it an alpha-configuration -
@@ -21,16 +36,8 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
     
     Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
     for checking SP as well.
-
-[!] A characterization of the single-crossing domain. https://link.springer.com/article/10.1007/s00355-012-0717-8
-
-    Inspired by the previous paper, these guys give a "forbidden subconfiguration" characterization
-    of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
-    O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly). 
-
-[!] Single-CrossingDifferencesonDistributions http://www.columbia.edu/~nk2339/Papers/KLR-sced.pdf
-
-    Seems to hint at "two dimensional stuff is single crossing" but will take a lot of unpacking...
+    
+    Also handle 
 
 Representative Voting
 ====
