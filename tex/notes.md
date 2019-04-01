@@ -19,7 +19,9 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
     of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
     O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly).
     
-    
+    Forbidden subconfigs: 
+      - gamma config: "none of the three voters can be between the other two"  (noRep and 3Cycle are good examples)
+      - delta configs: "four voters, each pair of them must be adjacent" (basically FlipFlop!)
 
 [!] Single-CrossingDifferencesonDistributions http://www.columbia.edu/~nk2339/Papers/KLR-sced.pdf
 
@@ -31,13 +33,16 @@ Other domains
 A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
 
     Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
-    some is never ranked worst) plus a "forbidden subconfiguration" (they call it an alpha-configuration -
-    the preference set is "4 > 1 > 2 > 3; 4 > 3 > 2 > 1" basically the whole idea).
+    some is never ranked worst) plus a "forbidden subconfiguration":
+      - alpha config: voters with oposite opinions on 3 outcomes agree about a fourth
+        (the preference set "4 > 1 > 2 > 3;    4 > 3 > 2 > 1" captures the whole idea)
     
     Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
     for checking SP as well.
     
-    Also handle 
+    Also handle group separable, for which the preference set must be "medium restricted"
+    (for all trippls, one is never ranked in the middel) forbidden subconfig:
+      - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
 Representative Voting
 ====
