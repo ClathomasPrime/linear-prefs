@@ -27,6 +27,13 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
 
     Seems to hint at "two dimensional stuff is single crossing" but will take a lot of unpacking...
 
+[!] Strategy-proofness and single-crossing, Alejandro Saporiti, 2009.
+  https://econtheory.org/ojs/index.php/te/article/viewArticle/20090127 
+
+    Nice and modern perspective. Probably valuable for a clear definition. 
+    Proves e.g. that all strategyproof rules on a S.C. domain only take the top candidate of each voter
+    into account. Peculiar... Actually I should really try harder to parse this.
+
 Other domains
 ====
 [Ballester and Haeringer 2011] 
