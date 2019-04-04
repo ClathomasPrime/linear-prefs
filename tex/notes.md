@@ -51,6 +51,10 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
+[Danilov et al] Maximal Condorcet Domains. https://link.springer.com/article/10.1007/s11083-011-9235-z
+
+    Very abstract / pure mathy but has nice (non complete) characterizations.
+
 Representative Voting
 ====
 [!] Rothstein, P. (1991) Representative Voter Theorems.
