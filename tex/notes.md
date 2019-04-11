@@ -112,6 +112,10 @@ https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
 
     Might be good resource on manipulability. Mentions restricted domains.
 
+[!] Sen et al. "Dictatorial Domains" https://link.springer.com/article/10.1007/s00199-002-0285-8
+
+    Provides a sufficient condition for all strategyproof voting rules to be dictatorships.
+    
 
 How I first found single crossing:
 =====
