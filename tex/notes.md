@@ -100,6 +100,12 @@ Cool thing for later: application to matching
     studies how it relates to single crossing;
     shows it gives really good matchings.
 
+Etc / Crazy Stuff
+====
+
+[!] Algebraic framework for voting theory.
+https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
+
 How I first found single crossing:
 =====
 Excerpt from "Majority voting on restricted domains" introduction, page 2
