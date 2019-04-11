@@ -106,6 +106,13 @@ Etc / Crazy Stuff
 [!] Algebraic framework for voting theory.
 https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
 
+    Actually looking closer this is an undergrad thesis soooo
+    
+[!] Lirong Xia's book-like thesis: https://www.cs.rpi.edu/~xial/Files/dissertation_Lirong.pdf
+
+    Might be good resource on manipulability. Mentions restricted domains.
+
+
 How I first found single crossing:
 =====
 Excerpt from "Majority voting on restricted domains" introduction, page 2
