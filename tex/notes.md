@@ -115,7 +115,10 @@ https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
 [!] Sen et al. "Dictatorial Domains" https://link.springer.com/article/10.1007/s00199-002-0285-8
 
     Provides a sufficient condition for all strategyproof voting rules to be dictatorships.
-    
+
+[!] How similar are two elections? https://www.aaai.org/Papers/AAAI/2019/AAAI-FaliszewskiP2.3395.pdf
+
+    (Surprisingly) efficient algorithms for measuring election similarity
 
 How I first found single crossing:
 =====
