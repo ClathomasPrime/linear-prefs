@@ -28,7 +28,7 @@ Q: under what conditions are maximal condorcet domains characterized?
 * [DK13]: when the domain also has maximal *size* for the number of outcomes
 * [PS19]: when the domain is also single crossing 
     (indeed, the maximal condorcet domain containing a given maximal single crossing domain is determined)
-*   
+* [DKK12]: I thiiiink classifies min/max value restricted ("peak-pit domains") which are maximal CDs.
 
 Single Crossing
 ====
