@@ -1,7 +1,30 @@
 This might be enriching:
 http://www.cse.unsw.edu.au/~haziz/comsoc10years.pdf
-  
-Single Crossing (and friends some)
+
+Combinatorics
+====
+    
+[PS19] Condorcet Domains, Median Graphs and the Single-Crossing Property
+https://arxiv.org/pdf/1507.08219.pdf
+
+    Does lots of cool stuff. One of them: characterizes those sets for which a
+    "representative voter theorem" holds. The answer: it's basically just single crossing,
+    plus a very small list of other examples, all of them pretty similar to FlipFlop.
+    
+    This is a very, very cool paper. They put tonnes of combinatorial structure on top
+    of preference domains, and their method is really effective. A core tool is median graphs.
+    
+[DK13] aximal Condorcet Domains. https://link.springer.com/article/10.1007/s11083-011-9235-z
+
+    Very abstract / pure mathy but has nice (non complete) characterizations.
+
+[DKK12] Condorcet domains of tiling type. Vladimir I. Danilova, Alexander V. Karzanovb, Gleb Koshevoya
+https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
+
+    Concerns domains containing precicely one pair of reversed preferences, apparently.
+    "Constructs large CDs via tiling" or something, too. 
+
+Single Crossing
 ====
 [!] Gans and Smart (1996). Majority voting with single-crossing preferences.
 Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0047272795015035
@@ -51,9 +74,6 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
-[Danilov et al] Maximal Condorcet Domains. https://link.springer.com/article/10.1007/s11083-011-9235-z
-
-    Very abstract / pure mathy but has nice (non complete) characterizations.
 
 Representative Voting
 ====
@@ -62,17 +82,7 @@ Public Choice 72(2-3): 193-212
 
     Introduces a very cool notion of representative voter
 
-    
-[!] Condorcet Domains, Median Graphs and the Single-Crossing Property
-https://arxiv.org/pdf/1507.08219.pdf
-
-    Does lots of cool stuff. One of them: characterizes those sets for which a
-    "representative voter theorem" holds. The answer: it's basically just single crossing,
-    plus a very small list of other examples, all of them pretty similar to FlipFlop.
-    
-    This is a very, very cool paper. They put tonnes of combinatorial structure on top
-    of preference domains, and their method is really effective. A core tool is median graphs.
-    
+See also [PS19]
 
 Computational Complexity of checking a condition on a pref set
 ====
