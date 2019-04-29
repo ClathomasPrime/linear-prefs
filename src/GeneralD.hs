@@ -10,6 +10,7 @@ import Data.Function
 
 import Util
 import LinearPref
+import PrefDomains
 
 type Point a = [a]
 
@@ -78,6 +79,16 @@ genLinearPrefs :: (Fractional n, Enum n, Ord n, Ord a)
 genLinearPrefs d delta xs
   = nub [linearPref a xs | a <- meshNCell d delta]
 
+-- Would be really nice to finish this...
+-- genLinearPrefsTieless :: (Fractional n, Enum n, Ord n, Ord a)
+--   => Int -> n -> [(a, Point n)] -> [[a]]
+-- genLinearPrefsTieless d delta xs
+--   = nub . catMaybes $ [linearPref' a xs | a <- meshNCell d delta]
+--   where linearPref' a xs =
+--           if any
+--         cmp (lx,x) (ly,y) = if (a `dot` y) `compare` (a `dot` x) <> ly `compare` lx
+--                 -- ^ oposite order to sort biggest to smallest
+
 mostPrefs :: (Fractional n, Enum n, Ord n, MonadRandom m)
           => Int -> Int -> Int -> n -> Int
           -> m ([Point n], Int)
@@ -94,7 +105,7 @@ randomFullPrefs d n delta
   = genLinearPrefs d delta . arbitraryLable <$> unitBoxPoints d n
 
 simpleRandPrefs :: MonadRandom m => m [[Int]]
-simpleRandPrefs = randPrefs 2 10 1000
+simpleRandPrefs = randPrefs 3 4 1000
 
 -- all these are distinct
 randPrefs :: MonadRandom m => Int -> Int -> Int -> m [[Int]]
@@ -143,4 +154,15 @@ getRandomRat prec (low,high) = do
   i :: Integer <- getRandomR (0, 10^prec)
   let frac = toRational i / toRational (10^prec :: Integer)
   return $ low + frac * (high - low)
+
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+-- Specific 3D sets
+-- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+oneNotWorst :: [[Double]]
+oneNotWorst = [ [1,0.1,0.1], [0.1,1,0.1], [0.1,0.1,1], [0.5, 0.4, 0.6] ]
+
+twoDominateTwo :: [[Double]]
+twoDominateTwo -- = [ [1,0.1,1], [0.2,1,1], [0.2,0.1,1.5], [1,1,0.1] ]
+  = [ [1,0,1], [0,1,1], [0,0,1.5], [1,1,0] ]
 

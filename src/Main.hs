@@ -6,9 +6,10 @@
 module Main where
 
 -- import Drawing (main')
+import Plotting.SimplexPartition (simplexMain)
 
 main :: IO ()
-main = return () -- main'
+main = simplexMain -- return () -- main'
 --------------------------------------------------------------------------------
 
 

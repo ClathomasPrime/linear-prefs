@@ -13,7 +13,34 @@ import GeneralD
 
 import Debug.Trace
 
-type Space = [Point Double]
+
+majorityPrefer :: Eq l => l -> l -> [[l]] -> Bool
+majorityPrefer x y prefs = nPrefXY > nVoters `div` 2
+  where nVoters = length prefs
+        nPrefXY = length . filter (rankHigher x y) $ prefs
+
+majorityPairs :: Ord l => [[l]] -> [(l,l)]
+majorityPairs prefs = sort $ do
+  let outcomes = head prefs
+  x:ys <- tails outcomes
+  y <- ys
+  if majorityPrefer x y prefs
+    then return (x,y)
+    else if majorityPrefer y x prefs
+           then return (y,x)
+           else []
+
+-- WARNING: undefined behavior on non-condorcet inputs.
+majorityRule :: Ord l => [[l]] -> [l]
+majorityRule ls = fromOrderedPairs (head ls) (majorityPairs ls)
+
+majorityRuleSafe :: Ord l => [[l]] -> Maybe [l]
+majorityRuleSafe ls = fromOrderedPairsFull (head ls) (majorityPairs ls)
+
+
+--------------------------------------------------------------------------------
+-- DIMENSIONAL VOTING
+--------------------------------------------------------------------------------
 
 medianAngle :: [PrefWeight Double] -> PrefWeight Double
 medianAngle = medianIndex . sortBy (compare `on` normedX)
@@ -81,17 +108,3 @@ testCondorcetLinear candidates prefs
         majorityInHeadToHead c d =
           (length . filter (\p -> greaterByPref p c d)) prefs > maj
         maj = length candidates `div` 2
-
-goodMiddle :: [(Char, Point Double)]
-goodMiddle = [('a', [0.1,0.9]), ('b', [0.6,0.6]), ('c', [0.9,0.1])]
-
-badMiddle :: [(Char, Point Double)]
-badMiddle = [('a', [0.1,0.9]), ('b', [0.4,0.4]), ('c', [0.9,0.1])]
-
-hullsCross :: [(Int, Point Double)]
-hullsCross = [(1, [0,1]), (2, [0.2,0.9]), (3, [0.7,0.1]), (4, [1,0])]
-
-hullContains :: [(Int, Point Double)]
-hullContains = [(1, [0,1]), (2, [0.2,0.7]), (3, [0.4,0.1]), (4, [1,0])]
-
-

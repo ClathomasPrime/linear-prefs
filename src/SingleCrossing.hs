@@ -33,6 +33,13 @@ separateDominatedPairs prefs
 
 --------------------------------------------------------------------------------
 
+-- warning: might crash lol
+checkSingleCrossing :: Ord l => [[l]] -> Bool
+checkSingleCrossing ls =
+  ls `subset` specToPrefs (convertSingleCrossing ls)
+
+--------------------------------------------------------------------------------
+
 
 specToPrefs :: Eq l => SingleCrossingSpec l -> [[l]]
 specToPrefs (SingleCrossingSpec outcomes fixed pivots)
@@ -46,8 +53,8 @@ checkImplies prefs (x,y) (u,v)
   = all (\p -> greaterByPref p u v) (filter (\p -> greaterByPref p x y) prefs)
 
 
-convertTwoD :: Eq l => [[l]] -> SingleCrossingSpec l
-convertTwoD prefs =
+convertSingleCrossing :: Eq l => [[l]] -> SingleCrossingSpec l
+convertSingleCrossing prefs =
   let outcomes = head prefs
       (fixedPairs, freePairs) = separateDominatedPairs prefs
       sorted = sortPartial (checkImplies prefs) $ freePairs
@@ -59,33 +66,38 @@ convertTwoD prefs =
 --------------------------------------------------------------------------------
 
 randSingCrossing :: MonadRandom m => Int -> m (SingleCrossingSpec Int)
-randSingCrossing n = do
+randSingCrossing n = randSingCrossingBiased 0.7 n
+  -- ^ flip w.p. 0.7
+
+randSingCrossingBiased :: MonadRandom m => Rational -> Int -> m (SingleCrossingSpec Int)
+randSingCrossingBiased p n = do
   (prefs, SingleCrossingSpec outcomes _ pivots)  <-
     combobulate (SingleCrossingSpec [1..n] [] []) [1..n]
   let (fixedPairs, _) = separateDominatedPairs prefs
   -- traceShowM prefs
   return $ SingleCrossingSpec outcomes fixedPairs (reverse pivots)
+  where
+    combobulate :: MonadRandom m
+      => SingleCrossingSpec Int -> [Int] -> m ([[Int]], SingleCrossingSpec Int)
+    combobulate sc@(SingleCrossingSpec outcomes fixeds pivots) current = do
+      let pairs = adjacentPairs current \\
+            concatMap (\x -> [x,swap x]) (fixeds ++ concat pivots)
+            -- include swap because reasons
+      if null pairs
+        then return ([current], sc)
+        else do
+          index <- getRandomR (0,length pairs - 1)
+          let pair = pairs !! index
+          flip <- Rand.fromList [(True, p), (False, 1-p)]
+          (restList, restSc) <- if flip
+            then combobulate
+                   (SingleCrossingSpec outcomes fixeds $ [pair]:pivots)
+                   (flipPair pair current)
+            else combobulate
+                   (SingleCrossingSpec outcomes (pair:fixeds) pivots)
+                   current
+          return (current:restList, restSc)
 
-combobulate :: MonadRandom m
-  => SingleCrossingSpec Int -> [Int] -> m ([[Int]], SingleCrossingSpec Int)
-combobulate sc@(SingleCrossingSpec outcomes fixeds pivots) current = do
-  let pairs = adjacentPairs current \\
-        concatMap (\x -> [x,swap x]) (fixeds ++ concat pivots)
-        -- include swap because reasons
-  if null pairs
-    then return ([current], sc)
-    else do
-      index <- getRandomR (0,length pairs - 1)
-      let pair = pairs !! index
-      flip <- Rand.fromList [(True, 0.7), (False, 0.3)]
-      (restList, restSc) <- if flip
-        then combobulate
-               (SingleCrossingSpec outcomes fixeds $ [pair]:pivots)
-               (flipPair pair current)
-        else combobulate
-               (SingleCrossingSpec outcomes (pair:fixeds) pivots)
-               current
-      return (current:restList, restSc)
 
 flipPair :: Eq a => (a, a) -> [a] -> [a]
 flipPair (a,b) as =
@@ -100,7 +112,7 @@ flipPair (a,b) as =
 --------------------------------------------------------------------------------
 
 
-prefs01, prefs02, prefs03, prefs04 :: [[Int]]
+prefs01, prefs02, prefs03, prefs04, prefs05 :: [[Int]]
 
 prefs01 = [ [2,4,1,3], [2,3,4,1], [2,4,3,1], [3,2,4,1] ]
 
@@ -118,6 +130,6 @@ prefs05 = [ [1,3,2,4], [1,2,4,3], [1,4,2,3], [1,2,3,4] ]
 
 checkAlg :: Ord l => [[l]] -> Maybe [[l]]
 checkAlg prefs
-  | ((==) `on` sort) prefs (specToPrefs $ convertTwoD prefs) = Nothing
+  | ((==) `on` sort) prefs (specToPrefs $ convertSingleCrossing prefs) = Nothing
   | otherwise = Just prefs
 -- e.g. fmap checkAlg <$> replicateM 100 (randPrefs d 10 1000)

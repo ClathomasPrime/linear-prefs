@@ -1,5 +1,28 @@
 module Data where
 
+import GeneralD
+
+-- RELEVANT NICE STUFF::
+
+goodMiddle :: [(Char, Point Double)]
+goodMiddle = [('a', [0.1,0.9]), ('b', [0.6,0.6]), ('c', [0.9,0.1])]
+
+badMiddle :: [(Char, Point Double)]
+badMiddle = [('a', [0.1,0.9]), ('b', [0.4,0.4]), ('c', [0.9,0.1])]
+
+hullsCross :: [(Int, Point Double)]
+hullsCross = [(1, [0,1]), (2, [0.2,0.9]), (3, [0.7,0.1]), (4, [1,0])]
+
+hullContains :: [(Int, Point Double)]
+hullContains = [(1, [0,1]), (2, [0.2,0.7]), (3, [0.4,0.1]), (4, [1,0])]
+
+
+
+
+
+-- MOSTLY SEEMS LIKE JUNK:::
+
+
 -- (7,[[0.8,0.6],[0.8,0.0],[0.3,0.6],[0.2,1.0]])
 
 -- [(3,4),(4,7),(5,11),(6,14),(7,17),(8,20),(9,22),(10,26)]

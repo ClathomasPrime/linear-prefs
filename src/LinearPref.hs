@@ -5,6 +5,8 @@ import Data.List
 
 import Util
 
+import Debug.Trace
+
 type LinearPref l = [l]
 
 compareByPref :: Eq l => [l] -> l -> l -> Ordering
@@ -17,11 +19,12 @@ compareByPref ranking x y
 greaterByPref :: Eq l => [l] -> l -> l -> Bool
 greaterByPref ranking x y = compareByPref ranking x y == GT
 
+rankHigher :: Eq l => l -> l -> [l] -> Bool
+rankHigher x y p = compareByPref p x y == GT
+
 consistentPrefs :: Eq l => [l] -> [[l]] -> [(l,l)]
 consistentPrefs schools prefs =
-  [ (x, y) | x <- schools, y <- schools,
-    all (rankHigher x y) prefs ]
-  where rankHigher x y p = compareByPref p x y == GT
+  [ (x, y) | x <- schools, y <- schools, all (rankHigher x y) prefs ]
 
 arbitraryLable :: [x] -> [(Int, x)]
 arbitraryLable = zip [1..]
@@ -67,11 +70,13 @@ hasKCycle ls k prefs = any cycleInPrefs subsets
 -- Convention: A pair (a,b) denotes a>b.
 
 toOrderedPairs :: [l] -> [(l,l)]
-toOrderedPairs ls = do
-  (front,back) <- listSplits ls
-  case reverse front of
-    (a:_) -> fmap (a,) back
-    _ -> []
+toOrderedPairs ls =
+  [ (x,y) | x:ys <- tails ls, y <- ys ]
+  -- do -- lol I overthought this huh
+  -- (front,back) <- listSplits ls
+  -- case reverse front of
+  --   (a:_) -> fmap (a,) back
+  --   _ -> []
 
 -- fromOrderedPairs assumes all (n choose 2) total order pairs are given
 fromOrderedPairs :: Eq l => [l] -> [(l,l)] -> [l]
@@ -80,6 +85,18 @@ fromOrderedPairs outcomes orders = reverse $ sortBy cmp outcomes
           | (a,b) `elem` orders = GT
           | (b,a) `elem` orders = LT
           | otherwise = error "ordered pair unexpected stuff occured idk"
+
+-- checks and enforces that ALL (n choose 2) orders are given
+fromOrderedPairsFull :: Eq l => [l] -> [(l,l)] -> Maybe [l]
+fromOrderedPairsFull [] _ = Just []
+fromOrderedPairsFull outcomes prefs = do
+  let beatsAll x = all (\y -> any (== (x,y)) prefs) (outcomes \\ [x])
+        && not (any (\y -> any (== (y,x)) prefs) (outcomes \\ [x]))
+  winner <- find beatsAll outcomes
+  -- traceShowM winner
+  let rest = outcomes \\ [winner]
+  restOrder <- fromOrderedPairsFull rest prefs
+  return $ winner : restOrder
 
 intersectTotalOrders :: Eq l => [[l]] -> [(l,l)]
 intersectTotalOrders ls =
@@ -101,42 +118,3 @@ dominated (a,b) prefs = all dom prefs
 
 --------------------------------------------------------------------------------
 
-noOneFirst :: [[Int]]
-noOneFirst = permutations [1..4]
-  \\ fmap (1:) (permutations [2..4])
-
---------------------------------------------------------------------------------
-
-fullSinglePeaked :: Eq a => [a] -> [[a]]
-fullSinglePeaked as = nub $ do
-  (left', right) <- listSplits as
-  let left = reverse left'
-  interleaves left right
-
---------------------------------------------------------------------------------
-
-flipFlop :: [[Int]]
-flipFlop =
-  [ [1,2,  3,4]
-  , [1,2,  4,3]
-  , [2,1,  3,4]
-  , [2,1,  4,3]
-  ]
-
-kCycle :: Int -> [[Int]]
-kCycle k = rotations [1..k]
-
-sandwich :: [[Int]]
-sandwich = [ [1,2,3], [1,3,2], [3,2,1], [2,3,1] ]
-
-goodCompromise :: [[Int]]
-goodCompromise = [ [1,2,3], [2,1,3], [2,3,1], [3,2,1] ]
-
-badCompromise :: [[Int]]
-badCompromise = [ [1,2,3], [1,3,2], [3,1,2], [3,2,1] ]
-
-doubleFlop :: [[Int]]
-doubleFlop = [ [1,2,3,4], [2,1,4,3], [3,4,1,2], [4,3,2,1] ]
-
-swingAround :: [[Int]]
-swingAround = [ [1,2,3,4], [3,2,1,4], [2,1,4,3], [2,3,4,1] ]

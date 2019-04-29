@@ -1,0 +1,180 @@
+\documentclass[12pt]{article}
+
+\usepackage{comment}
+ 
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[margin=.75in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{dsfont}
+\usepackage{amsthm}
+\usepackage{mathtools,amssymb}
+\usepackage{wrapfig,caption,subcaption}
+\allowdisplaybreaks
+
+\newtheorem*{definition}{Definition}
+\newtheorem*{question}{Question}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rgz}{\mathbb{R}_{\ge 0}}
+
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\norm}[1]{\left\lVert{#1}\right\rVert}
+\newcommand{\sizeof}[1]{\left\lvert{#1}\right\rvert}
+
+\newcommand{\woloss}{without loss of generality }
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\cone}{cone}
+\DeclareMathOperator*{\hull}{hull}
+\DeclareMathOperator*{\indif}{indif}
+
+\newcommand{\1}[1]{\mathds{1}[{#1}]}
+\renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
+\newcommand{\E}[1]{\mathds{E}\left[{#1}\right]}
+\newcommand{\Var}[1]{\mathrm{Var}[{#1}]}
+
+\newcommand{\unit}{\mathds{1}}
+\newcommand{\lo}{\succ}
+
+% \renewcommand{\thesubsection}{\thesection.\alph{subsection}}
+% \renewcommand\thesubsection{\ \ (\alph{subsection})}
+
+
+\begin{document}
+
+% \renewcommand{\qedsymbol}{\filledbox}
+ 
+\title{
+  Dim Prefs
+}
+\author{
+  Clay Thomas \\
+  claytont@princeton.edu
+}
+\maketitle
+
+\section{Lemmas}
+  In this section, we set up the tools needed to reason about 
+  $d$-dimensional preferences.
+
+  \subsection{Lemmas based on the structure of $X$}
+    These first few lemmas relate geometric properties of $X$ to
+    limitations on the structure of $>_a$ for a specific, fixed $a$.
+
+    The most simple way $X$ gives structure to preferences is if
+    one outcome is better in all attributes.
+    \begin{definition}
+      Let $x,y\in X\subseteq \Rgz^d$.
+      We say $x$ \emph{dominates} $y$, denoted $x\gg y$,
+      if $x[k] > y[k]$ for each $k=1,\ldots,d$.
+    \end{definition}
+    \begin{proposition}
+      If $x \gg y$, then $x >_a y$ for any nonzero $a\in \Rgz^d$.
+    \end{proposition}
+
+    When comparing different outcomes, a useful tool is
+    the familiar geometric notion of a convex hull.
+    Intuitively, if a preference weight does not like any of a set of options,
+    it will not like any outcome in the hull of those options either.
+    Thus, a point ``dominated by the hull'' of a set of options
+    cannot be preferred to all those options.
+    \begin{definition}
+      For points $x_1,\ldots,x_n \in \R^d$, let $\hull(x_1,\ldots,x_n)
+      = \{u_1x_1 + \ldots + u_nx_n | 0\le u_i\le 1, \sum_{i=1}^n u_i = 1\}$
+      denote the convex hull of $x_1,\ldots,x_n$.
+    \end{definition}
+    \begin{lemma}\label{lem:agreementHull}
+      Let $z,x_1,\ldots,x_k \in \Rgz^d$ and $a\in \Rgz^d \setminus \{0\}$.
+      If $z >_a x_i$ for $i=1,\ldots,k$, then $z >_a w$
+      for any $w\in \hull(x_1,\ldots,x_k)$.
+    \end{lemma}
+    \begin{proof}
+      We have $\ip{a}{z} > \ip{a}{x_i}$ for each $i=1,\ldots,k$.
+      If $w = u_1x_1+ \ldots + u_nx_n$ and $\sum_i u_i =1$, then
+      $\ip{a}{w} = u_1\ip{a}{x_1}+\ldots+u_n\ip{a}{x_n}
+      < u_1\ip{a}{z} + \ldots + u_n\ip{a}{z} = \ip{a}{z}$.
+    \end{proof}
+
+    \begin{proposition}\label{prop:domHull}
+      Let $U, V \subseteq \Rgz^d$ be finite sets of points.
+      Suppose that there exists $u\in \hull U$ and $v\in \hull V$
+      such that $u \ll v$.
+      Then no $a$ satisfies $u_i >_a v_i$ for each $i=1,\ldots, k$.
+      % Suppose that there exists $w\in \hull(x_1,\ldots,x_k)$
+      %     such that $z \gg w$.
+      %     Then no $a$ satisfies $x_i >_a z$ for each $i=1,\ldots, k$.
+    \end{proposition}
+    \begin{proof}
+      For contradiction, suppose such an $a$ exists.
+      First, note $u_i >_a v \in \hull V$,
+      then see that $\hull U \ni u >_a v$ as well.
+      But $u\ll v$, so this is a contradiction.
+    \end{proof}
+
+    The converse of the last theorem also holds:
+    \begin{proposition}
+      Suppose that no $a\in \R_{>0}^d$ satisfies $u_i \ge_a v_j$ for each 
+      $u_i \in U$ and $v_j\in V$.
+      Then there exist $u\in\hull(U)$ and $v\in\hull(V)$ with $u\ll v$.
+      NOTE: SHOULD USE THE ``SEMISTRICT`` DEFINITION OF << 
+    \end{proposition}
+    \begin{proof}
+      If no $a$ has this property, then in particular the following linear
+      program is infeasible:
+      \begin{alignat*}{2}
+        \text{min: } &
+        \sum_{k=0}^d 0\cdot a_k \\
+        \text{s.t. } &
+        \begin{aligned}[t]
+          \sum_{k=1}^d a_k (u^i_k - v^j_k)
+            & \ge 0
+            \quad \forall i\in U, j\in V
+          \\ a_k & \ge 1 \quad \forall k
+        \end{aligned}
+      \end{alignat*}
+      The dual of this linear program is
+      \begin{alignat*}{2}
+        \text{max: } &
+          \sum_{i\in U, j\in V} 0\cdot b_{ij} + 1\cdot c_k \\
+        \text{s.t. } &
+        \begin{aligned}[t]
+          \sum_{i\in U, j\in V} b_{ij}(u^i_k - v^j_k) + c_k
+            & \le 0
+            \quad \forall k
+          \\ b_{ij} & \ge 0 \quad \forall i,j
+          \\ c_k & \ge 0 \quad \forall i,j
+        \end{aligned}
+      \end{alignat*}
+      This dual program is always feasible (with the all zeros solution)
+      so by strong duality it must be unbounded.
+      Take some solution and some $k$ with $c_k > 1$.
+      At this solution, $b_{ij}$ are not all zero.
+      Thus, take
+      $\sum_{i,j} b_{ij}=B$, and consider:
+      \[ \sum_{i\in U} \left(\sum_{j\in V}b_{ij}/B \right) u^i_k
+        \le - \frac {c_k} B + \sum_{j\in V} \left(\sum_{i\in U}b_{ij}/B \right) v^j_k
+        < \sum_{j\in V} \left(\sum_{i\in U}b_{ij} / B\right) v^j_k
+      \]
+      NOTE: THIS CANNOT BE CORRECT BECAUSE IT IMPLIES EG THAT ALL
+      POINTS ARE MORE THAN 1 APART
+    \end{proof}
+
+
+    This motivates the following definition:
+    \begin{definition}
+      A set of points dominates, denoted $U \ll V$,
+      when DEFINITION
+    \end{definition}
+\end{document}

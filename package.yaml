@@ -22,9 +22,11 @@ dependencies:
     # - glpk-hs
   - hmatrix-glpk
   - hmatrix
+    # - typed-spreadsheet
+  - diagrams-canvas
 
 executables:
   many-matching:
     source-dirs:      src
     main:             Main.hs
-    ghc-options: -Wall
+    ghc-options: -Wwarn -Wall -Wno-deprecations

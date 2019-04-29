@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE ipe SYSTEM "ipe.dtd">
 <ipe version="70005" creator="Ipe 7.1.4">
-<info created="D:20190223142643" modified="D:20190405101218"/>
+<info created="D:20190223142643" modified="D:20190405111413"/>
 <ipestyle name="basic">
 <symbol name="arrow/arc(spx)">
 <path stroke="sym-stroke" fill="sym-stroke" pen="sym-pen">
@@ -232,17 +232,10 @@ h
 <page>
 <layer name="alpha"/>
 <view layers="alpha" active="alpha"/>
-<text layer="alpha" matrix="1 0 0 1 129.365 259.325" transformations="translations" pos="96 432" stroke="black" type="label" width="66.556" height="6.926" depth="1.93" valign="baseline">Single Crossing</text>
-<text matrix="1 0 0 1 36.213 472.663" transformations="translations" pos="80 80" stroke="black" type="label" width="60.191" height="6.926" depth="1.93" valign="baseline">Single Peaked</text>
-<text matrix="1 0 0 1 -28.3669 445.941" transformations="translations" pos="352 96" stroke="black" type="label" width="70.597" height="6.926" depth="1.93" valign="baseline">Single Troughed</text>
-<text matrix="1 0 0 1 64.7757 344.482" transformations="translations" pos="80 176" stroke="black" type="minipage" width="80" height="23.813" depth="18.86" valign="top">{\sc NoRep}
-
-1 2 3 4
-
-4 1 2 3 
-
-2 1 4 3 </text>
-<text matrix="1 0 0 1 26.3675 344.025" transformations="translations" pos="208 176" stroke="black" type="minipage" width="80" height="29.778" depth="24.85" valign="top">{\sc FlipFlop}
+<text layer="alpha" matrix="1 0 0 1 174.519 -114.675" transformations="translations" pos="96 432" stroke="black" type="label" width="66.556" height="6.926" depth="1.93" valign="baseline">Single Crossing</text>
+<text matrix="1 0 0 1 57.9053 494.663" transformations="translations" pos="80 80" stroke="black" type="label" width="60.191" height="6.926" depth="1.93" valign="baseline">Single Peaked</text>
+<text matrix="1 0 0 1 108.71 437.172" transformations="translations" pos="352 96" stroke="black" type="label" width="70.597" height="6.926" depth="1.93" valign="baseline">Single Troughed</text>
+<text matrix="1 0 0 1 90.3675 376.025" transformations="translations" pos="208 176" stroke="black" type="minipage" width="80" height="29.778" depth="24.85" valign="top">{\sc FlipFlop}
 
 1 2 3 4
 
@@ -251,33 +244,9 @@ h
 2 1 3 4
 
 2 1 4 3</text>
-<text matrix="1 0 0 1 70.0769 340.231" transformations="translations" pos="96 288" stroke="black" type="minipage" width="64" height="29.778" depth="24.85" valign="top">{\sc GoodCompromise}
-
-1 2 3
-
-2 1 3
-
-2 3 1
-
-3 2 1</text>
-<text matrix="1 0 0 1 20.8 296.4" transformations="translations" pos="208 272" stroke="black" type="minipage" width="80" height="11.676" depth="6.7" valign="top">1 2 3 4
-
-4 3 2 1</text>
-<text matrix="1 0 0 1 -43.3846 328.154" transformations="translations" pos="336 304" stroke="black" type="minipage" width="64" height="29.778" depth="24.85" valign="top">{\sc BadCompromise}
-
-1 2 3
-
-1 3 2
-
-3 1 2
-
-3 2 1</text>
-<text matrix="1 0 0 1 135.283 295.352" transformations="translations" pos="96 384" stroke="black" type="minipage" width="80" height="17.641" depth="12.69" valign="top">1 2 3 4
-
-2 1 4 3
-
-4 3 2 1</text>
-<text matrix="1 0 0 1 8.43787 251.491" transformations="translations" pos="80 496" stroke="black" type="minipage" width="80" height="23.616" depth="18.67" valign="top">
+<text matrix="1 0 0 1 86.0769 324.231" transformations="translations" pos="96 288" stroke="black" type="minipage" width="64" height="5.898" depth="0.91" valign="top">{\sc GoodComp}</text>
+<text matrix="1 0 0 1 20.6154 360.154" transformations="translations" pos="336 304" stroke="black" type="minipage" width="64" height="5.898" depth="0.91" valign="top">{\sc BadComp}</text>
+<text matrix="1 0 0 1 72.4379 283.491" transformations="translations" pos="80 496" stroke="black" type="minipage" width="80" height="23.616" depth="18.67" valign="top">
 1 2 3 4
 
 2 1 4 3
@@ -285,32 +254,51 @@ h
 3 2 1 4
 
 2 3 4 1</text>
-<text matrix="1.75 0 0 1 -731.692 366.154" transformations="translations" pos="464 416" stroke="black" type="minipage" width="176" height="12.197" depth="7.23" valign="top">Best / Worst
+<text matrix="1.75 0 0 1 -743.077 -144.461" transformations="translations" pos="464 416" stroke="black" type="minipage" width="176" height="7.473" depth="2.49" valign="top">Best / Worst Restricted</text>
+<path matrix="1.51333 0 0 1.51333 29.015 -248.102" stroke="black">
+96 0 0 96 128 512 e
+</path>
+<path matrix="1.51333 0 0 1.51333 189.015 -248.102" stroke="black">
+96 0 0 96 128 512 e
+</path>
+<path matrix="1.51333 0 0 1.51333 109.015 -104.102" stroke="black">
+96 0 0 96 128 512 e
+</path>
+<text matrix="1 0 0 1 16.7757 392.482" transformations="translations" pos="80 176" stroke="black" type="minipage" width="80" height="23.813" depth="18.86" valign="top">{\sc NoRep}
 
-Value Restricted</text>
-<path matrix="1 0 0 1 80 32" stroke="black">
+1 2 3 4
+
+4 1 2 3 
+
+2 1 4 3 </text>
+<path matrix="1.09296 0 0 1.51333 168.051 -327.242" stroke="black">
 96 0 0 96 128 512 e
 </path>
-<path matrix="1 0 0 1 176 32" stroke="black">
-96 0 0 96 128 512 e
-</path>
-<path matrix="1 0 0 1 128 112" stroke="black">
-96 0 0 96 128 512 e
-</path>
-<path matrix="1 0 0 1 0 -1.18343" stroke="black">
-64 800 m
-64 432 l
-448 432 l
-448 800 l
+<path matrix="1 0 0 1 0.769231 0" stroke="black">
+64 672 m
+64 256 l
+544 256 l
+544 672 l
 h
 </path>
-<path matrix="1 0 0 1 -7.69231 0" stroke="black">
-64 608 m
-147.513 0 0 -147.513 176 512 301.091 433.818 a
+<text matrix="1 0 0 1 -53.8462 -45.3846" transformations="translations" pos="476.491 475.113" stroke="black" type="label" width="67.11" height="6.918" depth="0" valign="baseline">Best Restricted</text>
+<text matrix="1 0 0 1 13.0769 54.6154" transformations="translations" pos="106.491 376.652" stroke="black" type="label" width="73.917" height="6.918" depth="0" valign="baseline">Worst Restricted</text>
+<path matrix="1 0 0 1 -0.00045752 0.00035662" stroke="black">
+191.946 668.703 m
+97.8047 452.545
+344.22 447.072 s
 </path>
-<path matrix="1 0 0 1 13.3728 0.591716" stroke="black">
-208 432 m
-150.944 0 0 -150.944 336 512 450.605 610.233 a
+<path stroke="black">
+416.209 668.09 m
+506.692 450.978
+260.476 448.223 s
+</path>
+<path stroke="black">
+165.161 623.997 m
+165.341 623.471
+300.335 815.983
+440.571 624.859
+440.571 624.859 s
 </path>
 </page>
 </ipe>

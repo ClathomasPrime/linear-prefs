@@ -4,6 +4,9 @@ import Control.Monad.Random
 import Data.List
 import Data.Function
 
+nubSort :: Ord a => [a] -> [a]
+nubSort = map head . group . sort
+
 fact :: Integral i => i -> i
 fact n = product [1..n]
 
@@ -38,6 +41,9 @@ listSplits [] = [([],[])]
 listSplits (a:as) = ([],a:as) : map phi (listSplits as)
   where phi (u,v) = (a:u,v)
 
+both :: (a -> b) -> (a,a) -> (b,b)
+both f (a,a') = (f a, f a')
+
 --------------------------------------------------------------------------------
 
 subset :: Eq a => [a] -> [a] -> Bool
@@ -46,6 +52,17 @@ subset as bs = all (`elem` bs) as
 eqAsSet :: Eq a => [a] -> [a] -> Bool
 eqAsSet as bs = null (as \\ bs) && null (bs \\ as)
 
+symDiff :: Eq a => [a] -> [a] -> [a]
+symDiff as bs = (as \\ bs) ++ (bs \\ as)
+
+-- pass in a == type guy and get all its equiv classes
+fullGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
+fullGroupBy eq [] = []
+fullGroupBy eq (a:as) =
+  let (here, there) = partition (eq a) (a:as)
+   in here : fullGroupBy eq there
+
+-- pass in a <= type guy and get all its equiv classes
 sortGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
 sortGroupBy pred as = groupBy pred . sortBy pred' $ as
   where pred' a b

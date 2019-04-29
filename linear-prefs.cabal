@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3f69133e1a7b292320188df98bd14557d398de1e30a6271248c6f90486c8eb1b
+-- hash: fde70aac86459fc06b9d273f637634fb43f76b397b498dfe339235f32e5a9e3e
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -24,21 +24,28 @@ executable many-matching
       Condorcet
       Data
       GeneralD
+      Hypergraph
       LinearPref
       LinearProgram
+      LPData
+      Plotting.Drawing
+      Plotting.SimplexPartition
+      PrefDomains
       Rules
       SingleCrossing
       Util
+      ValRestr
       Voting
       Paths_linear_prefs
   hs-source-dirs:
       src
-  ghc-options: -Wall
+  ghc-options: -Wwarn -Wall -Wno-deprecations
   build-depends:
       MonadRandom
     , base >=4.7 && <5
     , containers
     , diagrams
+    , diagrams-canvas
     , diagrams-lib
     , diagrams-svg
     , hmatrix

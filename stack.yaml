@@ -42,7 +42,9 @@ extra-deps:
   - glpk-hs-0.5
   - gasp-1.1.0.0
   - hmatrix-glpk-0.19.0.0
-    # - base-4.2.0.2
+    # - typed-spreadsheet-1.1.1
+
+allow-newer: true
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
