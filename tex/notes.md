@@ -1,6 +1,35 @@
 This might be enriching:
 http://www.cse.unsw.edu.au/~haziz/comsoc10years.pdf
-  
+
+Combinatorics
+====
+    
+[PS19] Condorcet Domains, Median Graphs and the Single-Crossing Property
+https://arxiv.org/pdf/1507.08219.pdf
+
+    Does lots of cool stuff. One of them: characterizes those sets for which a
+    "representative voter theorem" holds. The answer: it's basically just single crossing,
+    plus a very small list of other examples, all of them pretty similar to FlipFlop.
+    
+    This is a very, very cool paper. They put tonnes of combinatorial structure on top
+    of preference domains, and their method is really effective. A core tool is median graphs.
+    
+[DK13] Maximal Condorcet Domains. https://link.springer.com/article/10.1007/s11083-011-9235-z
+
+    Very abstract / pure mathy but has nice (non complete) characterizations.
+
+[DKK12] Condorcet domains of tiling type. Vladimir I. Danilova, Alexander V. Karzanovb, Gleb Koshevoya
+https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
+
+    Concerns domains containing precicely one pair of reversed preferences, apparently.
+    "Constructs large CDs via tiling" or something, too. 
+
+Q: under what conditions are maximal condorcet domains characterized? 
+* [DK13]: when the domain also has maximal *size* for the number of outcomes
+* [PS19]: when the domain is also single crossing 
+    (indeed, the maximal condorcet domain containing a given maximal single crossing domain is determined)
+*   
+
 Single Crossing
 ====
 [!] Gans and Smart (1996). Majority voting with single-crossing preferences.
@@ -13,24 +42,44 @@ Journal of Public Economics. https://www.sciencedirect.com/science/article/pii/0
     end up being single crossing under certain assumptions, and you can easily prove things
     (I think - I really really don't understand all the economics mumbo jumbo)).
 
-[!] A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
-
-    Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
-    some is never ranked worst) plus a "forbidden subconfiguration" (they call it an alpha-configuration -
-    the preference set is "4 > 1 > 2 > 3; 4 > 3 > 2 > 1" basically the whole idea).
-    
-    Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
-    for checking SP as well.
-
 [!] A characterization of the single-crossing domain. https://link.springer.com/article/10.1007/s00355-012-0717-8
 
-    Inspired by the previous paper, these guys give a "forbidden subconfiguration" characterization
+    Inspired by [Ballester and Haeringer 2011], these guys give a "forbidden subconfiguration" characterization
     of single-crossing. Because their techniques are algorithmic, they also get a (fairly complicated)
-    O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly). 
+    O(nm^2) time algorithm for checking single-crossing (and ordering voters accordingly).
+    
+    Forbidden subconfigs: 
+      - gamma config: "none of the three voters can be between the other two"  (noRep and 3Cycle are good examples)
+      - delta configs: "four voters, each pair of them must be adjacent" (basically FlipFlop!)
 
 [!] Single-CrossingDifferencesonDistributions http://www.columbia.edu/~nk2339/Papers/KLR-sced.pdf
 
     Seems to hint at "two dimensional stuff is single crossing" but will take a lot of unpacking...
+
+[!] Strategy-proofness and single-crossing, Alejandro Saporiti, 2009.
+  https://econtheory.org/ojs/index.php/te/article/viewArticle/20090127 
+
+    Nice and modern perspective. Probably valuable for a clear definition. 
+    Proves e.g. that all strategyproof rules on a S.C. domain only take the top candidate of each voter
+    into account. Peculiar... Actually I should really try harder to parse this.
+
+Other domains
+====
+[Ballester and Haeringer 2011] 
+A characterization of the single-peaked domain. https://link.springer.com/article/10.1007/s00355-010-0476-3
+
+    Prove that single-peaded is equivalent to "worst-restricted" (among any tripple of outcomes, 
+    some is never ranked worst) plus a "forbidden subconfiguration":
+      - alpha config: voters with oposite opinions on 3 outcomes agree about a fourth
+        (the preference set "4 > 1 > 2 > 3;    4 > 3 > 2 > 1" captures the whole idea)
+    
+    Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
+    for checking SP as well.
+    
+    Also handle group separable, for which the preference set must be "medium restricted"
+    (for all trippls, one is never ranked in the middel) forbidden subconfig:
+      - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
+
 
 Representative Voting
 ====
@@ -39,17 +88,7 @@ Public Choice 72(2-3): 193-212
 
     Introduces a very cool notion of representative voter
 
-    
-[!] Condorcet Domains, Median Graphs and the Single-Crossing Property
-https://arxiv.org/pdf/1507.08219.pdf
-
-    Does lots of cool stuff. One of them: characterizes those sets for which a
-    "representative voter theorem" holds. The answer: it's basically just single crossing,
-    plus a very small list of other examples, all of them pretty similar to FlipFlop.
-    
-    This is a very, very cool paper. They put tonnes of combinatorial structure on top
-    of preference domains, and their method is really effective. A core tool is median graphs.
-    
+See also [PS19]
 
 Computational Complexity of checking a condition on a pref set
 ====
@@ -76,6 +115,26 @@ Cool thing for later: application to matching
     Defines "no crossing" for bipartite systems with preferences;
     studies how it relates to single crossing;
     shows it gives really good matchings.
+
+Etc / Crazy Stuff
+====
+
+[!] Algebraic framework for voting theory.
+https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
+
+    Actually looking closer this is an undergrad thesis soooo
+    
+[!] Lirong Xia's book-like thesis: https://www.cs.rpi.edu/~xial/Files/dissertation_Lirong.pdf
+
+    Might be good resource on manipulability. Mentions restricted domains.
+
+[!] Sen et al. "Dictatorial Domains" https://link.springer.com/article/10.1007/s00199-002-0285-8
+
+    Provides a sufficient condition for all strategyproof voting rules to be dictatorships.
+
+[!] How similar are two elections? https://www.aaai.org/Papers/AAAI/2019/AAAI-FaliszewskiP2.3395.pdf
+
+    (Surprisingly) efficient algorithms for measuring election similarity
 
 How I first found single crossing:
 =====
