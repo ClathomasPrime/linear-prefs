@@ -14,7 +14,7 @@ https://arxiv.org/pdf/1507.08219.pdf
     This is a very, very cool paper. They put tonnes of combinatorial structure on top
     of preference domains, and their method is really effective. A core tool is median graphs.
     
-[DK13] aximal Condorcet Domains. https://link.springer.com/article/10.1007/s11083-011-9235-z
+[DK13] Maximal Condorcet Domains. https://link.springer.com/article/10.1007/s11083-011-9235-z
 
     Very abstract / pure mathy but has nice (non complete) characterizations.
 
@@ -23,6 +23,12 @@ https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
 
     Concerns domains containing precicely one pair of reversed preferences, apparently.
     "Constructs large CDs via tiling" or something, too. 
+
+Q: under what conditions are maximal condorcet domains characterized? 
+* [DK13]: when the domain also has maximal *size* for the number of outcomes
+* [PS19]: when the domain is also single crossing 
+    (indeed, the maximal condorcet domain containing a given maximal single crossing domain is determined)
+*   
 
 Single Crossing
 ====
