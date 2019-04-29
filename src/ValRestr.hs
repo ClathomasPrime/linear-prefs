@@ -125,46 +125,72 @@ haveIsoGraphs outcomes sys1 sys2 =
 --   ]
 
 equivClassesOfGraph :: [ [VRSystem Int] ]
-  [ [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRBestRestr,1,3,4),(VRBestRestr,2,3,4)]
+equivClassesOfGraph =
+  [
+    -- 8
+    [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRBestRestr,1,3,4),(VRBestRestr,2,3,4)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,3,4),(VRWorstRestr,2,3,4)]
     ]
+
+    -- 8
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRBestRestr,3,1,4),(VRBestRestr,3,2,4)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,3,1,4),(VRWorstRestr,3,2,4)]
     ]
-    -- These two are the single crossing domains (line graphs)
+
+    -- 7. These two are the single crossing domains (line graphs)
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,3,1,4),(VRWorstRestr,3,2,4)]
     , [(VRBestRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,3,1,4),(VRWorstRestr,3,2,4)]
     ]
+
+    -- 8
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,3,1,4),(VRWorstRestr,4,2,3)]
     , [(VRBestRestr,1,2,3),(VRWorstRestr,2,1,4),(VRWorstRestr,3,1,4),(VRWorstRestr,2,3,4)]
     ]
+
+    -- 8
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRBestRestr,1,3,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,3,1,2),(VRBestRestr,4,1,2),(VRWorstRestr,1,3,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,1,2,3),(VRWorstRestr,2,1,4),(VRWorstRestr,3,1,4),(VRMediumRestr,4,2,3)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,3,4),(VRMediumRestr,2,3,4)]
     ]
+
+    -- 6
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRBestRestr,4,1,3),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,3,1,2),(VRBestRestr,4,1,2),(VRWorstRestr,3,1,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,3,1,4),(VRMediumRestr,4,2,3)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,3,1,4),(VRMediumRestr,2,3,4)]
     ]
+
+    -- 7
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,3,1,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,3,1,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,1,2,3),(VRWorstRestr,4,1,2),(VRMediumRestr,4,1,3),(VRWorstRestr,4,2,3)]
     , [(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,3,1,4),(VRMediumRestr,2,3,4)]
     ]
+
+    -- 8
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,3,1,4),(VRMediumRestr,4,2,3)]
     , [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRWorstRestr,3,1,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,2,1,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,3,4),(VRMediumRestr,4,2,3)]
     , [(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,3,1,4),(VRMediumRestr,4,2,3)]
     ]
+
+    -- 9 - the unique maximum
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRWorstRestr,3,1,4),(VRWorstRestr,3,2,4)]
     ]
+
+    -- 8
   , [ [(VRBestRestr,3,1,2),(VRBestRestr,4,1,2),(VRWorstRestr,1,3,4),(VRWorstRestr,2,3,4)]
     ]
+
+    -- 8
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRWorstRestr,3,1,4),(VRMediumRestr,4,2,3)]
     , [(VRBestRestr,2,1,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,3,4),(VRMediumRestr,3,2,4)]
     ]
+
+    -- 8 verts. Graph is a line of squares:
+    -- _______
+    -- | | | |
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRMediumRestr,1,3,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,3,1,2),(VRBestRestr,4,1,2),(VRMediumRestr,1,3,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,1,2,3),(VRMediumRestr,4,1,2),(VRMediumRestr,4,1,3),(VRMediumRestr,4,2,3)]
@@ -172,29 +198,37 @@ equivClassesOfGraph :: [ [VRSystem Int] ]
     , [(VRWorstRestr,3,1,2),(VRWorstRestr,4,1,2),(VRMediumRestr,1,3,4),(VRMediumRestr,2,3,4)]
     , [(VRWorstRestr,1,2,3),(VRMediumRestr,4,1,2),(VRMediumRestr,4,1,3),(VRMediumRestr,4,2,3)]
     ]
+
+    -- 6
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRMediumRestr,1,3,4),(VRMediumRestr,3,2,4)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRMediumRestr,1,3,4),(VRMediumRestr,3,2,4)]
     ]
+
+    -- 6
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRMediumRestr,3,1,4),(VRMediumRestr,2,3,4)]
     , [(VRBestRestr,3,1,2),(VRBestRestr,4,1,2),(VRMediumRestr,1,3,4),(VRMediumRestr,3,2,4)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRMediumRestr,3,1,4),(VRMediumRestr,2,3,4)]
     , [(VRWorstRestr,3,1,2),(VRWorstRestr,4,1,2),(VRMediumRestr,1,3,4),(VRMediumRestr,3,2,4)]
     ]
+
+    -- 7
   , [ [(VRBestRestr,1,2,3),(VRBestRestr,1,2,4),(VRMediumRestr,3,1,4),(VRMediumRestr,3,2,4)]
     , [(VRBestRestr,1,2,3),(VRWorstRestr,2,1,4),(VRMediumRestr,3,1,4),(VRMediumRestr,3,2,4)]
     , [(VRBestRestr,1,2,3),(VRWorstRestr,2,1,4),(VRMediumRestr,4,1,3),(VRMediumRestr,4,2,3)]
     , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRMediumRestr,3,1,4),(VRMediumRestr,3,2,4)]
     ]
+
+    -- 6
   , [ [(VRBestRestr,1,2,3),(VRMediumRestr,2,1,4),(VRMediumRestr,4,1,3),(VRMediumRestr,2,3,4)]
     , [(VRWorstRestr,1,2,3),(VRMediumRestr,2,1,4),(VRMediumRestr,4,1,3),(VRMediumRestr,2,3,4)]
     ]
 
-    -- 3 dimensional hypercubes
+    -- 8. 3 dimensional hypercubes
   , [ [(VRMediumRestr,1,2,3),(VRMediumRestr,1,2,4),(VRMediumRestr,1,3,4),(VRMediumRestr,2,3,4)]
     , [(VRMediumRestr,1,2,3),(VRMediumRestr,2,1,4),(VRMediumRestr,3,1,4),(VRMediumRestr,4,2,3)]
     ]
 
-    -- 2 dimensional hypercubes
+    -- 4. 2 dimensional hypercubes
   , [ [(VRMediumRestr,1,2,3),(VRMediumRestr,2,1,4),(VRMediumRestr,4,1,3),(VRMediumRestr,3,2,4)]
     ]
   ]
