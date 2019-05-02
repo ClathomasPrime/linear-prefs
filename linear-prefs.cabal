@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fde70aac86459fc06b9d273f637634fb43f76b397b498dfe339235f32e5a9e3e
+-- hash: 903de40f7f3c0c21fcdd03fcaaead10e4d977ad0f09ed1954b32d91495128e60
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -35,6 +35,7 @@ executable many-matching
       SingleCrossing
       Util
       ValRestr
+      ValRestrCases
       Voting
       Paths_linear_prefs
   hs-source-dirs:

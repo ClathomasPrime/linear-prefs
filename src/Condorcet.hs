@@ -73,12 +73,22 @@ condorcetSuccessors prefs =
       accum (succesors, []) = (succesors, [])
       accum (succesors, pr:prs) =
         case condorcetClosure (pr:prefs) of
-          Nothing -> accum (succesors, prs)
-          Just biggerDomain -> (biggerDomain:succesors, prs \\ biggerDomain)
-   in drop 1 . fst $ until (null . snd) accum ([], allPrefs \\ prefs)
+          Nothing -> (succesors, prs)
+          Just biggerDomain -> (biggerDomain:succesors, prs ) -- \\ biggerDomain)
+   in fst $ until (null . snd) accum ([], allPrefs \\ prefs)
 
 isMaximal :: Ord l => [[l]] -> Bool
 isMaximal = null . condorcetSuccessors
+
+
+isNormal :: Eq l => [[l]] -> Bool
+isNormal prefs = any (uncurry reversed) pairs
+  where reversed u v = u == reverse v
+        pairs = [(p,q) | p:ps <- tails prefs, q <- ps]
+
+isSymmetric :: Eq l => [[l]] -> Bool
+isSymmetric prefs = all (\p -> any (reversed p) prefs) prefs
+  where reversed u v = u == reverse v
 
 
 {-

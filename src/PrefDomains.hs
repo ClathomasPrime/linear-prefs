@@ -54,10 +54,10 @@ swingAround :: [[Int]]
 swingAround = [ [1,2,3,4], [2,1,4,3], [3,2,1,4], [2,3,4,1] ]
 
 -- the VR maximizer of swingAround: 1,3 << 2; 4 << 1,3; 4 << 2
+-- WAIT it's not maximal... can add (only) [3,2,4,1] - makes it normal too
 swingAroundSemiMaximal :: [[Int]]
 swingAroundSemiMaximal = [[1,2,3,4],[2,1,3,4],[3,2,1,4],[2,3,1,4],[3,2,4,1],[2,3,4,1],[1,2,4,3],[2,1,4,3]]
 
--- WAIT it's not maximal... can add (only) [3,2,4,1] - makes it normal too
 swingAroundMaximal :: [[Int]]
 swingAroundMaximal = [[1,2,3,4],[2,1,3,4],[3,2,1,4],[2,3,1,4],[3,2,4,1],[2,3,4,1],[1,2,4,3],[2,1,4,3],[3,4,2,1]]
 
@@ -188,3 +188,8 @@ doubleDown = [(1,[0.6818359476631632,0.3645786467558342,0.18733250761607811]),(2
 -- non-normalizeable (no reversed prefs possible); non-clique CD
 exFourMaxCondDom :: [[Int]]
 exFourMaxCondDom = [ [1,2,3,4], [2,3,1,4], [2,4,1,3], [2,1,4,3] ]
+
+--------------------------------------------------------------------------------
+
+uniqueSuccessor :: [[Int]]
+uniqueSuccessor = [ [1,2,3,4], [1,3,2,4], [1,3,4,2], [4,1,3,2], [4,3,1,2], [4,3,2,1] ]

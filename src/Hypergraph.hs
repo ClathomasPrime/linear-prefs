@@ -91,7 +91,7 @@ hasDom = any singletons
   where singletons ([a],[b]) = True
         singletons _ = False
 
-experHyp :: IO [[(Int, [Double])]]
+experHyp :: IO [([(Int, Point Double)], Hypergraph Int)]
 experHyp = do
   let n = 4
       outcomes = [1..n]
@@ -100,14 +100,14 @@ experHyp = do
     let prefSet = genLinearPrefs 3 0.005 $ points
         hypGraph = minimalHypergraphOf prefSet
     return (points, hypGraph)
-  fmap catMaybes . forM hypergraphs $ \(points, graph) -> do
-    if doubleDown graph
-      then return $ Just points
-      else return Nothing
-    -- nubBy (eqUpToRelabeling outcomes)
-    --   . filter (not . hasDom)
-    --   . filter (not . valueRestricted outcomes)
-    --   $ hypergraphs
+  -- fmap catMaybes . forM hypergraphs $ \(points, graph) -> do
+  --   if doubleDown graph
+  --     then return $ Just points
+  --     else return Nothing
+  return $ nubBy (\u v -> eqUpToRelabeling outcomes (snd u) (snd v))
+    . filter (not . hasDom . snd)
+    . filter (not . valueRestricted outcomes . snd)
+    $ hypergraphs
 
 doubleDown :: Hypergraph a -> Bool
 doubleDown gr =
@@ -125,3 +125,44 @@ doubleDown gr =
 
 crissCrosserVRSystem :: Hypergraph Int
 crissCrosserVRSystem = [([2,1],[4]),([3,1],[2]),([3,1],[4]),([4,3],[2])]
+
+-- other cases...
+-- [([2,1],[4]),([3,1],[4]),([2],[4,3])]
+-- [([4,1],[2]),([4,3],[1]),([4,3],[2])]
+--
+-- [([4,1],[3,2]),([3,2],[4,1])]
+--    ^ I think this is not real - just a loss of precision error.
+--
+-- [([3,2],[1]),([2],[4,1])]
+-- [([3,2],[1]),([3],[4,1]),([3],[4,2])]
+-- [([1],[4,2]),([3],[4,1]),([3],[4,2])]
+-- [([2,1],[4]),([3,1],[4]),([3,2],[4])]
+-- [([2],[4,1]),([3],[4,1])]
+-- [([3,1],[2]),([1],[4,2]),([3,1],[4])]
+
+
+-- [([2,1],[4]),([3,1],[4]),([2],[4,3])]
+mixedCase :: [(Int, [Double])]
+mixedCase =
+ [(1,[0.8715701192754678,0.9684287158518972,5.522413688268646e-2]),
+  (2,[0.6746957669018604,0.71666898566596,0.42663731462432664]),
+  (3,[8.53787873802867e-2,0.530039848959367,0.9119598355047404]),
+  (4,[0.97724435514835,0.9251726276870371,0.22461023138304892])
+  ]
+
+-- [([2,1],[4]),([3,1],[4]),([2],[4,3])]
+mixedCaseNice :: [(Int, [Double])]
+mixedCaseNice =
+ [(1,[1,1,0]),
+  (2,[0.6746957669018604,0.71666898566596,0.42663731462432664]),
+  (3,[8.53787873802867e-2,0.530039848959367,0.9119598355047404]),
+  (4,[0.97724435514835,0.9251726276870371,0.22461023138304892])
+  ]
+
+-- [([3,1],[2]),([1],[4,2]),([3,1],[4])]
+mixedCase' :: [(Int, [Double])]
+mixedCase' =
+  [(1,[0.5735138414819833,0.6351329257968569,8.563476327044395e-2])
+  ,(2,[0.9098078943166862,0.15754454932102924,0.8490297276463722])
+  ,(3,[6.898901975163041e-2,5.391746370788764e-3,0.9357553713060002])
+  ,(4,[0.3681468737776471,0.9625360308951275,0.8378442877244092])]
