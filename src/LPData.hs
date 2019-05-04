@@ -75,7 +75,7 @@ doubleDragContainedInPoints' =
   ]
 
 heresOne :: SingleCrossingSpec Int
-heresOne = (SingleCrossingSpec {outcomes = [1,2,3,4,5], fixedPairs = [(1,2),(1,4),(1,5),(3,4),(3,5)], pivotList = [[(4,5)],[(2,3)],[(1,3)],[(2,5)],[(2,4)]]})
+heresOne = (SingleCrossingSpec {scOutcomes = [1,2,3,4,5], scFixedPairs = [(1,2),(1,4),(1,5),(3,4),(3,5)], scPivotList = [[(4,5)],[(2,3)],[(1,3)],[(2,5)],[(2,4)]]})
 
 -- this set works for heresOne
 heresOnePoints :: [[Double]]
@@ -89,17 +89,17 @@ heresOnePoints =
 
 hardOne6 :: SingleCrossingSpec Int
 hardOne6 = SingleCrossingSpec
-  { outcomes = [1,2,3,4,5,6]
-  , fixedPairs = [(2,3),(4,6),(5,6)]
-  , pivotList = [[(4,5)],[(1,2)],[(1,3)],[(1,5)],[(1,4)],[(3,5)],[(2,5)],[(1,6)],[(3,4)],[(3,6)],[(2,4)],[(2,6)]]
+  { scOutcomes = [1,2,3,4,5,6]
+  , scFixedPairs = [(2,3),(4,6),(5,6)]
+  , scPivotList = [[(4,5)],[(1,2)],[(1,3)],[(1,5)],[(1,4)],[(3,5)],[(2,5)],[(1,6)],[(3,4)],[(3,6)],[(2,4)],[(2,6)]]
   }
 
 -- fixed pref angles doesn't work
 hardOne5 :: SingleCrossingSpec Int
 hardOne5 = SingleCrossingSpec
-  { outcomes = [1,2,3,4,5]
-  , fixedPairs = []
-  , pivotList = fmap (:[])
+  { scOutcomes = [1,2,3,4,5]
+  , scFixedPairs = []
+  , scPivotList = fmap (:[])
       [ (3,4),(2,4),(3,5),(1,4),(2,5),(1,5),(4,5),(2,3),(1,3),(1,2) ]
   }
 
@@ -117,18 +117,18 @@ hardOne5Points =
 -- fixed x and fixed crosses doesn't work.
 hardOne4 :: SingleCrossingSpec Int
 hardOne4 = SingleCrossingSpec
-  { outcomes = [1,2,3,4]
-  , fixedPairs = [(1,2)]
-  , pivotList = fmap (:[]) [ (2,3), (1,3), (2,4), (1,4), (3,4) ]
+  { scOutcomes = [1,2,3,4]
+  , scFixedPairs = [(1,2)]
+  , scPivotList = fmap (:[]) [ (2,3), (1,3), (2,4), (1,4), (3,4) ]
   }
 
 -- hard for fixed crosses but doable for fixed x
 -- (``complete inversion'' with (2,3) to make it hard for fixed x)
 hardOne4Try :: SingleCrossingSpec Int
 hardOne4Try = SingleCrossingSpec
-  { outcomes = [1,2,3,4]
-  , fixedPairs = [(1,2)]
-  , pivotList = fmap (:[]) [ (3,4), (2,4), (1,4), (2,3), (1,3){-, (2,3) -} ]
+  { scOutcomes = [1,2,3,4]
+  , scFixedPairs = [(1,2)]
+  , scPivotList = fmap (:[]) [ (3,4), (2,4), (1,4), (2,3), (1,3){-, (2,3) -} ]
   }
 
 hardOne4TryPoints :: [[Double]]
@@ -139,9 +139,9 @@ hardOne4TryPoints = [ [2,4], [1,3], [3,2], [11,1] ]
 -- Actually works with fixed angles for pref
 hard5Attempt1 :: SingleCrossingSpec Int
 hard5Attempt1 = SingleCrossingSpec
-  { outcomes = [1,2,3,4,5]
-  , fixedPairs = []
-  , pivotList = fmap (:[]) [(2,3), (1,3), (2,4), (1,4), (3,4), (2,5), (1,5), (3,5), (4,5), (1,2)]
+  { scOutcomes = [1,2,3,4,5]
+  , scFixedPairs = []
+  , scPivotList = fmap (:[]) [(2,3), (1,3), (2,4), (1,4), (3,4), (2,5), (1,5), (3,5), (4,5), (1,2)]
   }
 
 -- eg this guy
@@ -151,26 +151,26 @@ hard5Attempt1Points =
 
 hard5Attempt2 :: SingleCrossingSpec Int
 hard5Attempt2 = SingleCrossingSpec
-  { outcomes = [1,2,3,4,5]
-  , fixedPairs = []
-  , pivotList = fmap (:[])
+  { scOutcomes = [1,2,3,4,5]
+  , scFixedPairs = []
+  , scPivotList = fmap (:[])
       []
       -- [(1,2),
   }
 
 hard6SparseFlips :: SingleCrossingSpec Int
 hard6SparseFlips = SingleCrossingSpec
-  { outcomes = [1,2,3,4,5,6]
-  , fixedPairs = [(1,3),(1,5),(2,3),(2,5),(4,5)]
-  , pivotList = fmap (:[])
+  { scOutcomes = [1,2,3,4,5,6]
+  , scFixedPairs = [(1,3),(1,5),(2,3),(2,5),(4,5)]
+  , scPivotList = fmap (:[])
       [ (5,6),(4,6),(3,6),(1,2),(1,6),(3,4),(1,4),(3,5),(2,6),(2,4) ]
   }
 
 hard6Guess1 :: SingleCrossingSpec Int
 hard6Guess1 = SingleCrossingSpec
-  { outcomes = [1,2,3,4,5,6]
-  , fixedPairs = [(1,3),(1,5),(2,3),(2,5),(4,5)]
-  , pivotList = fmap (:[])
+  { scOutcomes = [1,2,3,4,5,6]
+  , scFixedPairs = [(1,3),(1,5),(2,3),(2,5),(4,5)]
+  , scPivotList = fmap (:[])
       [ (1,2),(3,4),(5,6), (1,4),(3,6), (2,4),(1,6),(3,5),
         (2,6),(1,5), (4,6),(2,5),(1,3), (4,5),(2,3) ]
   }

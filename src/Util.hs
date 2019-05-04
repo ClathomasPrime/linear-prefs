@@ -2,7 +2,6 @@ module Util where
 
 import Control.Monad.Random
 import Data.List
-import Data.Function
 
 nubSort :: Ord a => [a] -> [a]
 nubSort = map head . group . sort
@@ -52,21 +51,24 @@ subset as bs = all (`elem` bs) as
 eqAsSet :: Eq a => [a] -> [a] -> Bool
 eqAsSet as bs = null (as \\ bs) && null (bs \\ as)
 
+eqUpToOrder :: Ord a => [a] -> [a] -> Bool
+eqUpToOrder as bs = sort as == sort bs
+
 symDiff :: Eq a => [a] -> [a] -> [a]
 symDiff as bs = (as \\ bs) ++ (bs \\ as)
 
 -- pass in a == type guy and get all its equiv classes
 fullGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
-fullGroupBy eq [] = []
+fullGroupBy _ [] = []
 fullGroupBy eq (a:as) =
   let (here, there) = partition (eq a) (a:as)
    in here : fullGroupBy eq there
 
 -- pass in a <= type guy and get all its equiv classes
 sortGroupBy :: (a -> a -> Bool) -> [a] -> [[a]]
-sortGroupBy pred as = groupBy pred . sortBy pred' $ as
+sortGroupBy pred1 as = groupBy pred1 . sortBy pred' $ as
   where pred' a b
-          | pred a b = GT
+          | pred1 a b = GT
           | otherwise = LT
 
 compareDivides :: Integral a => a -> a -> Ordering
@@ -79,11 +81,11 @@ compareDivides a b
 -- Sorts such that, whenever pred a b, a comes before b
 -- ASSUMING that pred a b, pred b c implies pred a c
 sortPartial :: (a -> a -> Bool) -> [a] -> [a]
-sortPartial pred as = foldl insert [] as
-  where insert [] a = [a]
-        insert (x:xs) a
-          | pred a x = a:x:xs
-          | otherwise = x : insert xs a
+sortPartial p as = foldl ins [] as
+  where ins [] a = [a]
+        ins (x:xs) a
+          | p a x = a:x:xs
+          | otherwise = x : ins xs a
 
 firstHalf :: [a] -> [a]
 firstHalf as = take (length as `div` 2) as
@@ -92,7 +94,10 @@ firstHalf as = take (length as `div` 2) as
 adjacentPairs :: [a] -> [(a,a)]
 adjacentPairs as = zip as $ tail' as
   where tail' [] = []
-        tail' as = tail as
+        tail' as' = tail as'
+
+-- tripples :: [a] -> [[a]]
+-- tripples :: [a] -> [[a]]
 
 --------------------------------------------------------------------------------
 
@@ -116,11 +121,11 @@ tryUntilSomething nTrials generator = do
   a <- generator
   case a of
     Nothing -> tryUntilSomething (nTrials - 1) generator
-    Just a -> return $ Just a
+    Just a' -> return $ Just a'
 
-phi :: Int -> Int -> Int
-phi n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)
+myNumFunc :: Int -> Int -> Int
+myNumFunc n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)
   - ((n-w) `c` 2) * (w `c` 1) - (w `c` 3)
-  where c n k
-          | k > n || k < 0 = 1
-          | otherwise = n `choose` k
+  where c m k
+          | k > m || k < 0 = 1
+          | otherwise = m `choose` k

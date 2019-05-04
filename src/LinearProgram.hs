@@ -9,8 +9,6 @@ import SingleCrossing
 import Util
 import LinearPref
 
-import Debug.Trace
-
 prob :: Optimization
 prob = Maximize [4, -3, 2]
 
@@ -28,7 +26,7 @@ runLp :: ConstraintGenerator -> Double -> Double
 runLp feas bound diff singCross =
   simplex (trivialObjective nVars) (Sparse $ feas diff singCross)
     [ i :&: (1,bound) | i <- [1..nVars] ]
-  where nVars = 2 * length (outcomes singCross)
+  where nVars = 2 * length (scOutcomes singCross)
 
 trivialObjective :: Int -> Optimization
 trivialObjective nVars = Maximize . replicate nVars $ 0
@@ -39,23 +37,23 @@ feasFixCrossAngle diff singCross =
   let (xOrder, yOrder) = extremalPrefs singCross
       xOrderConstrs = [ [1#i, (-1)#j] :>=: diff
         | (i,j) <- adjacentPairs xOrder]
-      pad i = length (outcomes singCross) + i
+      pad i = length (scOutcomes singCross) + i
       yOrderConstrs = [ [1#pad i, (-1)#pad j] :>=: diff
         | (i,j) <- adjacentPairs yOrder]
-      nCrosses = fromIntegral . length . pivotList $ singCross
+      nCrosses = fromIntegral . length . scPivotList $ singCross
       angles :: [Double]
       angles = fmap (* (pi / 2 / (nCrosses + 1))) [1,2..nCrosses]
       meetAtAngleConstr i j theta =
         [(cos theta)#i, (-cos theta)#j,
           (sin theta)#pad i, (-sin theta)#pad j] :==: 0
       crossingConstrs = [ meetAtAngleConstr i j theta
-        | (pairs, theta) <- zip (pivotList singCross) angles
+        | (pairs, theta) <- zip (scPivotList singCross) angles
         , (i,j) <- pairs ]
    in xOrderConstrs ++ yOrderConstrs ++ crossingConstrs
 
 -- fix the x values arbitrarily and make the slopes in the right order
 feasXFixed :: Double -> SingleCrossingSpec Int -> [Bound [(Double, Int)]]
-feasXFixed diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
+feasXFixed diff singCross@(SingleCrossingSpec _ _ pivots) =
   let (xOrder, yOrder) = extremalPrefs singCross
       xRank i = fromIntegral $ length xOrder - fromJust (elemIndex i xOrder)
 
@@ -79,7 +77,7 @@ feasXFixed diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
 
 -- fix the slope crossing points at arbitrary time steps
 feasSlopeVals :: Double -> SingleCrossingSpec Int -> [Bound [(Double, Int)]]
-feasSlopeVals diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
+feasSlopeVals diff singCross@(SingleCrossingSpec outcomes _ pivots) =
   let (xOrder, yOrder) = extremalPrefs singCross
       -- xRank i = fromIntegral $ length xOrder - fromJust (elemIndex i xOrder)
 
@@ -90,7 +88,7 @@ feasSlopeVals diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
       yOrderConstrs = [ [1#pad i, (-1)#pad j] :>=: diff
         | (i,j) <- adjacentPairs yOrder]
 
-      nCrosses = fromIntegral . length . pivotList $ singCross
+      nCrosses = fromIntegral . length $ pivots
       crossPoints :: [Double]
       crossPoints = fmap (/(nCrosses+1)) [1,2..nCrosses]
       meetAtPoint i j t =
@@ -98,14 +96,14 @@ feasSlopeVals diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
         -- [(cos theta)#i, (-cos theta)#j,
         --   (sin theta)#pad i, (-sin theta)#pad j] :==: 0
       crossingConstrs = [ meetAtPoint i j t
-        | (pairs, t) <- zip (pivotList singCross) crossPoints
+        | (pairs, t) <- zip pivots crossPoints
         , (i,j) <- pairs ]
 
    in xOrderConstrs ++ yOrderConstrs ++ crossingConstrs
 
 -- fix the voters but not the exact cross points
 feasPrefAngle :: Double -> SingleCrossingSpec Int -> [Bound [(Double, Int)]]
-feasPrefAngle diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
+feasPrefAngle diff singCross@(SingleCrossingSpec outcomes _ pivots) =
   let (xOrder, yOrder) = extremalPrefs singCross
       xOrderConstrs = [ [1#i, (-1)#j] :>=: diff
         | (i,j) <- adjacentPairs xOrder]
@@ -114,7 +112,7 @@ feasPrefAngle diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
         | (i,j) <- adjacentPairs yOrder]
       --- NOTE: I might not actually want these
 
-      nPrefs = 1 + (fromIntegral . length . pivotList $ singCross)
+      nPrefs = 1 + (fromIntegral . length $ pivots)
       prefs = specToPrefs singCross
       angles :: [Double]
       angles = fmap (* (pi / 2 / (nPrefs + 1))) [1,2..nPrefs]
@@ -130,7 +128,7 @@ feasPrefAngle diff singCross@(SingleCrossingSpec outcomes fixeds pivots) =
    in xOrderConstrs ++ yOrderConstrs ++ prefConstrs
 
 experimentFeasFixed :: IO (Maybe (SingleCrossingSpec Int))
-experimentFeasFixed = tryUntil 500 (not . null . outcomes) $ do
+experimentFeasFixed = tryUntil 500 (not . null . scOutcomes) $ do
   let nOutcomes = 6
       diff = 1
       bound = 10000000

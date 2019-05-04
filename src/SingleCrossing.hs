@@ -9,12 +9,11 @@ import Data.Tuple
 
 import Util
 import LinearPref
-import Debug.Trace
 
 data SingleCrossingSpec l = SingleCrossingSpec
-  { outcomes :: [l]
-  , fixedPairs :: [(l,l)]
-  , pivotList :: [[(l,l)]]
+  { scOutcomes :: [l]
+  , scFixedPairs :: [(l,l)]
+  , scPivotList :: [[(l,l)]]
   -- ^ Q: best to make this just a list?
   } deriving(Show)
 
@@ -44,8 +43,8 @@ checkSingleCrossing ls =
 specToPrefs :: Eq l => SingleCrossingSpec l -> [[l]]
 specToPrefs (SingleCrossingSpec outcomes fixed pivots)
   = fmap (fromOrderedPairs outcomes . buildPref) $ listSplits pivots
-  where buildPref (flip,leave)
-          = fixed ++ (concat $ leave ++ fmap (fmap swap) flip)
+  where buildPref (doFlip,leave)
+          = fixed ++ (concat $ leave ++ fmap (fmap swap) doFlip)
           -- fromOrderedPairs outcomes
 
 checkImplies :: Eq l => [[l]] -> (l,l) -> (l,l) -> Bool
@@ -88,8 +87,8 @@ randSingCrossingBiased p n = do
         else do
           index <- getRandomR (0,length pairs - 1)
           let pair = pairs !! index
-          flip <- Rand.fromList [(True, p), (False, 1-p)]
-          (restList, restSc) <- if flip
+          doFlip <- Rand.fromList [(True, p), (False, 1-p)]
+          (restList, restSc) <- if doFlip
             then combobulate
                    (SingleCrossingSpec outcomes fixeds $ [pair]:pivots)
                    (flipPair pair current)

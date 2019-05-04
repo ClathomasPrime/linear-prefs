@@ -5,8 +5,6 @@ import Data.List
 
 import Util
 
-import Debug.Trace
-
 type LinearPref l = [l]
 
 compareByPref :: Eq l => [l] -> l -> l -> Ordering
@@ -108,8 +106,8 @@ satisfies ls (a,b) =
     (Just ax, Just bx) -> ax < bx
     _ -> False -- ^ Maybe not a good default but ?
 
-contradictory :: Eq l => [l] -> [(l,l)] -> Bool
-contradictory labels tuples = undefined
+-- contradictory :: Eq l => [l] -> [(l,l)] -> Bool
+-- contradictory labels tuples = undefined
 
 -- not well-named
 dominated :: Eq l => (l,l) -> [[l]] -> Bool

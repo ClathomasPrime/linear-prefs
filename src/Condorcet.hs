@@ -8,6 +8,8 @@ import Util
 import LinearPref
 import Voting
 
+import Debug.Trace
+
 
 -- NOTE: I keep running this on *non-closed* condorcet domains.
 -- This might mean things get screwed up, e.g. not median graphs,
@@ -34,15 +36,26 @@ condorcetGraphEdges prefs = do
   guard $ 2 == length (filter (inInterval as bs . snd) prefs)
   return (a,b)
 
+sameDegreeMultiset :: Ord a => [a] -> [(a,a)] -> [(a,a)] -> Bool
+sameDegreeMultiset labels gr1 gr2 =
+  length gr1 == length gr2 &&
+    degrees gr1 `eqUpToOrder` degrees gr2
+  where degrees g = fmap (\i -> length . filter (has i) $ g) labels
+        has i (u, v) = i == u || i == v
+
 isoGraph :: Ord a => [a] -> [(a,a)] -> [(a,a)] -> Bool
 isoGraph labels gr1 gr2 =
-  length gr1 == length gr2 && any works permFuncs
-  where works perm = gr1 `eqAsEdgeSet` fmap (both perm) gr2
+  length gr1 == length gr2
+    && degrees gr1 `eqUpToOrder` degrees gr2
+    && any works (traceShow (length permFuncs) permFuncs)
+  where degrees g = fmap (\i -> length . filter (has i) $ g) labels
+        has i (u, v) = i == u || i == v
+        works perm = gr1 `eqAsEdgeSet` fmap (both perm) gr2
         permFuncs = fmap funcOf (permutations labels)
         funcOf perm i = perm !! fromJust (i `elemIndex` labels)
 
 eqAsEdgeSet :: Ord a => [(a,a)] -> [(a,a)] -> Bool
-eqAsEdgeSet gr1 gr2 = eqAsSet (s gr1) (s gr2)
+eqAsEdgeSet gr1 gr2 = eqUpToOrder (s gr1) (s gr2)
   where s = fmap sortPair
         sortPair (a, b) = (max a b, min a b)
 
@@ -77,6 +90,17 @@ condorcetSuccessors prefs =
           Just biggerDomain -> (biggerDomain:succesors, prs ) -- \\ biggerDomain)
    in fst $ until (null . snd) accum ([], allPrefs \\ prefs)
 
+maximalExtensions :: (Show l, Ord l) => [[l]] -> [ [[l]] ]
+maximalExtensions seedPrefs = fst $ until (null . snd) looper ([], [sort seedPrefs])
+  where looper (maxExts, frontier)
+          = trace (show $ length frontier) $
+            both nubSort $ foldl accum (maxExts, []) frontier
+        accum (maxExts, newFrontier) prefs
+          = case condorcetSuccessors prefs of
+              [] -> (prefs : maxExts, newFrontier)
+              successors -> (maxExts, fmap sort successors ++ newFrontier)
+
+
 isMaximal :: Ord l => [[l]] -> Bool
 isMaximal = null . condorcetSuccessors
 
@@ -100,15 +124,15 @@ tripin prefs = nub $ do
   return (x,y,z)
   -}
 
-gr2 = [('a','b'),('a','c'),('a','h'),('b','d'),('b','f'),('c','d'),('c','g'),('d','e'),('e','f'),('e','g'),('f','h'),('g','h')]
-gr1 = [('a','e'),('a','f'),('a','h'),('b','c'),('b','d'),('b','g'),('c','e'),('c','h'),('d','e'),('d','f'),('f','g'),('g','h')]
-iso i = case i of
-  'a' -> 'f'
-  'b' -> 'd'
-  'c' -> 'a'
-  'd' -> 'e'
-  'e' -> 'c'
-  'f' -> 'b'
-  'g' -> 'h'
-  'h' -> 'g'
+-- gr2 = [('a','b'),('a','c'),('a','h'),('b','d'),('b','f'),('c','d'),('c','g'),('d','e'),('e','f'),('e','g'),('f','h'),('g','h')]
+-- gr1 = [('a','e'),('a','f'),('a','h'),('b','c'),('b','d'),('b','g'),('c','e'),('c','h'),('d','e'),('d','f'),('f','g'),('g','h')]
+-- iso i = case i of
+--   'a' -> 'f'
+--   'b' -> 'd'
+--   'c' -> 'a'
+--   'd' -> 'e'
+--   'e' -> 'c'
+--   'f' -> 'b'
+--   'g' -> 'h'
+--   'h' -> 'g'
 

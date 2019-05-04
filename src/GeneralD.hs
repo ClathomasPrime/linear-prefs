@@ -69,7 +69,7 @@ meshNCell dim delta = meshNCell' dim 1.0
 randomMeshPoint :: (MonadRandom m, Fractional a, Enum a)
                 => Int -> m (Point a)
 randomMeshPoint d = do
-  u <- take d . fmap (/10^3) . fmap fromIntegral <$> getRandomRs (0 :: Int,10^3)
+  u <- take d . fmap (/10^(3::Int)) . fmap fromIntegral <$> getRandomRs (0 :: Int,10^(3::Int))
   return $ fmap (/sum u) u
 
 --------------------------------------------------------------------------------

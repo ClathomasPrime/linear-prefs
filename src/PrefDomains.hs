@@ -6,9 +6,6 @@ import Data.List
 import Util
 import LinearPref
 
-import Debug.Trace
-
-
 noOneFirst :: [[Int]]
 noOneFirst = permutations [1..4]
   \\ fmap (1:) (permutations [2..4])
@@ -146,8 +143,8 @@ greatFour :: [[Int]]
 greatFour = filter ((4 `elem`) . take 2) $ permutations [1..4]
 
 fourBeatsTwoPairs :: [[Int]]
-fourBeatsTwoPairs = filter pred $ permutations [1..4]
-  where pred pref =
+fourBeatsTwoPairs = filter predicate $ permutations [1..4]
+  where predicate pref =
           let p = takeWhile (/= 4) pref
            in not $ [1,2] `subset` p || [1,3] `subset` p
 
@@ -193,3 +190,56 @@ exFourMaxCondDom = [ [1,2,3,4], [2,3,1,4], [2,4,1,3], [2,1,4,3] ]
 
 uniqueSuccessor :: [[Int]]
 uniqueSuccessor = [ [1,2,3,4], [1,3,2,4], [1,3,4,2], [4,1,3,2], [4,3,1,2], [4,3,2,1] ]
+
+normConnSC :: [[Int]]
+normConnSC =
+  [ [1,2,3,4]
+  , [1,3,2,4]
+  , [1,3,4,2]
+  , [3,1,4,2]
+  , [3,1,4,2]
+  , [3,4,1,2]
+  , [4,3,2,1]
+  ]
+
+maximalSC :: [[Int]]
+maximalSC =
+  [ [1,2,3,4]
+  , [1,3,2,4]
+  , [3,1,2,4]
+  , [3,2,1,4]
+  , [3,2,4,1]
+  , [3,4,2,1]
+  , [4,3,2,1]
+  ]
+
+--------------------------------------------------------------------------------
+
+-- in the full SP domain on [1..6], take the lex highest lattice walk from
+-- empty set to full set (under the ``subset of [1..5]'' representation)
+lexLeastSCInSP :: [[Int]]
+lexLeastSCInSP = fmap (setToPref [1..6])
+  [ [] , [1] , [2] , [1,2] , [1,3] , [2,3] , [1,2,3] , [1,2,4]
+  , [1,3,4] , [2,3,4] , [1,2,3,4] , [1,2,3,5] , [1,2,4,5]
+  , [1,3,4,5] , [2,3,4,5] , [1,2,3,4,5]
+  ]
+
+-- Takes a set of indices in [1..n-1] and starts filling in
+-- (in reverse order) numbers into those indices (skipping 1/0 -
+-- i.e. the peak - determined by the size of the set).
+-- ^^ TODO: put this somewhere logical!
+setToPref :: Show a => [a] -> [Int] -> [a]
+setToPref outcomes [] = outcomes
+setToPref outcomes indices =
+  let leftOrAtPeak = reverse $ take (length indices + 1) outcomes
+      rightOfPeak = drop (length indices + 1) outcomes
+      accum (_, [], _) _ = error "idk man"
+      accum (pref, (left:lefts), rights) nTakeFromRights' =
+        let n = nTakeFromRights' - 1
+         in (pref ++ [left] ++ take n rights, lefts, drop n rights)
+      fst' (u,_,_) = u
+      seed = ([],leftOrAtPeak,rightOfPeak)
+   in fst' $ foldl accum seed
+        $ head indices : fmap (uncurry subtract) (adjacentPairs indices)
+          ++ [length outcomes - last indices]
+

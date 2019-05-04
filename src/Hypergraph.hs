@@ -3,12 +3,10 @@ module Hypergraph where
 import Data.List
 import Data.Maybe
 import Control.Monad
-import Control.Applicative
 
 import GeneralD
 import Util
 import LinearPref
-import Voting
 
 -- MODULE NOTE:: it might make waaay more sense to add a check for
 -- wheter the pref domain even IS best/worst restricted.
@@ -47,8 +45,8 @@ dominatePointPair _ = False
 minimalHypergraphOf :: Ord a => [[a]] -> Hypergraph a
 minimalHypergraphOf prefs = filter (not . strictlyContained) graph
   where graph = hypergraphOf prefs
-        strictlyContained (u, v) = any (pred u v) graph
-        pred u v (u',v') = u' `subset` u && v' `subset` v
+        strictlyContained (u, v) = any (p u v) graph
+        p u v (u',v') = u' `subset` u && v' `subset` v
           && (u /= u' || v /= v')
 
 
@@ -88,7 +86,7 @@ maxPrefSet outcomes graph =
 
 hasDom :: Hypergraph a -> Bool
 hasDom = any singletons
-  where singletons ([a],[b]) = True
+  where singletons ([_],[_]) = True
         singletons _ = False
 
 experHyp :: IO [([(Int, Point Double)], Hypergraph Int)]
