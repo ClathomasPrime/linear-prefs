@@ -25,10 +25,12 @@ https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
     "Constructs large CDs via tiling" or something, too. 
 
 Q: under what conditions are maximal condorcet domains characterized? 
-* [DK13]: when the domain also has maximal *size* for the number of outcomes
+* [DK13]: when as SYMMETRIC domain also has maximum *size* for the number of outcomes
 * [PS19]: when the domain is also single crossing 
     (indeed, the maximal condorcet domain containing a given maximal single crossing domain is determined)
 * [DKK12]: I thiiiink classifies min/max value restricted ("peak-pit domains") which are maximal CDs.
+    Update: This is what they TRY to do, but we believe that without realizing it, they assume that
+    their domains are _normal_. Non-normal peak/pit domains are not necessarily even distributive lattices.
 
 Single Crossing
 ====
