@@ -82,6 +82,13 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
+"Spatial Models"
+====
+
+From that preprint Ariel gave me of "optimally locating a new candidate in spatial and valence models of voting games": 
+  * Origins: Black [9,10] and Downs [13]
+  * Criticism and rework to include valence: [25,15,16,23,22] (not much cs so far)
+  * Plurality points [12,26,27] and in valence [5,17,19]
 
 Representative Voting
 ====
