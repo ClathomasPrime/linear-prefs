@@ -24,6 +24,17 @@ https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
     Concerns domains containing precicely one pair of reversed preferences, apparently.
     "Constructs large CDs via tiling" or something, too. 
 
+Actually, much more work has been done in this domain. What are the major player/movements (not discussed above)?
+* Abello in the 80s proved many things in several papers, e.g. connected CDs of maximal depth (equivalent
+    to max norm peak/pit domains) have size at most 4^n or something
+* Raz proved a c^n upper bound on any CDs for some value of c. Techniques are highly analytic and 
+    disjoint from other works here.
+* Fishburn in 2000ish found a very large max norm peak/pit CD (2^n ish),
+    but showed non-connected CDs can do much better (at least 2.1^n).
+    He proved some optimality for specific values of n (a hard task).
+* Galambos and Reineir formalized some stuff from Abello and used some abstract math, and they calculate the
+    exact size of Fishburn's domain.
+
 Q: under what conditions are maximal condorcet domains characterized? 
 * [DK13]: when as SYMMETRIC domain also has maximum *size* for the number of outcomes
 * [PS19]: when the domain is also single crossing 
