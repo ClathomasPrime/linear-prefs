@@ -96,6 +96,12 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
 "Spatial Models"
 ====
 
+* Euclidean preferences: https://www.sciencedirect.com/science/article/pii/S030440680600111X
+    * Check works citing this, e.g. https://www.aaai.org/ocs/index.php/AAAI/AAAI17/paper/viewPaper/14947 maybe
+* Testing the spatial model: http://www3.grips.ac.jp/~econseminar/2011_11_02_henry.pdf
+* The one-dimensional Euclidean preferences:Finitely many forbidden substructuresare not enough.
+    http://research.illc.uva.nl/COMSOC/proceedings/comsoc-2016/ChenEtAlCOMSOC2016.pdf
+
 From that preprint Ariel gave me of "optimally locating a new candidate in spatial and valence models of voting games": 
   * Origins: Black [9,10] and Downs [13]
   * Criticism and rework to include valence: [25,15,16,23,22] (not much cs so far)
@@ -127,7 +133,7 @@ citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
     Continues this line of research further. Handles more edit distances from the "nearly single peaked" paper,
     applied to single crossing.
 
-Cool thing for later: application to matching
+Cool things for later: application to matching
 ====
 
 [!] "The Uniqueness of Stable Matchings" http://pareto.uab.es/jmasso/pdf/ClarkCTE2006.pdf
@@ -135,6 +141,18 @@ Cool thing for later: application to matching
     Defines "no crossing" for bipartite systems with preferences;
     studies how it relates to single crossing;
     shows it gives really good matchings.
+
+[!] Sampling Stable Marriages: Why Spouse-Swapping Won’t Work. https://people.math.gatech.edu/~randall/Marriage.pdf
+
+    This one is kinda crazy. It's building off the #P hardness of counting stable marriages to 
+    discuss the mixing time of walking around the stable matching lattice.
+    BUT it also works with the special case where *preferences on each side are exactly d-dimensional*
+    in order to demonstrate that counting is hard even in "special" cases.
+    Pretty cool.
+
+[!] Parameterized algorithmics for computational social choice: Nine research challenges 
+    https://ieeexplore.ieee.org/abstract/document/6867518
+
 
 Etc / Crazy Stuff
 ====
