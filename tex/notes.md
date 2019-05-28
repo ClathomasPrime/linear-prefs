@@ -34,6 +34,11 @@ Actually, much more work has been done in this domain. What are the major player
     He proved some optimality for specific values of n (a hard task).
 * Galambos and Reineir formalized some stuff from Abello and used some abstract math, and they calculate the
     exact size of Fishburn's domain.
+* Monjardet has a survey around 2010.
+* I thiiiink this https://arxiv.org/pdf/math/0402086.pdf and then https://arxiv.org/pdf/1802.07978.pdf make 
+    significant progress (in the same family as G and R and Abello). BUT it's SO pure math that I have
+    just no idea what is going on...
+* Here's the paper whose random OEIS matches gamma_n: https://arxiv.org/pdf/math/0307050.pdf
 
 Q: under what conditions are maximal condorcet domains characterized? 
 * [DK13]: when as SYMMETRIC domain also has maximum *size* for the number of outcomes
