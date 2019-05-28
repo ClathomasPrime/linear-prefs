@@ -98,6 +98,12 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
+[!] A characterization of single-peaked preferences via randomsocial choice functions. 
+    https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=2843&context=soe_research
+    
+    Single peaked are the only domains with a "good" random voting rule with "compromises" 
+    (corresponding to medians sorta).
+
 Dictatoriality
 ====
 
@@ -109,6 +115,8 @@ Dictatoriality
     Results e.g.: "linked" preferences suffices for dictatorial. 
     "unique seconds" is necessary (i.e. it suffices for non-dictatorial).
     The gap is mathematically intractable (probably).
+    
+    Note that checking "linked" is poly time solvable: https://arxiv.org/pdf/1712.04918.pdf
 
 "Spatial Models"
 ====
