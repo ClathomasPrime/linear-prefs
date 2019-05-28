@@ -91,7 +91,8 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
       - alpha config: voters with oposite opinions on 3 outcomes agree about a fourth
         (the preference set "4 > 1 > 2 > 3;    4 > 3 > 2 > 1" captures the whole idea)
     
-    Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
+    Mentions "Stable matching with preferences derived from a psychological model"
+    https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
     for checking SP as well.
     
     Also handle group separable, for which the preference set must be "medium restricted"
@@ -192,12 +193,19 @@ Cool things for later: application to matching
     in order to demonstrate that counting is hard even in "special" cases.
     Pretty cool.
 
-[!] Parameterized algorithmics for computational social choice: Nine research challenges 
-    https://ieeexplore.ieee.org/abstract/document/6867518
+[!] Manipulation complexity and gender neutrality in stable marriage procedures.
+    https://link.springer.com/article/10.1007/s10458-010-9121-x
+    
+[!] Anarchy, Stability, and Utopia: Creating Better Matchings.
+    https://www.cse.wustl.edu/~sanmay/papers/anarchic-matching-jaamas.pdf
 
-
+    *Welfare* analysis.
+    
 Etc / Crazy Stuff
 ====
+
+[!] Parameterized algorithmics for computational social choice: Nine research challenges 
+    https://ieeexplore.ieee.org/abstract/document/6867518
 
 [!] Algebraic framework for voting theory.
 https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
@@ -215,6 +223,13 @@ https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
 [!] How similar are two elections? https://www.aaai.org/Papers/AAAI/2019/AAAI-FaliszewskiP2.3395.pdf
 
     (Surprisingly) efficient algorithms for measuring election similarity
+
+[!] Equitable Voting Rules. http://lyariv.mycpanel.princeton.edu//papers/EquitableVoting.pdf
+
+    Leeat's group using crazy group theory techniques. 
+    
+[!] How Can Cooperative Game Theory Be MadeMore Relevant to Economics? : An OpenProblem.
+    https://scholar.harvard.edu/files/maskin/files/how_can_cooperative_game_theory_be_made_more_relevant_to_economics_an_open_problem_e._maskin_pp_347-350.pdf
 
 How I first found single crossing:
 =====
