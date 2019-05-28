@@ -25,7 +25,7 @@ https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
     "Constructs large CDs via tiling" or something, too. 
 
 Actually, much more work has been done in this domain. What are the major player/movements (not discussed above)?
-* Abello in the 80s proved many things in several papers, e.g. connected CDs of maximal depth (equivalent
+* Abello in the 80s proved many things in several papers, e.g. connected CDs of maximliron depth (equivalent
     to max norm peak/pit domains) have size at most 4^n or something
 * Raz proved a c^n upper bound on any CDs for some value of c. Techniques are highly analytic and 
     disjoint from other works here.
@@ -104,6 +104,8 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     Single peaked are the only domains with a "good" random voting rule with "compromises" 
     (corresponding to medians sorta).
 
+[!] On the Number of Group-Separable Preference Profiles. https://link.springer.com/article/10.1007/s10726-019-09621-w
+
 Dictatoriality
 ====
 
@@ -117,6 +119,16 @@ Dictatoriality
     The gap is mathematically intractable (probably).
     
     Note that checking "linked" is poly time solvable: https://arxiv.org/pdf/1712.04918.pdf
+
+[!] On the Limits of Dictatorial Classification. http://procaccia.info/papers/spc3.aamas10.pdf
+
+    A strategic classification paper using dictatoriality as a technical tool.
+
+[!] PREFERENCE DOMAINS AND THE MONOTONICITY OF CONDORCET EXTENSIONS. 
+    https://healy.econ.ohio-state.edu/papers/Healy_Peress-CondorcetExtensions.pdf
+    
+    "Monotonicity is violated on all domains which don't always have condorcet winners"...
+    am I reading the abstract right?
 
 "Spatial Models"
 ====
