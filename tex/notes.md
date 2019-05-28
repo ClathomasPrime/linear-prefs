@@ -98,6 +98,18 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
+Dictatoriality
+====
+
+[!] (Super)dicatorial for MONOTONICITY: https://www.sciencedirect.com/science/article/pii/S016517650900161X 
+    and https://www.sciencedirect.com/science/article/pii/S0165176507000730
+
+[!] Dictatorial domains: https://link.springer.com/content/pdf/10.1007%2Fs00199-002-0285-8.pdf
+
+    Results e.g.: "linked" preferences suffices for dictatorial. 
+    "unique seconds" is necessary (i.e. it suffices for non-dictatorial).
+    The gap is mathematically intractable (probably).
+
 "Spatial Models"
 ====
 
