@@ -98,6 +98,11 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
+[!] The single-peaked domain revisited: A simple global characterization.
+    https://www.sciencedirect.com/science/article/pii/S0022053118300863
+    
+    Single peaked is the only domain which is 1) connected, 2) normal, 3) everybody is some voters favorite.
+
 [!] A characterization of single-peaked preferences via randomsocial choice functions. 
     https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=2843&context=soe_research
     
