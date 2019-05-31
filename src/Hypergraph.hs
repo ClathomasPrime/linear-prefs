@@ -94,7 +94,7 @@ experHyp = do
   let n = 4
       outcomes = [1..n]
   hypergraphs <- replicateM 500 $ do
-    points <- arbitraryLable <$> unitBoxPoints 3 n
+    points <- arbitraryLable <$> roundedUnitBoxPoints 2 3 n
     let prefSet = genLinearPrefs 3 0.005 $ points
         hypGraph = minimalHypergraphOf prefSet
     return (points, hypGraph)
@@ -105,6 +105,7 @@ experHyp = do
   return $ nubBy (\u v -> eqUpToRelabeling outcomes (snd u) (snd v))
     . filter (not . hasDom . snd)
     . filter (not . valueRestricted outcomes . snd)
+    . filter (allDistinct . fmap snd . fst)
     $ hypergraphs
 
 doubleDown :: Hypergraph a -> Bool
@@ -164,3 +165,20 @@ mixedCase' =
   ,(2,[0.9098078943166862,0.15754454932102924,0.8490297276463722])
   ,(3,[6.898901975163041e-2,5.391746370788764e-3,0.9357553713060002])
   ,(4,[0.3681468737776471,0.9625360308951275,0.8378442877244092])]
+
+-- [([2,1],[4]),([1],[4,3]),([3,2],[4])]
+-- [([3],[4,2])]
+-- [([4,1],[2]),([4,3],[2])]
+-- [([1],[3,2]),([4,1],[3])]
+-- [([2],[4,1]),([3],[2,1]),([3],[4,1])]
+-- [([3,2],[4,1])]
+-- [([4],[2,1]),([4],[3,1])]
+-- [([3,1],[4])]
+-- [([3],[2,1]),([3],[4,1]),([3,2],[4])]
+-- [([4],[2,1]),([4],[3,1]),([4],[3,2])]
+-- [([2,1],[3]),([4,1],[2]),([4,1],[3])]
+-- [([2],[3,1]),([4],[3,1])]
+-- [([2,1],[3]),([4,1],[3]),([4,2],[3])]
+-- [([4,2,1],[3])]
+-- [([3,1],[2]),([1],[4,2]),([3,1],[4])]
+

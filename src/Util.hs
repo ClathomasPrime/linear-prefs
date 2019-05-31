@@ -3,6 +3,10 @@ module Util where
 import Control.Monad.Random
 import Data.List
 
+allDistinct :: Eq a => [a] -> Bool
+allDistinct as = all (uncurry (/=)) pairs
+  where pairs = [ (a,b) | a:bs <- tails as, b <- bs]
+
 nubSort :: Ord a => [a] -> [a]
 nubSort = map head . group . sort
 
@@ -96,8 +100,11 @@ adjacentPairs as = zip as $ tail' as
   where tail' [] = []
         tail' as' = tail as'
 
--- tripples :: [a] -> [[a]]
--- tripples :: [a] -> [[a]]
+allPairs :: [a] -> [(a,a)]
+allPairs outcomes = [(a,b) | a:as <- tails outcomes, b <- as]
+
+allTriples :: [a] -> [(a,a,a)]
+allTriples outcomes = [(a,b,c) | a:as <- tails outcomes, b:bs <- tails as, c <- bs]
 
 --------------------------------------------------------------------------------
 
@@ -129,3 +136,8 @@ myNumFunc n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)
   where c m k
           | k > m || k < 0 = 1
           | otherwise = m `choose` k
+
+myarbrec :: Int -> Int
+myarbrec 2 = 2
+myarbrec 3 = 4
+myarbrec n = myarbrec (n-1) + n * myarbrec (n-2)

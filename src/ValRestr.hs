@@ -2,6 +2,7 @@ module ValRestr where
 
 import Data.List
 import Data.Maybe
+import Control.Monad.Random
 
 import Util
 import LinearPref
@@ -44,6 +45,54 @@ allVRSystems outcomes =
       -- ^ I'll put a,b in lex order
    in fmap (zipWith zipZap tripples) (fmap (uncurry zip) $ prod cases orders)
 
+
+-- assumes you contain 1 2 ... n
+mostVRSystems :: [a] -> [ VRSystem a ]
+mostVRSystems outcomes =
+  let triples = allTriples outcomes
+      cases = nProd (length triples) [VRBestRestr, VRWorstRestr, VRMediumRestr]
+      orders = nProd (length triples) [True, False]
+      -- ^ I'll put a,b in lex order
+   in fmap (zipWith mostVRZipZap triples) (fmap (uncurry zip) $ prod cases orders)
+
+mostVRZipZap :: (a,a,a) -> (VRCase, Bool) -> (VRCase, a,a,a)
+mostVRZipZap (a,b,c) (x@VRBestRestr, True) = (x,b,a,c)
+mostVRZipZap (a,b,c) (x@VRBestRestr, False) = (x,c,a,b)
+mostVRZipZap (a,b,c) (x@VRWorstRestr, True) = (x,a,b,c)
+mostVRZipZap (a,b,c) (x@VRWorstRestr, False) = (x,b,a,c)
+mostVRZipZap (a,b,c) (x@VRMediumRestr, True) = (x,a,b,c)
+mostVRZipZap (a,b,c) (x@VRMediumRestr, False) = (x,c,a,b)
+
+-- assumes you contain 1 2 ... n
+randomVRSystem :: MonadRandom m => [a] -> m (VRSystem a)
+randomVRSystem outcomes = mapM pickCase (allTriples outcomes)
+  where pickCase (i,j,k) = do
+          thing <- fromList [ ((x,y),1)
+            | x <- [VRBestRestr, VRWorstRestr, VRMediumRestr]
+            , y <- [True, False] ]
+          return $ mostVRZipZap (i,j,k) thing
+
+-- assumes you contain 1 2 ... n and its reverse.
+randomNormPeakPitVRSystem :: MonadRandom m => [a] -> m (VRSystem a)
+randomNormPeakPitVRSystem outcomes = mapM pickCase (allTriples outcomes)
+  where zipZap (a,b,c) x = (x,b,a,c)
+        pickCase (i,j,k) = do
+          thing <- fromList [ (x,1) | x <- [VRBestRestr, VRWorstRestr] ]
+          return $ zipZap (i,j,k) thing
+
+-- assumes you contain 1 2 ... n and its reverse.
+randomNormalVRSystem :: MonadRandom m => [a] -> m (VRSystem a)
+randomNormalVRSystem outcomes = mapM pickCase (allTriples outcomes)
+  where pickCase (i,j,k) = do
+          thing <- fromList [ (x,1) |
+            x <- [(VRBestRestr, Nothing), (VRWorstRestr, Nothing),
+             (VRMediumRestr, Just True), (VRMediumRestr, Just False)] ]
+          return $ zipZap (i,j,k) thing
+
+        zipZap (a,b,c) (vrcase, Nothing) = (vrcase, b, a, c)
+        zipZap (a,b,c) (vrcase, Just True) = (vrcase, a, b, c)
+        zipZap (a,b,c) (vrcase, Just False) = (vrcase, c, a, b)
+
 -- note: if you contain both
 -- 1 2 3
 -- 3 2 1
@@ -76,6 +125,28 @@ normalPeakPitVRSystems outcomes =
       -- ^ I'll put a,b in lex order
    in fmap (zipWith zipZap triples) cases
 
+-- NOTE: we assume 1,2,...,n is in the domain, so this isn't all of them
+peakPitVRSystems :: [a] -> [ VRSystem a ]
+peakPitVRSystems outcomes =
+  let triples = allTriples outcomes
+      cases = nProd (length triples)
+        [(x,y) | x <- [VRBestRestr, VRWorstRestr], y <- [True, False] ]
+      zipZap (a,b,c) (vr@VRBestRestr, True) = (vr, b, a, c)
+      zipZap (a,b,c) (vr@VRBestRestr, False) = (vr, c, a, b)
+      zipZap (a,b,c) (vr@VRWorstRestr, True) = (vr, a, b, c)
+      zipZap (a,b,c) (vr@VRWorstRestr, False) = (vr, b, a, c)
+      zipZap _ _ = error "bad call ref that's a bad call"
+   in fmap (zipWith zipZap triples) cases
+
+-- NOTE: we assume 1,2,...,n is in the domain, so this isn't all of them
+peakVrSystems :: [a] -> [ VRSystem a ]
+peakVrSystems outcomes =
+  let triples = allTriples outcomes
+      cases = nProd (length triples) [True, False]
+      zipZap (a,b,c) True = (VRWorstRestr, a, b, c)
+      zipZap (a,b,c) False = (VRWorstRestr, b, a, c)
+   in fmap (zipWith zipZap triples) cases
+
 satisfiesTripple :: Eq a => [a] -> (VRCase,a,a,a) -> Bool
 satisfiesTripple pref (vrcase,a,b,c) =
   not $ case vrcase of
@@ -95,6 +166,12 @@ vrSystemWithPartials prefs =
           Left res -> (res:castTriples, uncastTripples)
           Right _ -> (castTriples, (x,y,z):uncastTripples)
    in foldl accum ([], []) triples
+
+projectDown :: Eq a => [a] -> [[a]] -> [[a]]
+projectDown goodOutcomes = nub . fmap (filter (`elem` goodOutcomes))
+
+removeDown :: Eq a => [a] -> [[a]] -> [[a]]
+removeDown badOutcomes = nub . fmap (filter (`notElem` badOutcomes))
 
 identifyVRCase :: Ord a => a -> a -> a -> [[a]]
   -> Either (VRCase,a ,a,a) () -- ^ unit for now, may be info in the future
@@ -118,7 +195,7 @@ vrSystemOf = fst . vrSystemWithPartials
 maxPrefSet :: Ord a => [a] -> VRSystem a -> [[a]]
 maxPrefSet outcomes sys =
   let satisfiesSys pref = all (satisfiesTripple pref) sys
-   in filter satisfiesSys $ permutations (sort outcomes)
+   in filter satisfiesSys $ permutations outcomes
 
 eqUpToRelabeling :: Ord a => [a] -> VRSystem a -> VRSystem a -> Bool
 eqUpToRelabeling outcomes sys1 sys2 = any eqUnder permFuncs
@@ -139,15 +216,27 @@ yieldsMaximal outcomes sys =
         then False
         else isMaximal dom
 
-haveIsoGraphs :: Ord a => [a] -> VRSystem a -> VRSystem a -> Bool
-haveIsoGraphs outcomes sys1 sys2 =
+graphOfValRest :: [Int] -> VRSystem Int -> [(Char,Char)]
+graphOfValRest outcomes sys
+  = condorcetGraphEdges . fmap starAlpha . alphaLable . maxPrefSet outcomes $ sys
+  where starAlpha (c,pref)
+          | sort pref == pref = ('*', pref)
+          | otherwise = (c,pref)
+
+graphOfValRest' :: [Int] -> VRSystem Int -> [([Int],[Int])]
+graphOfValRest' outcomes sys
+  = condorcetGraphEdges' . maxPrefSet outcomes $ sys
+
+haveIsoGraphsSorta :: Ord a => [a] -> VRSystem a -> VRSystem a -> Bool
+haveIsoGraphsSorta outcomes sys1 sys2 =
   let set1 = arbitraryLable . maxPrefSet outcomes $ sys1
       gr1 = condorcetGraphEdges $ set1
       set2 = arbitraryLable . maxPrefSet outcomes $ sys2
       gr2 = condorcetGraphEdges $ set2
-   in if length set1 == length set2
-         then isoGraph [1..length set1] gr1 gr2
-         else False
+   in sameDegreeMultiset [1..length set1] gr1 gr2
+      -- if length set1 == length set2
+      --    then isoGraph [1..length set1] gr1 gr2
+      --    else False
 
 checkFullProjToTripple :: Eq a => [a] -> [[a]] -> Bool
 checkFullProjToTripple tripple prefs =

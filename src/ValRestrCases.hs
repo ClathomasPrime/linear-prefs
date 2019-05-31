@@ -1,7 +1,16 @@
 module ValRestrCases where
 
-import ValRestr
+import Data.List
+import System.IO
 
+import ValRestr
+import Util
+import Condorcet
+
+fishburns :: Int -> VRSystem Int
+fishburns n =
+  [ if even b then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
+    | (a,b,c) <- allTriples [1..n] ]
 
 
 -- fullGroupBy (haveIsoGraphs [1..4]) casesOnFour
@@ -106,7 +115,31 @@ equivClassesOfGraph4 =
     ]
   ]
 
+corriesDomain :: VRSystem Int
+corriesDomain =
+  [ (VRWorstRestr,1,2,3)
+  , (VRWorstRestr,1,2,4)
+  , (VRBestRestr,4,2,3)
+  , (VRBestRestr,4,1,3)
+  ]
 
+maximalSystemWithoutFullProj :: VRSystem Int
+maximalSystemWithoutFullProj =
+  [ (VRBestRestr,3,1,2)
+  , (VRWorstRestr,1,2,4)
+  , (VRBestRestr,5,1,2)
+  , (VRWorstRestr,1,3,4)
+  , (VRMediumRestr,5,1,3)
+  , (VRMediumRestr,5,1,4)
+  , (VRBestRestr,3,2,4)
+  , (VRBestRestr,5,2,3)
+  , (VRBestRestr,5,2,4)
+  , (VRMediumRestr,5,3,4)
+  ]
+
+--
+-- ([1,4,3,2,5],[1,4,3,5,2])
+-- ([1,4,3,5,2],[4,1,3,5,2])
 
 -- okay not even this is true - some have two successors... but still
 -- these popped out from some old bugs so they might be interesting.
@@ -227,6 +260,7 @@ normalPeakPit :: [ [VRSystem Int] ]
 -- normalPeakPit = [[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)],[(VRBestRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)],[(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]]
 normalPeakPit =
   [
+    -- The single peaked domain.
     -- 16 prefs, 20 edges
     [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
     , [(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
@@ -258,17 +292,29 @@ normalPeakPit =
     , [(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
     ]
 
+    -- index six in list
     -- 12 prefs, 12 edges
+      -- single square: legs: 3; 5
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
-    , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
-    , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
-    , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
-    , [(VRBestRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
-    , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRWorstRestr,4,3,5)]
-    , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
     , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
     ]
 
+      -- single square: legs: 2; 6
+  , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+    , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+    ]
+
+      --single square: legs: 1; 7
+  , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
+    , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+    ]
+
+    -- single square: legs: 4; 4
+  , [ [(VRBestRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
+    , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRWorstRestr,4,3,5)]
+    ]
+
+    -- Index 10 in list
     -- 19 prefs, 26 edges
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
     , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
@@ -294,6 +340,7 @@ normalPeakPit =
     , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
     ]
 
+    -- The maximum. Index 15 in list
     -- 20 prefs, 28 edges
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
     , [(VRWorstRestr,2,1,3),(VRWorstRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
@@ -301,7 +348,70 @@ normalPeakPit =
 
     -- 17 prefs, 22 edges
   , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
-    , [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
+    , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+    ]
+
+    -- 17 prefs, 22 edges
+  , [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
     , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
-    , [(VRWorstRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]]
+    ]
+  ]
+
+-- ALL of these have the same __degree_multiset__
+abnormalPeakOnlyVR5 :: [ VRSystem Int ]
+abnormalPeakOnlyVR5 =
+  [ [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,2,5),(VRWorstRestr,1,3,4),(VRWorstRestr,1,3,5),(VRWorstRestr,1,4,5),(VRWorstRestr,2,3,4),(VRWorstRestr,2,3,5),(VRWorstRestr,2,4,5),(VRWorstRestr,3,4,5)]
+  , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,2,5),(VRWorstRestr,1,3,4),(VRWorstRestr,1,3,5),(VRWorstRestr,1,4,5),(VRWorstRestr,2,3,4),(VRWorstRestr,2,3,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,2,5),(VRWorstRestr,1,3,4),(VRWorstRestr,1,3,5),(VRWorstRestr,4,1,5),(VRWorstRestr,2,3,4),(VRWorstRestr,2,3,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,2,5),(VRWorstRestr,1,3,4),(VRWorstRestr,3,1,5),(VRWorstRestr,1,4,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,2,4,5),(VRWorstRestr,3,4,5)]
+  , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,2,5),(VRWorstRestr,3,1,4),(VRWorstRestr,1,3,5),(VRWorstRestr,1,4,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,3,4,5)]
+  ]
+
+experPeakPitOn5 :: IO ()
+experPeakPitOn5 = do
+  h <- openFile "Plotting/AbnormalPeakPitFive.hs" AppendMode
+  let outcomes = [1..5] :: [Int]
+      filt sys =
+        let domain = maxPrefSet outcomes sys
+         in not (isNormal domain) && isMaximal domain
+      systs = nubBy (\(_,x) (_,y) -> eqUpToRelabeling outcomes x y)
+        $ filter (filt . snd) (zip [1::Int ..] $ peakPitVRSystems outcomes)
+      printo (i, syst) = do
+        print i
+        hPutStrLn h $ show syst
+  mapM_ printo $ systs
+  hClose h
+
+-- nubBy (eqUpToRelabeling [1..5]) . filter (yieldsMaximal [1..5]) $ peakPitVRSystems [1..5]
+-- of index of to about 4300. Missing some though due to shell output overwrites.
+somePeakPitVrSystemsOn5 :: [ VRSystem Int ]
+somePeakPitVrSystemsOn5 =
+  [[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,5,1,4),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,5,2,4),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,5,1,4),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,5,1,4),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,5,3,4)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,5,1,3),(VRBestRestr,5,1,4),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,5,2,4),(VRBestRestr,5,3,4)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,5,1,3),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,5,2,4),(VRBestRestr,5,3,4)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,5,1,3),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,5,3,4)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,5,1,3),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,3,4,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,5,1,3),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,5,2,4),(VRBestRestr,5,3,4)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,5,3,4)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRBestRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,4,1,3),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,4,3,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,4,1,3),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,3,4,5)]
+  ,[(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,4,1,3),(VRBestRestr,5,1,3),(VRBestRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
   ]

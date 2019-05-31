@@ -101,8 +101,13 @@ maximalExtensions seedPrefs = fst $ until (null . snd) looper ([], [sort seedPre
               successors -> (maxExts, fmap sort successors ++ newFrontier)
 
 
+isClosed :: Ord l => [[l]] -> Bool
+isClosed prefs = not $ any (`notElem` prefs) majorities
+  where majorities = fmap (\(x,y,z) -> majorityRule [x,y,z]) (allTriples prefs)
+
 isMaximal :: Ord l => [[l]] -> Bool
-isMaximal = null . condorcetSuccessors
+isMaximal prefs = isClosed prefs && not (any isCondorcet addOnes)
+  where addOnes = fmap (:prefs) (permutations (head prefs) \\ prefs)
 
 
 isNormal :: Eq l => [[l]] -> Bool
@@ -114,6 +119,10 @@ isSymmetric :: Eq l => [[l]] -> Bool
 isSymmetric prefs = all (\p -> any (reversed p) prefs) prefs
   where reversed u v = u == reverse v
 
+edgeQuotientTest :: Ord l => [l] -> [l] -> l -> Bool
+edgeQuotientTest p q a =
+  nub (fmap (filter (/= a)) $ interval p q)
+  `eqAsSet` interval (filter (/= a) p) (filter (/= a) q)
 
 {-
 tripin :: Ord l => [[l]] -> [(l,l,l)]

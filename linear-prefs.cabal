@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 903de40f7f3c0c21fcdd03fcaaead10e4d977ad0f09ed1954b32d91495128e60
+-- hash: 343eac9b5e64527bffa5eb46d952b4435f781f2aae83c33ab581b5bca00b6642
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -27,12 +27,15 @@ executable many-matching
       Hypergraph
       LinearPref
       LinearProgram
+      Linked
       LPData
+      MaxNormPeakPit
       Plotting.Drawing
       Plotting.SimplexPartition
       PrefDomains
       Rules
       SingleCrossing
+      Tiling
       Util
       ValRestr
       ValRestrCases
@@ -45,6 +48,7 @@ executable many-matching
       MonadRandom
     , base >=4.7 && <5
     , containers
+    , deepseq
     , diagrams
     , diagrams-canvas
     , diagrams-lib
