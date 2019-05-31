@@ -24,6 +24,22 @@ https://www.sciencedirect.com/science/article/pii/S0166218X1100299X
     Concerns domains containing precicely one pair of reversed preferences, apparently.
     "Constructs large CDs via tiling" or something, too. 
 
+Actually, much more work has been done in this domain. What are the major player/movements (not discussed above)?
+* Abello in the 80s proved many things in several papers, e.g. connected CDs of maximliron depth (equivalent
+    to max norm peak/pit domains) have size at most 4^n or something
+* Raz proved a c^n upper bound on any CDs for some value of c. Techniques are highly analytic and 
+    disjoint from other works here.
+* Fishburn in 2000ish found a very large max norm peak/pit CD (2^n ish),
+    but showed non-connected CDs can do much better (at least 2.1^n).
+    He proved some optimality for specific values of n (a hard task).
+* Galambos and Reineir formalized some stuff from Abello and used some abstract math, and they calculate the
+    exact size of Fishburn's domain.
+* Monjardet has a survey around 2010.
+* I thiiiink this https://arxiv.org/pdf/math/0402086.pdf and then https://arxiv.org/pdf/1802.07978.pdf make 
+    significant progress (in the same family as G and R and Abello). BUT it's SO pure math that I have
+    just no idea what is going on...
+* Here's the paper whose random OEIS matches gamma_n: https://arxiv.org/pdf/math/0307050.pdf
+
 Q: under what conditions are maximal condorcet domains characterized? 
 * [DK13]: when as SYMMETRIC domain also has maximum *size* for the number of outcomes
 * [PS19]: when the domain is also single crossing 
@@ -75,13 +91,64 @@ A characterization of the single-peaked domain. https://link.springer.com/articl
       - alpha config: voters with oposite opinions on 3 outcomes agree about a fourth
         (the preference set "4 > 1 > 2 > 3;    4 > 3 > 2 > 1" captures the whole idea)
     
-    Mentions https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
+    Mentions "Stable matching with preferences derived from a psychological model"
+    https://www.sciencedirect.com/science/article/pii/0167637786900726 had an algorithm 
     for checking SP as well.
     
     Also handle group separable, for which the preference set must be "medium restricted"
     (for all trippls, one is never ranked in the middel) forbidden subconfig:
       - beta config: the preference "1 > 2 > 3 > 4;    2 > 4 > 1 > 3"
 
+[!] The single-peaked domain revisited: A simple global characterization.
+    https://www.sciencedirect.com/science/article/pii/S0022053118300863
+    
+    Single peaked is the only domain which is 1) connected, 2) normal, 3) everybody is some voters favorite.
+
+[!] A characterization of single-peaked preferences via randomsocial choice functions. 
+    https://ink.library.smu.edu.sg/cgi/viewcontent.cgi?article=2843&context=soe_research
+    
+    Single peaked are the only domains with a "good" random voting rule with "compromises" 
+    (corresponding to medians sorta).
+
+[!] On the Number of Group-Separable Preference Profiles. https://link.springer.com/article/10.1007/s10726-019-09621-w
+
+Dictatoriality
+====
+
+[!] (Super)dicatorial for MONOTONICITY: https://www.sciencedirect.com/science/article/pii/S016517650900161X 
+    and https://www.sciencedirect.com/science/article/pii/S0165176507000730
+
+[!] Dictatorial domains: https://link.springer.com/content/pdf/10.1007%2Fs00199-002-0285-8.pdf
+
+    Results e.g.: "linked" preferences suffices for dictatorial. 
+    "unique seconds" is necessary (i.e. it suffices for non-dictatorial).
+    The gap is mathematically intractable (probably).
+    
+    Note that checking "linked" is poly time solvable: https://arxiv.org/pdf/1712.04918.pdf
+
+[!] On the Limits of Dictatorial Classification. http://procaccia.info/papers/spc3.aamas10.pdf
+
+    A strategic classification paper using dictatoriality as a technical tool.
+
+[!] PREFERENCE DOMAINS AND THE MONOTONICITY OF CONDORCET EXTENSIONS. 
+    https://healy.econ.ohio-state.edu/papers/Healy_Peress-CondorcetExtensions.pdf
+    
+    "Monotonicity is violated on all domains which don't always have condorcet winners"...
+    am I reading the abstract right?
+
+"Spatial Models"
+====
+
+* Euclidean preferences: https://www.sciencedirect.com/science/article/pii/S030440680600111X
+    * Check works citing this, e.g. https://www.aaai.org/ocs/index.php/AAAI/AAAI17/paper/viewPaper/14947 maybe
+* Testing the spatial model: http://www3.grips.ac.jp/~econseminar/2011_11_02_henry.pdf
+* The one-dimensional Euclidean preferences:Finitely many forbidden substructuresare not enough.
+    http://research.illc.uva.nl/COMSOC/proceedings/comsoc-2016/ChenEtAlCOMSOC2016.pdf
+
+From that preprint Ariel gave me of "optimally locating a new candidate in spatial and valence models of voting games": 
+  * Origins: Black [9,10] and Downs [13]
+  * Criticism and rework to include valence: [25,15,16,23,22] (not much cs so far)
+  * Plurality points [12,26,27] and in valence [5,17,19]
 
 Representative Voting
 ====
@@ -109,7 +176,7 @@ citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.377.3567&rep=rep1&type=pdf
     Continues this line of research further. Handles more edit distances from the "nearly single peaked" paper,
     applied to single crossing.
 
-Cool thing for later: application to matching
+Cool things for later: application to matching
 ====
 
 [!] "The Uniqueness of Stable Matchings" http://pareto.uab.es/jmasso/pdf/ClarkCTE2006.pdf
@@ -118,8 +185,27 @@ Cool thing for later: application to matching
     studies how it relates to single crossing;
     shows it gives really good matchings.
 
+[!] Sampling Stable Marriages: Why Spouse-Swapping Won’t Work. https://people.math.gatech.edu/~randall/Marriage.pdf
+
+    This one is kinda crazy. It's building off the #P hardness of counting stable marriages to 
+    discuss the mixing time of walking around the stable matching lattice.
+    BUT it also works with the special case where *preferences on each side are exactly d-dimensional*
+    in order to demonstrate that counting is hard even in "special" cases.
+    Pretty cool.
+
+[!] Manipulation complexity and gender neutrality in stable marriage procedures.
+    https://link.springer.com/article/10.1007/s10458-010-9121-x
+    
+[!] Anarchy, Stability, and Utopia: Creating Better Matchings.
+    https://www.cse.wustl.edu/~sanmay/papers/anarchic-matching-jaamas.pdf
+
+    *Welfare* analysis.
+    
 Etc / Crazy Stuff
 ====
+
+[!] Parameterized algorithmics for computational social choice: Nine research challenges 
+    https://ieeexplore.ieee.org/abstract/document/6867518
 
 [!] Algebraic framework for voting theory.
 https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
@@ -137,6 +223,13 @@ https://www.math.hmc.edu/seniorthesis/archives/2005/zajj/zajj-2005-thesis.pdf
 [!] How similar are two elections? https://www.aaai.org/Papers/AAAI/2019/AAAI-FaliszewskiP2.3395.pdf
 
     (Surprisingly) efficient algorithms for measuring election similarity
+
+[!] Equitable Voting Rules. http://lyariv.mycpanel.princeton.edu//papers/EquitableVoting.pdf
+
+    Leeat's group using crazy group theory techniques. 
+    
+[!] How Can Cooperative Game Theory Be MadeMore Relevant to Economics? : An OpenProblem.
+    https://scholar.harvard.edu/files/maskin/files/how_can_cooperative_game_theory_be_made_more_relevant_to_economics_an_open_problem_e._maskin_pp_347-350.pdf
 
 How I first found single crossing:
 =====
