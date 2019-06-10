@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+
+\usepackage{comment}
+ 
+\usepackage[noend]{algpseudocode}
+\usepackage{algorithm}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[margin=.75in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools,amssymb}
+\usepackage{filecontents}
+\usepackage{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\D}{\mathcal{D}}
+
+\newcommand{\sizeof}[1]{\left\lvert{#1}\right\rvert}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\rev}{rev}
+
+\newcommand{\1}[1]{\mathds{1}[{#1}]}
+\renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
+\newcommand{\E}[1]{\mathds{E}\left[{#1}\right]}
+\newcommand{\Var}[1]{\mathrm{Var}[{#1}]}
+
+\newcommand{\unit}{\mathds{1}}
+\newcommand{\lo}{\succ}
+
+\begin{document}
+
+\title{
+  Condorcet Domains
+}
+\author{
+  Clay Thomas \\
+  claytont@cs.princeton.edu
+\and
+  Corey Sinnamon \\
+  sinnamon@cs.princeton.edu
+}
+
+\maketitle
+
+\section{Introduction}
+
+  Arrow's impossibility theorem says voting doesn't work out like you want it to.
+  Condorcet domains work around this.
+
+  \begin{theorem} \label{thrmCondorcetProps}
+    Let $\C \subseteq S_n$ be some set of linear orders.
+    The following are equivalent:
+    \begin{enumerate}
+      \item Simple majority voting over any profile of voters is always acyclic.
+      \item Simple majority voting over any odd-size profile of voters
+        always yields a total order.
+      \item Every triple of outcomes $i,j,k\in[n]$ is \emph{acyclic}, meaning
+        that $\C$ restricted to $\{i,j,k\}$ does not contain the orders
+        $ijk$, $jki$, and $kij$.
+      \item \label{thrmCondorcetPropsValRestr}
+        Among ever triple $i,j,k\in [n]$ of distinct outcomes in $[n]$,
+        one of them is either never first, never last, or never in the middle.
+    \end{enumerate}
+
+  \end{theorem}
+  \begin{definition}
+    A Condorcet domain $\C\subseteq S_n$ is any set of orders satisfying any of
+    the above conditions.
+  \end{definition}
+
+\section{Preliminaries}
+
+  If $\C$ is a Condorcet domain, theorem~\ref{thrmCondorcetProps}
+  part~\ref{thrmCondorcetPropsValRestr} tells us that every triple of outcomes
+  falls into some ``value restriction case'': one of $i$, $j$, or $k$ is either
+  never first, never second, or never third among $\{i,j,k\}$.
+  In those cases, if $u$ is the ``restricted'' outcome among $\{i,j,k\}$,
+  we write $u N_1$, $u N_2$, or $u N_3$, respectively.
+  If the triple $\{i,j,k\}$ is not clear from the context, we will write
+  $u N_i vw$ for $\{v,w\} = \{i,j,k\} \setminus \{u\}$.
+
+  \begin{definition}
+    A \emph{value restriction (VR) casting} on $[n]$ is a function
+    $\psi$ from triples of outcomes $(i,j,k) \in {[n] \choose 3}$
+    to one of the nine ``value restriction cases''
+    $u N_v$ for $u\in\{i,j,k\}$ and $v\in \{1,2,3\}$.
+
+    The corresponding domain $\D(\psi)$ of some value restriction 
+    is the collection of all orders $\sigma \in S_n$ which satisfy $\psi$ on
+    every triple. That is, $\sigma\in\D(\psi)$ if for all $i,j,k \in [n]$ with
+    $\psi(i,j,k) = u N_v$, $\sigma|_{i,j,k}$ does not have $u$ in position $v$.
+  \end{definition}
+
+  CDs, even closed CDs, are not in general defined
+  by the VR castings they satisfy\footnote{
+    For example, single crossing domains $\C$ are closed but 
+    in general much smaller than $\D(\psi(\C))$.
+  }. However, maximal CDs are always the corresponding domain
+  of a VR casting:
+
+  \begin{proposition}
+    If $\C$ is a maximal CD, then $\C = \D(\psi)$ for some $\psi$.
+  \end{proposition}
+  \begin{proof}
+    By theorem~\ref{thrmCondorcetProps} part~\ref{thrmCondorcetPropsValRestr},
+    every CD is contained in $\D(\psi)$ for some $\psi$.
+    If $\C\subsetneq \D(\psi)$, then $\C$ is not maximal.
+  \end{proof}
+
+  \begin{definition}
+    We distinguish the two natural orders
+    $\alpha = 12\ldots n$ and $\omega = n(n-1)\ldots 1$.
+
+    The reversed order of any $\sigma\in S_n$
+    is given by $\rev(\sigma) = \sigma(n)\sigma(n-1)\ldots\sigma(1)$
+
+    A domain $\C$ is \emph{normal} if $\alpha\in\C$ and $\omega\in\C$.
+  \end{definition}
+
+\section{Peak/Pit Domains}
+
+  VR castings are especially useful when studying restricted classes of
+  Condorcet domains. In special cases, some simple observations about which VR
+  cases are possible allow us to reduce the complexity of the set of VR castings
+  considerably.
+
+\section{Bad News -- Counterexamples}
+
+  The property of maximality gives a lot of structure to Condorcet domains.
+  However, this structure is complicated.
+
+  \begin{example}
+    There are maximal Condorcet domains without full projection onto some
+    triple. Moreover, maximality is not preserved under restrictions.
+  \end{example}
+
+\end{document}
+

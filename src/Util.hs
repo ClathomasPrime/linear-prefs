@@ -108,6 +108,16 @@ allTriples outcomes = [(a,b,c) | a:as <- tails outcomes, b:bs <- tails as, c <- 
 
 --------------------------------------------------------------------------------
 
+-- Lol @ this being here.
+-- a_0 = 1, a_1 = 2; a_n = 3*a_{n-1}^2 - 2*a_{n-2}^4
+stableMarriageLb :: Int -> Integer
+stableMarriageLb 0 = 1
+stableMarriageLb 1 = 2
+stableMarriageLb n
+  = 3 * (stableMarriageLb (n-1))^2 - 2*(stableMarriageLb (n-2))^4
+
+--------------------------------------------------------------------------------
+
 most :: Monad m => (a -> a -> Ordering) -> Int -> m a -> m a
 most ord i gen = foldl1 keep <$> replicateM i gen
   where keep a b

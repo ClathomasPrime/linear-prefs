@@ -1,4 +1,8 @@
+module Plotting.AllPeakPitFive where
+
 -- NOTE: def not all but this got through a good amount!
+{-
+
 [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRBestRestr,4,3,5)]
 [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRBestRestr,4,2,5),(VRWorstRestr,4,3,5)]
 [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRBestRestr,3,1,4),(VRBestRestr,3,1,5),(VRBestRestr,4,1,5),(VRBestRestr,3,2,4),(VRBestRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
@@ -125,3 +129,5 @@
 [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,5,3,4)]
 [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,3,4,5)]
 [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRWorstRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRWorstRestr,4,1,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,4,3,5)]
+
+-}

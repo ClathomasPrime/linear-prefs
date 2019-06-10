@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 343eac9b5e64527bffa5eb46d952b4435f781f2aae83c33ab581b5bca00b6642
+-- hash: bbcf6b4c90cce8f58cf4c8ee6ce74072047272fb975c66f8077094a3a079dc7b
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -30,6 +30,8 @@ executable many-matching
       Linked
       LPData
       MaxNormPeakPit
+      Plotting.AbnormalPeakOnlySix
+      Plotting.AllPeakPitFive
       Plotting.Drawing
       Plotting.SimplexPartition
       PrefDomains
