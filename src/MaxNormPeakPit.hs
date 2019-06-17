@@ -8,7 +8,7 @@ import Util
 -- import Condorcet
 import ValRestr
 
-import Debug.Trace
+-- import Debug.Trace
 
 primitiveRelations :: Ord a => VRSystem a -> [( (a,a), (a,a) )]
 primitiveRelations sys = nub $ sys >>= genRels
@@ -26,6 +26,11 @@ coveringRelations outcomes sys
         impliedByOtherPair (p1 , p2)
           = any (\p -> (p1, p) `elem` primRels && (p, p2) `elem` primRels) pairs
 
+findSemireversed :: Ord a => [[a]] -> [[a]]
+findSemireversed prefs = filter (\p -> any (semirev p) prefs) prefs
+  where semirev p q = head p == last q && last p == head q
+
+------ ------ ------ ------ ------ ------ ------ ------ ------ ------
 concatProduct :: Ord a =>
   [a] -> VRSystem a -> [a] -> VRSystem a -> VRSystem a
 concatProduct as sysA bs sysB = sysA ++ sysB ++ aab ++ abb
@@ -39,10 +44,14 @@ fishburns n =
 
 -- length $ maxPrefSet [1..12] $ fishburnsSquared 6
 -- => 3573
+-- fb(n) `simple grid product` fb(n)
 fishburnsSquared :: Int -> VRSystem Int
 fishburnsSquared n =
   concatProduct [1..n] (fishburns n) [n+1..2*n] (fmap phi $ fishburns n)
   where phi (c,i,j,k) = (c, n+i, n+j, n+k)
+
+fishburnsSquaredSizeLb :: Integer -> Integer
+fishburnsSquaredSizeLb n = (fishburnsSize n)^2 + (2*n `choose` n)
 
 -- Best known lower bound for gamma_n (asymptotically) :
 --   maximum . fmap (\n -> (fromIngetral . fishburnsSize $ n)**(1/n)) $ [1..100]

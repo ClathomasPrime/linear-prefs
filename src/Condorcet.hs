@@ -36,6 +36,9 @@ condorcetGraphEdges prefs = do
   guard $ 2 == length (filter (inInterval as bs . snd) prefs)
   return (a,b)
 
+showGr :: [([Int], [Int])] -> [(String, String)]
+showGr = fmap (both $ concat . fmap show)
+
 sameDegreeMultiset :: Ord a => [a] -> [(a,a)] -> [(a,a)] -> Bool
 sameDegreeMultiset labels gr1 gr2 =
   length gr1 == length gr2 &&
@@ -109,6 +112,9 @@ isMaximal :: Ord l => [[l]] -> Bool
 isMaximal prefs = isClosed prefs && not (any isCondorcet addOnes)
   where addOnes = fmap (:prefs) (permutations (head prefs) \\ prefs)
 
+isConnected :: Ord l => [[l]] -> Bool
+isConnected prefs = all (uncurry adj) (condorcetGraphEdges' prefs)
+  where adj p1 p2 = 2 == length (interval p1 p2)
 
 isNormal :: Eq l => [[l]] -> Bool
 isNormal prefs = any (uncurry reversed) pairs

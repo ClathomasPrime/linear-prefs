@@ -28,12 +28,18 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\C}{\mathcal{C}}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\PowerSet}[1]{\mathbf{2}^{#1}}
 
 \newcommand{\sizeof}[1]{\left\lvert{#1}\right\rvert}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\rev}{rev}
+\DeclareMathOperator*{\inv}{inv}
+\DeclareMathOperator*{\med}{med}
+\DeclareMathOperator*{\topChoice}{top}
+\DeclareMathOperator*{\last}{last}
 
 \newcommand{\1}[1]{\mathds{1}[{#1}]}
 \renewcommand{\P}[1]{\mathds{P}\left[{#1}\right]}
@@ -79,6 +85,13 @@
     \end{enumerate}
 
   \end{theorem}
+
+  The above theorem is not too hard, but it's very standard so we do not prove
+  it here. Some intuition/a guide to the proof is the following:
+  majority voting being acyclic is equivalent to it being \emph{transitive},
+  and being transitive is simply a property of triples of outcomes
+  ($a>b$ and $b>c$ implies $a>c$).
+
   \begin{definition}
     A Condorcet domain $\C\subseteq S_n$ is any set of orders satisfying any of
     the above conditions.
@@ -87,8 +100,9 @@
 \section{Preliminaries}
 
   If $\C$ is a Condorcet domain, theorem~\ref{thrmCondorcetProps}
-  part~\ref{thrmCondorcetPropsValRestr} tells us that every triple of outcomes
-  falls into some ``value restriction case'': one of $i$, $j$, or $k$ is either
+  part~\ref{thrmCondorcetPropsValRestr} tells us that every triple $i,j,k$
+  of outcomes falls into some ``value restriction case'':
+  one of $i$, $j$, or $k$ is either
   never first, never second, or never third among $\{i,j,k\}$.
   In those cases, if $u$ is the ``restricted'' outcome among $\{i,j,k\}$,
   we write $u N_1$, $u N_2$, or $u N_3$, respectively.
@@ -101,7 +115,7 @@
     to one of the nine ``value restriction cases''
     $u N_v$ for $u\in\{i,j,k\}$ and $v\in \{1,2,3\}$.
 
-    The corresponding domain $\D(\psi)$ of some value restriction 
+    The \emph{corresponding domain} $\D(\psi)$ of some value restriction 
     is the collection of all orders $\sigma \in S_n$ which satisfy $\psi$ on
     every triple. That is, $\sigma\in\D(\psi)$ if for all $i,j,k \in [n]$ with
     $\psi(i,j,k) = u N_v$, $\sigma|_{i,j,k}$ does not have $u$ in position $v$.
@@ -123,6 +137,27 @@
     If $\C\subsetneq \D(\psi)$, then $\C$ is not maximal.
   \end{proof}
 
+  \begin{example}
+    When $n=3$, there are three maximal CDs up to relabeling.
+    They are important enough to give a name ((AND A PICTURE IN THE FINAL
+    VERSION)).
+  \end{example}
+
+  \begin{proposition}
+    For any $\psi$, the domain $\D(\psi)$ is median-closed.
+  \end{proposition}
+  \begin{proof}
+    Observe that medians are preserved under taking restrictions,
+    that is, for any $S\subseteq[n]$, $\med(p,q,r)|_S = 
+    \med(p|_S,q|_S,r|_S)$.
+    For any triple $T=\{i,j,k\}$, we have $\D|_T\subseteq\D(\psi(\{i,j,k\}))$,
+    which turn out to be a \emph{representative} domain on three alternatives.
+    ((THIS IS JUMPING A BIT AHEAD)).
+    Thus, $\med(p|_T,q|_T,r|_T)$ will always lie in 
+    $\D|_T$ when $p,q,r \in \D$, so $\med(p,q,r)$ will satisfy $\psi$ on triple
+    $i,j,k$ ((A BIT INFORMAL HERE)).
+  \end{proof}
+
   \begin{definition}
     We distinguish the two natural orders
     $\alpha = 12\ldots n$ and $\omega = n(n-1)\ldots 1$.
@@ -130,15 +165,269 @@
     The reversed order of any $\sigma\in S_n$
     is given by $\rev(\sigma) = \sigma(n)\sigma(n-1)\ldots\sigma(1)$
 
+    A domain $\C$ is \emph{maximal width} if $\C$ contains a reversed pair.
+
     A domain $\C$ is \emph{normal} if $\alpha\in\C$ and $\omega\in\C$.
   \end{definition}
 
-\section{Peak/Pit Domains}
+  We typically assume without loss of generality that any maximal width domain
+  is in fact normal.
+
+\section{Single Crossing Domains}
+
+  \begin{theorem}
+    Let $\D\subseteq S_n$ be any set of orders.
+    The following are equivalent:
+    \begin{enumerate}
+      \item There exists an ordering $>$ on $\D$ such that,
+        for all pairs of outcomes $i,j\in [n]$,
+        all of the orderings $\succ$ such that $i\succ j$
+        are on the same side of all of the orderings $\succ'$
+        such that $j\succ' i$
+    \end{enumerate}
+  \end{theorem}
+
+\section{Normal Domains and Distributive Lattices}
+
+  Maximal width (without loss of generality, normal) CDs have a significantly
+  nicer structure than general domains. For one intuitive reason why this might
+  be the case, observe that if you assume $\alpha,\omega\in\C$, then
+  for any triple $i<j<k$, you can only lie in one of the following four cases:
+  \begin{align*}
+    j N_1 ik && i N_2 jk \\
+    j N_3 ik && k N_2 ij
+  \end{align*}
+  instead of the naive 9 possible cases.
+
+  \begin{definition}
+    The inversion set $\inv(\sigma)$ of an ordering $\succ\in S_n$ is
+    the collection of (unordered) pairs $(ij)$ such that $i<j$ yet
+    $j \succ i$.
+  \end{definition}
+
+  So, for example, $\inv(\alpha)=\emptyset$ and $\inv(\omega)={[n]\choose 2}$.
+  In the language of SYMMETRIC CONDORCET DOMAINS BY DANILOV ET AL,
+  this next proposition relates normal CDs to sublattices of the Bruhat lattice
+  on $S_n$.
+
+  \begin{proposition}
+    Let $\D$ be a normal CD, closed under taking medians.
+    Then $\D$ forms a distributive lattice, with join and meet operations given
+    by
+    \begin{align*}
+      p \wedge p' := \med(\alpha,p,p') &&
+      p \vee p' := \med(\omega,p,p')
+    \end{align*}
+    Moreover, $p \le p'$ in this lattice if and only if 
+    $\inv(p)\subseteq\inv(p')$, and we have
+    \begin{align*}
+      \inv(p \wedge p') = \inv(p)\cap \inv(p') &&
+      \inv(p \vee p') = \inv(p)\cup \inv(p')
+      \tag{*}
+    \end{align*}
+
+  \end{proposition}
+  \begin{proof}
+    The lattice operations $\wedge$ and $\vee$ are well-defined because $\D$ is
+    closed under taking medians. It's not too hard to verify that these
+    operations satisfy the algebraic conditions to form a lattice.
+    However, we use a less direct approach:
+    essentially everything follows from the formulas (*).
+    We prove the first one (the second is similar).
+    If $(ij) \in\inv(p)\cap\inv(p')$, then $j$ is ranked higher than $i$ in both
+    $p$ and $p'$. Thus, $j$ is again ranked higher in $p\wedge p'$, so
+    $(ij)\in \inv(p\wedge p')$. On the other hand, if
+    $(ij)\notin\inv(p)\cap\inv(p')$, then one of $p$ or $p'$ must rank $i$
+    before $j$ (as does $\alpha$) and thus $p\wedge p'$ does as well.
+
+    Now, the existence of $p\wedge p'$ and $p\vee p'$ satisfying (*)
+    can be used to easily show that $\D$ forms a distributive lattice where
+    $p\le p'$ precicely when $\inv(p)\subseteq\inv(p')$.
+  \end{proof}
+
+  Now, the first thing you should do when you find a distributive lattice is 
+  look to Birkhoff's representation theorem and ask yourself:
+  what are the join-irreducible elements?
+
+  \begin{definition}
+    Given a normal CD $\D$ and any pair of outcomes $i<j$, define
+    \begin{align*}
+      \D_{ij} := \{ \succ\in\D : j\succ i \} &&
+      p_{ij} := \bigwedge \D_{ij}
+    \end{align*}
+  \end{definition}
+  That is, $\D_{ij}$ is the set of all preferences which invert pair $(ij)$
+  and $p_{ij}$ is the lowest preference which inverts $(ij)$.
+  \begin{proposition}\label{thrmIrreducibles}
+    % consider the map $\eta : {[n] \choose 2} \to \D$ given by
+    % $\eta(ij) = p_{ij}$.
+    Let $\D$ be a median-closed Condorcet domain.
+    \begin{enumerate}
+      \item The join irreducible elements of $\D$ are precisely the collection 
+        $\{p_{ij} : (ij)\in {[n]\choose  2}\}$.
+      \item \label{thrmIrreduciblesPartFormala}
+        Any $p\in\D$ can be expressed as the join of elements of
+        $\{p_{ij}\}$ as follows:
+        \[ p = \bigvee_{(ij)\in\inv(p)} p_{ij} \]
+      \item \label{thrmIrreduciblesPartInverters}
+        For any $i<j$, a preference $p$ has $(ij)\in\inv(p)$ (i.e. $p$
+        ranks $j$ higher than $i$) if and only if $p\ge p_{ij}$ in the lattice.
+    \end{enumerate}
+  \end{proposition}
+  \begin{proof}
+    First, we show that each $p_{ij}$ is join-irreducible. 
+    Let $p_{ij} = p_1\vee p_2$, so that
+    $\inv(p_{ij}) = \inv(p_1) \cup \inv(p_2)$.
+    At least one of $p_1$ or $p_2$ must invert $i,j$,
+    say $(ij)\in\inv(p_1)$.
+    Then $p_1\in\D_{ij}$, so $p_{ij}\le p_1$.
+    For any lattice, if $u = p_1\vee p_2$, then $p_1\le u$.
+    Thus, we have $p_{ij}=p_1$, and $p_{ij}$ is join-irreducible.
+
+    To show $\{p_{ij}\}_{ij}$ is actually all irreducible elements in $\D$, it
+    will suffice to show \ref{thrmIrreduciblesPartFormala}.
+    For, if $p\notin\{p_{ij}\}_{ij}$, then formula \ref{thrmIrreduciblesPartFormala}
+    gives a way to write $p$ as the join of elements other than $p$.
+
+    We now prove \ref{thrmIrreduciblesPartFormala}.
+    Certainly $(ij)\in\inv(p_{ij})$, so
+    \[ \inv(p) \subseteq \bigcup_{(ij)\in\inv(p)} \inv(p_{ij}) 
+      = \inv\left(\bigvee_{(ij)\in\inv(p)} p_{ij} \right) 
+      \qquad\Longrightarrow\qquad
+      p \le \bigvee_{(ij)\in\inv(p)} p_{ij} \]
+    On the other hand, for each $(ij)\in\inv(p)$, we have $p\in\D_{ij}$, so
+    actually $p_{ij}\le p$. Thus $\bigvee_{(ij)\in\inv(p)} p_{ij}\le p$.
+
+    To prove \ref{thrmIrreduciblesPartInverters}, notice
+    that if $(ij)\in\inv(p)$, then $p\in\D_{ij}$, so $p\ge p_{ij}$.
+    On the other hand, if $p\ge p_{ij}$, then $(ij)\in\inv(p)$.
+  \end{proof}
+
+  Finally, we arrive at the following:
+  \begin{definition}
+    For any median-closed normal domain $\D$,
+    define the \emph{inversion poset} $\PP(\D)$ as follows:
+    the elements of $\PP(\D)$ are the preimages in $[n]\choose 2$
+    of the map $(ij)\mapsto p_{ij}$ (that is, the collection of sets of pairs
+    $\{(k\ell) | p_{k\ell}=p_{ij}\}$ for some fixed $(ij)$).
+    The order relations in $\PP(\D)$ are as follows:
+    if $S\ni (ij)$ and $T\ni (k\ell)$, then 
+    $S\le T$ if and only if $p_{ij}\le p_{k\ell}$ in $\D$.
+  \end{definition}
+  \begin{theorem}\label{thrmBijectDownsets}
+    For any closed normal CD $\D$, the distributive lattice on $\D$ is
+    isomorphic to the lattice of downward-closed sets of $\PP(\D)$.
+    Moreover, the correspondance $\D\to\PowerSet{\PP(\D)}$ is
+    given by $p\mapsto \{S : S\subseteq \inv(p)\}$.
+  \end{theorem}
+  \begin{proof}
+    TODO
+  \end{proof}
+
+  \begin{example}
+    \begin{enumerate}
+      \item A single crossing
+      \item A symmetric
+      \item Fishburn's?
+    \end{enumerate}
+  \end{example}
+
+\section{Normal Peak/Pit Domains}
+  \begin{theorem}
+    Let $\D = \D(\psi)$ be a closed normal peak/pit CD
+    given by a peak/pit VR casting $\psi$.
+    $\D$ is maximal if and only if the map $(ij)\mapsto p_{ij}$
+    is injective (that is, every pair in $[n]\choose 2$ appears as
+    its own element in $\PP(\D)$).
+  \end{theorem}
+  \begin{proof}
+    $(\Longleftarrow)$ Consider any maximal chain from $\alpha$ to
+    $\omega$ in the poset $\D$. By theorem~\ref{thrmBijectDownsets},
+    this corresponds to an ordering of the set of inversions $[n]\choose 2$
+    ((HOW SO??????)).
+    This is actually a maximal single crossing domain.
+    Observe that maximal single crossing domains have full projection onto every
+    triple. Thus, I should write a ``full projection lemma'' and be done with
+    this direction.
+
+    $(\Longrightarrow)$
+    Hopefully the following outline pans out.
+    Suppose the map is not injective.
+    Again consider a maximal chain in $\D$. This time, the chain corresponds to
+    some permutation over $\PP(\D)$,
+
+  \end{proof}
+
+  The following lemma tells us there is a canonical way to make a normal peak
+  pit domain into a distributive lattice.
+  \begin{proposition}
+    If $\C$ is a peak/pit domain, then $\C$ can contain at most one reversed
+    pair.
+  \end{proposition}
+  \begin{proof}
+    Suppose $\C$ contains $\alpha$ and $\omega$ and a some preference 
+    $p, \rev(p)\in \C$ with $p\ne \alpha, \omega$.
+    There must be some triple $i<j<k$ which are neither in increasing order nor
+    in reversed order in $p$.
+    Up to symmetry, this leaves two cases: $p|_{\{i,j,k\}} = jik$
+    and $\rev(p)|_{\{i,j,k\}} = kij$,
+    or  $p|_{\{i,j,k\}} = ikj$ and $\rev(p)|_{\{i,j,k\}} = jki$.
+    In either case, each of $i,j,k$ are sometimes the top and sometimes
+    the last choice in $\C|_{\{i,j,k\}}$.
+    Thus, this triple can satisfy no peak/pit restriction in $\C$.
+  \end{proof}
 
   VR castings are especially useful when studying restricted classes of
   Condorcet domains. In special cases, some simple observations about which VR
   cases are possible allow us to reduce the complexity of the set of VR castings
   considerably.
+
+  \begin{definition}
+    A normal peak/pit VR casting $\psi$ is ...
+    \begin{align*}
+      \forall i<j<k:
+      &&
+      \begin{cases}
+        \text{either} &  \psi(\{i,j,k\}) = j N_1 ik \\
+        \text{or} &  \psi(\{i,j,k\}) = j N_3 ik
+      \end{cases}
+    \end{align*}
+  \end{definition}
+  \begin{definition}
+    Given a normal peak/pit VR casting, define the inversion graph $R(\psi)$
+    with vertices $[n] \choose 2$ and, for each $i<j<k$, add edges
+    \begin{align*}
+      \text{if $\psi(\{i,j,k\}) = j N_1 ik$ then }
+      && (ij) \longrightarrow (ik) \longrightarrow (jk) \\
+      \text{if $\psi(\{i,j,k\}) = j N_3 ik$ then }
+      && (jk) \longrightarrow (ik) \longrightarrow (ij) \\
+    \end{align*}
+    % Define the inversion poset
+    % (technically not a poset) $\overline{R}(\psi)$ on $[n]\choose 2$
+    % as the transitive closure of the relations $p_1 > p_2$ whenever 
+    % $p_1\longrightarrow p_2$ is an edge in $R(\psi)$.
+  \end{definition}
+
+  The above definition looks a bit strange, but $\overline R(\psi)$ 
+  is actually defined very naturally such that the following theorem is
+  essentially obvious:
+
+  \begin{proposition}
+    An order $p \in S_n$ is in $\D(\psi)$ if and only if $\inv(p)$
+    is a closed set (i.e. a set closed under following directed edges)
+    in the inversion graph $R(\psi)$.
+  \end{proposition}
+  \begin{proof}
+    TODO
+  \end{proof}
+
+  We thus obtain the following correspondence with the previous section:
+  \begin{proposition}
+    For domain given by a normal peak/pit casting $\psi$,
+    the inversion poset $\PP(\D(\psi))$ is the transitive closure of the relation
+    given by $p_1 \ge p_2$ whenever $p_1\longrightarrow p_2$ is an edge in 
+    $R(\psi)$.
+  \end{proposition}
 
 \section{Bad News -- Counterexamples}
 

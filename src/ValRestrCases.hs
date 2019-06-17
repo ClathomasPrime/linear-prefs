@@ -4,7 +4,6 @@ import Data.List
 import System.IO
 
 import ValRestr
-import Util
 import Condorcet
 
 
@@ -133,6 +132,20 @@ maximalSystemWithoutFullProj =
   , (VRBestRestr,5,2,3)
   , (VRBestRestr,5,2,4)
   , (VRMediumRestr,5,3,4)
+  ]
+
+maxNormWithoutFullProj :: VRSystem Int
+maxNormWithoutFullProj =
+  [ (VRWorstRestr,2,3,1)
+  , (VRMediumRestr,4,2,1)
+  , (VRMediumRestr,4,3,1)
+  , (VRWorstRestr,2,5,1)
+  , (VRBestRestr,3,5,1)
+  , (VRBestRestr,4,5,1)
+  , (VRMediumRestr,4,2,3)
+  , (VRBestRestr,3,2,5)
+  , (VRBestRestr,4,2,5)
+  , (VRBestRestr,4,5,3)
   ]
 
 --
@@ -425,6 +438,8 @@ experPeakOn6 = do
   mapM_ printo $ systs
   hClose h
 
+-- domains with unique semireversed pairs:
+-- filter ((==2) . length . findSemireversed . maxPrefSet [1..5]) $ abnormalPeakPits5
 
 -- These are all the peak pits which don't contain a reversed pair
 abnormalPeakPits5 :: [ VRSystem Int ]

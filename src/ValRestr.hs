@@ -248,3 +248,29 @@ checkFullProjToAllTripples prefs =
       triples = [[a,b,c] | a:as <- tails outcomes, b:bs <- tails as, c <- bs]
    in all (flip checkFullProjToTripple prefs) triples
 
+splitUpperBoundExper :: IO (Maybe (Int, VRSystem Int))
+splitUpperBoundExper = tryUntilSomething 1000 $ do
+  let n = 7::Int
+      outcomes = [1..n]
+  split <- getRandomR (1,n-1)
+  sys <- randomNormPeakPitVRSystem outcomes
+  let total = length . maxPrefSet outcomes $ sys
+
+      isLeft (_,u,v,w) = all (<=split+1) [u,v,w]
+      leftSys = filter isLeft sys
+      left = length . maxPrefSet [1..split+1] $ leftSys
+
+      isRight (_,u,v,w) = all (>=split) [u,v,w]
+      rightSys = filter isRight sys
+      right = length . maxPrefSet [split..n] $ rightSys
+  -- if total < left
+  --   then return . Just $ (split, sys)
+  --   else return Nothing
+  if total <= left * right
+    then do
+      -- print $ show total ++ "<=" ++ show left ++ "*" ++ show right
+      return Nothing
+    else do
+      print $ "DANGER"
+      return . Just $ (split, sys)
+
