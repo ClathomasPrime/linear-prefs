@@ -62,6 +62,13 @@ eqAsEdgeSet gr1 gr2 = eqUpToOrder (s gr1) (s gr2)
   where s = fmap sortPair
         sortPair (a, b) = (max a b, min a b)
 
+neighbors :: Eq a => a -> [(a,a)] -> [a]
+neighbors a graph = nub . concat . fmap phi $ graph
+  where phi (u,v)
+          | a == u = [v]
+          | a == v = [u]
+          | otherwise = []
+
 -- this suffices because math
 isCondorcet :: Ord l => [[l]] -> Bool
 isCondorcet = isJust . condorcetExpand
@@ -96,7 +103,7 @@ condorcetSuccessors prefs =
 maximalExtensions :: (Show l, Ord l) => [[l]] -> [ [[l]] ]
 maximalExtensions seedPrefs = fst $ until (null . snd) looper ([], [sort seedPrefs])
   where looper (maxExts, frontier)
-          = trace (show $ length frontier) $
+          = -- trace (show $ length frontier) $
             both nubSort $ foldl accum (maxExts, []) frontier
         accum (maxExts, newFrontier) prefs
           = case condorcetSuccessors prefs of

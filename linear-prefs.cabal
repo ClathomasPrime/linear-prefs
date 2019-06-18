@@ -2,7 +2,7 @@
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bbcf6b4c90cce8f58cf4c8ee6ce74072047272fb975c66f8077094a3a079dc7b
+-- hash: 540e97329d3ad849586495bf0f36ce68c0f57600a14de95f49fb25b3b6eb0b9b
 
 name:           linear-prefs
 version:        0.1.0.0
@@ -21,6 +21,7 @@ extra-source-files:
 executable many-matching
   main-is: Main.hs
   other-modules:
+      Abnormal
       Condorcet
       Data
       GeneralD

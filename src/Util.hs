@@ -147,6 +147,13 @@ myNumFunc n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)
           | k > m || k < 0 = 1
           | otherwise = m `choose` k
 
+swapDifference :: Eq l => [l] -> [l] -> Maybe (l,l)
+swapDifference as bs =
+  case filter (uncurry (/=)) $ zip as bs of
+    [(x,y),_] -> Just (x,y)
+    _ -> Nothing
+
+
 myarbrec :: Int -> Int
 myarbrec 2 = 2
 myarbrec 3 = 4

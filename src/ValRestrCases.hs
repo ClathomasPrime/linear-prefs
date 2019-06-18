@@ -6,6 +6,8 @@ import System.IO
 import ValRestr
 import Condorcet
 
+dom :: [[Int]]
+dom = maxPrefSet [1..4] . last $ equivClassesOfGraph4 !! 0
 
 -- fullGroupBy (haveIsoGraphs [1..4]) casesOnFour
 equivClassesOfGraph4 :: [ [VRSystem Int] ]
