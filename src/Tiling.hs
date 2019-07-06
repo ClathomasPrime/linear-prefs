@@ -34,6 +34,9 @@ data TilingDomain a = TilingDomain
 myExtrusion :: [Snake Int]
 myExtrusion = [ [1], [1,2], [1,3,2], [1,4,3,2] ]
 
+trialtExtrusion :: [Snake Int]
+trialtExtrusion = [ [1], [2,1] , [2,1,3] , [4,2,1,3] , [5,4,2,1,3] ]
+
 buildPrefixNexts :: (Enum a, Ord a) => a -> a -> [Snake a] -> TilingDomain a
 buildPrefixNexts minA maxA extrudedSnakes
   = TilingDomain minA maxA zipedSnakes prefixNexts M.empty

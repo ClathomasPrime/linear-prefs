@@ -593,6 +593,7 @@ abnormalPeakPits5 =
   , [(VRWorstRestr,1,2,3),(VRWorstRestr,1,2,4),(VRWorstRestr,1,2,5),(VRWorstRestr,3,1,4),(VRWorstRestr,1,3,5),(VRWorstRestr,1,4,5),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRWorstRestr,3,4,5)]
   ]
 
+-- these have 19 outcomes.
 maximumAbnormalPeakPitFive :: [ VRSystem Int ]
 maximumAbnormalPeakPitFive =
   [ [(VRBestRestr,2,1,3),(VRBestRestr,2,1,4),(VRBestRestr,2,1,5),(VRWorstRestr,3,1,4),(VRWorstRestr,3,1,5),(VRBestRestr,5,1,4),(VRWorstRestr,3,2,4),(VRWorstRestr,3,2,5),(VRWorstRestr,4,2,5),(VRBestRestr,5,3,4)]

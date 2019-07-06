@@ -26,6 +26,7 @@ coveringRelations outcomes sys
         impliedByOtherPair (p1 , p2)
           = any (\p -> (p1, p) `elem` primRels && (p, p2) `elem` primRels) pairs
 
+
 findSemireversed :: Ord a => [[a]] -> [[a]]
 findSemireversed prefs = filter (\p -> any (semirev p) prefs) prefs
   where semirev p q = head p == last q && last p == head q
@@ -86,3 +87,10 @@ recursiveGridSize :: Int -> Integer
 recursiveGridSize 1 = 2
 recursiveGridSize k =
   (recursiveGridSize (k-1))^(2::Int) + ((2^k) `choose` (2^(k-1))) - 1
+
+------ ------ ------ ------ ------ ------ ------ ------ ------ ------
+
+triAltScheme :: Int -> VRSystem Int
+triAltScheme n =
+  [ if b `mod` 3 == 0 then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
+    | (a,b,c) <- allTriples [1..n] ]

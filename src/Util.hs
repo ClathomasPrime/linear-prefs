@@ -154,6 +154,11 @@ swapDifference as bs =
     _ -> Nothing
 
 
+sortPair :: Ord a => (a,a) -> (a,a)
+sortPair (u,v)
+  | u <= v = (u,v)
+  | otherwise = (v,u)
+
 myarbrec :: Int -> Int
 myarbrec 2 = 2
 myarbrec 3 = 4

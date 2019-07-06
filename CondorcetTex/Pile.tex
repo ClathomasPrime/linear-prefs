@@ -46,6 +46,24 @@
 \newcommand{\E}[1]{\mathds{E}\left[{#1}\right]}
 \newcommand{\Var}[1]{\mathrm{Var}[{#1}]}
 
+% This strange block is just for really nice Ps and Es functions.
+\makeatletter
+\newcommand\Ps@textstyle[2]{\mathbb{P}_{#1}\left[{#2}\right]}
+\newcommand\Es@textstyle[2]{\mathbb{E}_{#1}\left[{#2}\right]}
+
+\newcommand\Ps[2]{%
+  \mathchoice % special stiling in display mode, regular elsewhere.
+  {\underset{{#1}}{\mathbb{P}}\left[{#2}\right]
+  }{\Ps@textstyle{#1}{#2}}{\Ps@textstyle{#1}{#2}}{\Ps@textstyle{#1}{#2}}
+}
+\newcommand\Es[2]{%
+  \mathchoice % special stiling in display mode, regular elsewhere.
+  {\underset{{#1}}{\mathbb{E}}\left[{#2}\right]
+  }{\Es@textstyle{#1}{#2}}{\Es@textstyle{#1}{#2}}{\Es@textstyle{#1}{#2}}
+}
+\makeatother
+\newcommand{\ip}[2]{\left\langle{#1} , {#2}\right\rangle}
+
 \newcommand{\unit}{\mathds{1}}
 \newcommand{\lo}{\succ}
 
