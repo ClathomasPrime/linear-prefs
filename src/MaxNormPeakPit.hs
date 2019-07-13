@@ -1,6 +1,8 @@
 module MaxNormPeakPit where
 
 import Data.List
+import Data.Map (Map)
+import qualified Data.Map as Map
 -- import Data.Maybe
 
 import Util
@@ -90,7 +92,65 @@ recursiveGridSize k =
 
 ------ ------ ------ ------ ------ ------ ------ ------ ------ ------
 
+type ChainList a = Map a [a]
+
+chainListToVrSystem :: (Enum a, Ord a) => a -> a -> ChainList a -> VRSystem a
+chainListToVrSystem minA maxA chains
+  = concatMap snd . Map.toList . Map.mapWithKey calcForJ $ chains
+  where calcForJ j chain
+          = [ (calc i k chain, j, i,k) | i <- [minA..pred j], k <- [succ j..maxA] ]
+        calc i k chain =
+          case (<) <$> elemIndex i chain <*> elemIndex k chain of
+            Just True -> VRWorstRestr -- i before k in chain
+            Just False -> VRBestRestr -- k before i in chain
+            Nothing -> error "look out! Should put everything in your chains dog"
+
 triAltScheme :: Int -> VRSystem Int
 triAltScheme n =
   [ if b `mod` 3 == 0 then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
     | (a,b,c) <- allTriples [1..n] ]
+
+dipDiveDodge :: VRSystem Int
+dipDiveDodge = chainListToVrSystem 1 10 $ Map.fromList . zip [1..] $
+  [ [7,8,9,5,10,6,4,3,2]
+  , [7,8,5,9,6,10,4,3,1]
+  , [7,5,8,6,9,10,4,2,1]
+  , [5,7,6,8,9,10,3,2,1]
+
+  , [4,7,3,8,2,9,1,10,6]
+  , [7,4,8,3,9,2,10,1,5]
+
+  , [6,4,5,3,2,1,8,9,10]
+  , [4,6,3,5,2,1,7,9,10]
+  , [4,3,6,2,5,1,7,8,10]
+  , [4,3,2,6,1,5,7,8,9]
+  ]
+
+-- has 3490 prefs
+weaveFishbRec :: VRSystem Int
+weaveFishbRec
+  =  [ if even b then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
+      | (a,b,c) <- allTriples [1..4] ]
+  ++ [ if even b then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
+      | (a,b,c) <- allTriples [5..8] ]
+  ++ [ if even b then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
+      | (a,b,c) <- allTriples [9..12] ]
+  ++ [ (VRWorstRestr,b,a,c)
+      | (a,b) <- allPairs [1..4], c <- [5..12] ]
+  ++ [ (VRBestRestr,b,a,c)
+      | a <- [1..8], (b,c) <- allPairs [9..12] ]
+
+  ++ [ (VRBestRestr, b,a,c)
+      | a <- [1..4], (b,c) <- allPairs [5..8] ]
+  ++ [ (VRWorstRestr, b,a,c)
+      | (a,b) <- allPairs [5..8], c <- [9..12] ]
+
+  ++ [ if b == 7 || b == 8 then (VRWorstRestr,b,a,c) else (VRBestRestr,b,a,c)
+      | a <- [1..4], b <- [5..8], c <- [9..12] ]
+
+
+-- dipDiveDodge :: VRSystem Int
+-- dipDiveDodge
+--   =  [ (VRWorstRestr, 5, i,k) | (i,k) <- [(4,7),(3,8),(2,9),(1,10)] ]
+--   ++ [ (VRBestRestr, 6, i,k) | (i,k) <- [(4,7),(3,8),(2,9),(1,10)] ]
+--   ++ [ (VRBestRestr, j, i,k) | (i,j,k) <- allTriples [1..4] ]

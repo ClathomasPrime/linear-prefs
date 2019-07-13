@@ -114,7 +114,7 @@ stableMarriageLb :: Int -> Integer
 stableMarriageLb 0 = 1
 stableMarriageLb 1 = 2
 stableMarriageLb n
-  = 3 * (stableMarriageLb (n-1))^2 - 2*(stableMarriageLb (n-2))^4
+  = 3 * (stableMarriageLb (n-1))^(2::Int) - 2*(stableMarriageLb (n-2))^(4::Int)
 
 --------------------------------------------------------------------------------
 
@@ -140,13 +140,6 @@ tryUntilSomething nTrials generator = do
     Nothing -> tryUntilSomething (nTrials - 1) generator
     Just a' -> return $ Just a'
 
-myNumFunc :: Int -> Int -> Int
-myNumFunc n w = ((n-w) `c` 3) + ((n-w) `c` 1) * (w `c` 2)
-  - ((n-w) `c` 2) * (w `c` 1) - (w `c` 3)
-  where c m k
-          | k > m || k < 0 = 1
-          | otherwise = m `choose` k
-
 swapDifference :: Eq l => [l] -> [l] -> Maybe (l,l)
 swapDifference as bs =
   case filter (uncurry (/=)) $ zip as bs of
@@ -159,7 +152,3 @@ sortPair (u,v)
   | u <= v = (u,v)
   | otherwise = (v,u)
 
-myarbrec :: Int -> Int
-myarbrec 2 = 2
-myarbrec 3 = 4
-myarbrec n = myarbrec (n-1) + n * myarbrec (n-2)
