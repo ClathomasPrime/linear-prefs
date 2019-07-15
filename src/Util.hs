@@ -14,6 +14,8 @@ fact :: Integral i => i -> i
 fact n = product [1..n]
 
 choose :: Integral i => i -> i -> i
+choose n k | k < 0 = 0
+choose n k | k > n = 0
 choose n k = product [n, n-1.. n-k'+1] `div` fact k'
   where k' = min k (n - k)
 

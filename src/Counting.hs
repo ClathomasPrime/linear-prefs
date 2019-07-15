@@ -88,8 +88,44 @@ doubleBadPathsUpFirst a b u v = fromIntegral . length . filter doubleBad $ paths
         leftLowerBlue (i,j) = (i-1) + j <= u + 1
         upperBlue (i,j) = (b-i+1) + (a-j+1) <= v + 1
 
+-- # of monotone lattice paths (0,0) to (a,b) (so a+1 by b+1 vertices)
+-- avoiding the lines y=x+s and y=x-t
+-- (so b-s+1 bad nodes along the b side
+-- and a-t+1 bad notes along the a side)
+lineAvoidingPath :: Integral i => i -> i -> i -> i -> i
+lineAvoidingPath a b s t = sum . fmap term $ [kMin..kMax]
+  where kMin = negate $ b `div` (s + t) + 1
+        kMax = (a - t) `div` (s + t) + 1
+        term k = ( (a+b) `choose` (b + k * (s+t)) )
+          - ( (a+b) `choose` (b + k * (s+t) + t) )
+
+sumsumpath :: Integral i => i -> i
+sumsumpath n = sum . fmap lineAvoidingPath' $ [0..n]
+  where lineAvoidingPath' l =
+          ((2*n-1)`choose` n) - ((2*n-1)`choose`(n+l+1))
+            - ((2*n-1)`choose`(l-2))
+
+simplif :: Integral i => i -> i
+simplif n = (n+1) * ( (2*n - 1) `choose` n ) - 2^(2*n - 1)
+        -- term l =
+        --   let a = n - 1
+        --       b = n
+        --       s = n - l + 2
+        --       t = l + 1
+        --    in lineAvoidingPath a b s t
+
+-- termywormy :: Integral i => i -> i
+-- termywormy n =
+--   let a = n
+--       b = n
+--       s = 2
+--       t = n + 1
+--    in lineAvoidingPath a b s t
+
 exper n m = mapM_ print $ (fmap (\(i, j) ->
   (doubleBadPathsUpFirst n m i j) )
   -- (doubleBadPaths n m i j,
   --   (doubleBadPathsUpFirst n m i j) + (doubleBadPathsUpFirst m n j i)))
   <$> [ [(i,j) | j <- [1..max n m -1] ] | i <- [1..max m n - 1:: Int] ])
+
+
